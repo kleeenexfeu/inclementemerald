@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - master
-      - battle_engine
-      - pokemon_expansion
-      - item_expansion
-  pull_request:
 
 jobs:
   build:
@@ -26,7 +22,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: agbcc
-          repository: pret/agbcc
+          repository: kleeenexfeu/agbcc
+          # originally going to pret/agbcc but I cloned it
 
       - name: Install binutils
         run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi
@@ -43,8 +40,17 @@ jobs:
       - name: Agbcc
         run: make -j${nproc} all
 
-      - name: Modern
-        env:
-          MODERN: 1
-          COMPARE: 0
-        run: make -j${nproc} all
+      - uses: actions/upload-artifact@v2
+        with:
+          name: inclementemerald
+          path: inclementemerald.gba
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: inclementemerald_elf
+          path: inclementemerald.elf
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: inclementemerald_map
+          path: inclementemerald.map
