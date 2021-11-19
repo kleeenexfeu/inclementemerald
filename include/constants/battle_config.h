@@ -12,6 +12,9 @@
     #define GEN_8 5
 #endif
 
+// Cheat Zone
+#define B_BALL_CATCH_CANT_FAIL      TRUE
+
 // Mega Evolution settings
 #define B_MEGA_EVO_ALTER_TURN_ORDER GEN_7 // In gen6, mega evolving doesn't change the turn order when mega evolving occurs. This is fixed in gen 7
 

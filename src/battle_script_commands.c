@@ -13614,8 +13614,9 @@ static void Cmd_handleballthrow(void)
                     gBattleResults.catchAttempts[gLastUsedItem - ITEM_ULTRA_BALL]++;
             }
         }
-
+        #if B_BALL_CATCH_CANT_FAIL != TRUE
         if (odds > 254) // mon caught
+		#endif
         {
             BtlController_EmitBallThrowAnim(0, BALL_3_SHAKES_SUCCESS);
             MarkBattlerForControllerExec(gActiveBattler);
