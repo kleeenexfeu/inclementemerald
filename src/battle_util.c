@@ -902,6 +902,9 @@ void HandleAction_NothingIsFainted(void)
 
 void HandleAction_ActionFinished(void)
 {
+    u8 i, j;
+    u8 battler1 = 0;
+    u8 battler2 = 0;
     *(gBattleStruct->monToSwitchIntoId + gBattlerByTurnOrder[gCurrentTurnActionNumber]) = 6;
     gCurrentTurnActionNumber++;
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
@@ -925,6 +928,29 @@ void HandleAction_ActionFinished(void)
     gBattleCommunication[4] = 0;
     gBattleScripting.multihitMoveEffect = 0;
     gBattleResources->battleScriptsStack->size = 0;
+    
+    // i starts at `gCurrentTurnActionNumber` because we don't want to recalculate turn order for mon that have already
+    // taken action. It's been previously increased, which we want in order to not recalculate the turn of the mon that just finished its action
+    for (i = gCurrentTurnActionNumber; i < gBattlersCount - 1; i++)
+    {
+        for (j = i + 1; j < gBattlersCount; j++)
+        {
+            u8 battler1 = gBattlerByTurnOrder[i];
+            u8 battler2 = gBattlerByTurnOrder[j];
+            // We recalculate order only for action of the same priority. If any action other than switch/move has been taken, they should
+            // have been executed before. The only recalculation needed is for moves/switch. Mega evolution is handled in src/battle_main.c/TryChangeOrder
+            if((gActionsByTurnOrder[i] == B_ACTION_USE_MOVE && gActionsByTurnOrder[j] == B_ACTION_USE_MOVE))
+            {
+                if (GetWhoStrikesFirst(battler1, battler2, FALSE))
+                    SwapTurnOrder(i, j);
+            }
+            else if ((gActionsByTurnOrder[i] == B_ACTION_SWITCH && gActionsByTurnOrder[j] == B_ACTION_SWITCH))
+            {
+                if (GetWhoStrikesFirst(battler1, battler2, TRUE)) // If the actions chosen are switching, we recalc order but ignoring the moves
+                    SwapTurnOrder(i, j);
+            }  
+        }
+    }
 }
 
 // rom const data
@@ -3641,7 +3667,7 @@ u8 AtkCanceller_UnableToUseMove(void)
             else if (IsTwoStrikesMove(gCurrentMove))
             {
                 gMultiHitCounter = 2;
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
+                PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
                 if (gCurrentMove == MOVE_DRAGON_DARTS)
                 {
                     // TODO
@@ -3650,7 +3676,7 @@ u8 AtkCanceller_UnableToUseMove(void)
             else if (gBattleMoves[gCurrentMove].effect == EFFECT_TRIPLE_KICK || gCurrentMove == MOVE_SURGING_STRIKES)
             {
                 gMultiHitCounter = 3;
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
+                PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
             }
             #if B_BEAT_UP_DMG >= GEN_5
             else if (gBattleMoves[gCurrentMove].effect == EFFECT_BEAT_UP)
@@ -3664,16 +3690,16 @@ u8 AtkCanceller_UnableToUseMove(void)
                     party = gEnemyParty;
                 
                 for (i = 0; i < PARTY_SIZE; i++)
-				{
-					if (GetMonData(&party[i], MON_DATA_HP)
-					&& GetMonData(&party[i], MON_DATA_SPECIES) != SPECIES_NONE
-					&& !GetMonData(&party[i], MON_DATA_IS_EGG)
-					&& !GetMonData(&party[i], MON_DATA_STATUS))
-						gMultiHitCounter++;
-				}
+                {
+                    if (GetMonData(&party[i], MON_DATA_HP)
+                    && GetMonData(&party[i], MON_DATA_SPECIES) != SPECIES_NONE
+                    && !GetMonData(&party[i], MON_DATA_IS_EGG)
+                    && !GetMonData(&party[i], MON_DATA_STATUS))
+                        gMultiHitCounter++;
+                }
 
-				gBattleCommunication[0] = 0; // For later
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
+                gBattleCommunication[0] = 0; // For later
+                PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
             }
             #endif
             gBattleStruct->atkCancellerTracker++;
@@ -8912,13 +8938,13 @@ static u32 CalcFinalDmg(u32 dmg, u16 move, u8 battlerAtk, u8 battlerDef, u8 move
     }
 
     // Parental Bond Second Strike
-	if (gSpecialStatuses[gBattlerAttacker].parentalBondOn == 1)
-	{
-		if (B_PARENTAL_BOND_DAMAGE < GEN_7)
-			MulModifier(&finalModifier, UQ_4_12(0.5));
-		else
-			MulModifier(&finalModifier, UQ_4_12(0.25));
-	}
+    if (gSpecialStatuses[gBattlerAttacker].parentalBondOn == 1)
+    {
+        if (B_PARENTAL_BOND_DAMAGE < GEN_7)
+            MulModifier(&finalModifier, UQ_4_12(0.5));
+        else
+            MulModifier(&finalModifier, UQ_4_12(0.25));
+    }
 
     // attacker's abilities
     switch (abilityAtk)

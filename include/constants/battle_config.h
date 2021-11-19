@@ -12,6 +12,9 @@
     #define GEN_8 5
 #endif
 
+// Mega Evolution settings
+#define B_MEGA_EVO_ALTER_TURN_ORDER GEN_7 // In gen6, mega evolving doesn't change the turn order when mega evolving occurs. This is fixed in gen 7
+
 // Calculation settings
 #define B_CRIT_CHANCE               GEN_7 // Chances of a critical hit landing. See CalcCritChanceStage.
 #define B_CRIT_MULTIPLIER           GEN_7 // In Gen6+, critical hits multiply damage by 1.5 instead of 2.
@@ -163,6 +166,6 @@
 #define B_NEW_IMPACT_PALETTE            FALSE    // If set to TRUE, it updates the basic 'hit' palette.
 #define B_NEW_SURF_PARTICLE_PALETTE     FALSE    // If set to TRUE, it updates Surf's wave palette.
 
-#define B_ENABLE_DEBUG                  FALSE     // If set to TRUE, enables a debug menu to use in battles by pressing the Select button.
+#define B_ENABLE_DEBUG                  TRUE     // If set to TRUE, enables a debug menu to use in battles by pressing the Select button.
 
 #endif // GUARD_CONSTANTS_BATTLE_CONFIG_H
