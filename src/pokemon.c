@@ -59,7 +59,6 @@ struct SpeciesItem
 };
 
 // this file's functions
-static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon);
 static union PokemonSubstruct *GetSubstruct(struct BoxPokemon *boxMon, u32 personality, u8 substructType);
 static void EncryptBoxMon(struct BoxPokemon *boxMon);
 static void DecryptBoxMon(struct BoxPokemon *boxMon);
@@ -3314,8 +3313,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
     SetBoxMonData(boxMon, MON_DATA_OT_ID, &value);
 
-    checksum = CalculateBoxMonChecksum(boxMon);
-    SetBoxMonData(boxMon, MON_DATA_CHECKSUM, &checksum);
+    checksum = 0;
     EncryptBoxMon(boxMon);
     GetSpeciesName(speciesName, species);
     SetBoxMonData(boxMon, MON_DATA_NICKNAME, speciesName);
@@ -3813,30 +3811,6 @@ void CreateEventLegalEnemyMon(void)
         heldItem[1] = itemId >> 8;
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, heldItem);
     }
-}
-
-static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon)
-{
-    u16 checksum = 0;
-    union PokemonSubstruct *substruct0 = GetSubstruct(boxMon, boxMon->personality, 0);
-    union PokemonSubstruct *substruct1 = GetSubstruct(boxMon, boxMon->personality, 1);
-    union PokemonSubstruct *substruct2 = GetSubstruct(boxMon, boxMon->personality, 2);
-    union PokemonSubstruct *substruct3 = GetSubstruct(boxMon, boxMon->personality, 3);
-    s32 i;
-
-    for (i = 0; i < 6; i++)
-        checksum += substruct0->raw[i];
-
-    for (i = 0; i < 6; i++)
-        checksum += substruct1->raw[i];
-
-    for (i = 0; i < 6; i++)
-        checksum += substruct2->raw[i];
-
-    for (i = 0; i < 6; i++)
-        checksum += substruct3->raw[i];
-
-    return checksum;
 }
 
 #define CALC_STAT(base, iv, ev, statIndex, field)               \
@@ -4457,25 +4431,6 @@ u32 GetMonData(struct Pokemon *mon, s32 field, u8* data)
     return ret;
 }
 
-#define IS_BOX_MON_BAD_EGG(boxMon) (CalculateBoxMonChecksum(boxMon) != boxMon->checksum)
-
-u32 IsBoxMonBadEgg(struct BoxPokemon *boxMon, s32 field)
-{
-    u32 retVal = 0;
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
-    {
-        retVal = IS_BOX_MON_BAD_EGG(boxMon);
-    }
-	else
-    {
-        DecryptBoxMon(boxMon);
-        retVal = IS_BOX_MON_BAD_EGG(boxMon);
-        EncryptBoxMon(boxMon);
-    }
-    return retVal;
-}
-
-
 u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 {
     s32 i;
@@ -4506,14 +4461,6 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_NICKNAME:
     {
-        if (IsBoxMonBadEgg(boxMon, field))
-        {
-            for (retVal = 0;
-                retVal < POKEMON_NAME_LENGTH && gText_BadEgg[retVal] != EOS;
-                data[retVal] = gText_BadEgg[retVal], retVal++) {}
-
-            data[retVal] = EOS;
-        }
         else if (boxMon->isEgg)
         {
             StringCopy(data, gText_EggNickname);
@@ -4546,13 +4493,12 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = boxMon->language;
         break;
     case MON_DATA_SANITY_IS_BAD_EGG:
-        retVal = IsBoxMonBadEgg(boxMon, field);
         break;
     case MON_DATA_SANITY_HAS_SPECIES:
         retVal = boxMon->hasSpecies;
         break;
     case MON_DATA_SANITY_IS_EGG:
-        retVal = boxMon->isEgg | IsBoxMonBadEgg(boxMon, field);
+        retVal = boxMon->isEgg;
         break;
     case MON_DATA_OT_NAME:
     {
@@ -4577,7 +4523,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = boxMon->unknown;
         break;
     case MON_DATA_SPECIES:
-        retVal = IsBoxMonBadEgg(boxMon, field) ? SPECIES_EGG : substruct0->species;
+        retVal = substruct0->species;
         break;
     case MON_DATA_HELD_ITEM:
         retVal = substruct0->heldItem;
@@ -4676,7 +4622,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = substruct3->spDefenseIV;
         break;
     case MON_DATA_IS_EGG:
-        retVal = substruct3->isEgg | IsBoxMonBadEgg(boxMon, field);
+        retVal = substruct3->isEgg;
         break;
     case MON_DATA_ABILITY_NUM:
         retVal = substruct3->abilityNum;
@@ -4719,7 +4665,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_SPECIES2:
         retVal = substruct0->species;
-        if (substruct0->species && (substruct3->isEgg || IsBoxMonBadEgg(boxMon, field)))
+        if (substruct0->species && (substruct3->isEgg))
             retVal = SPECIES_EGG;
         break;
     case MON_DATA_IVS:
@@ -4729,7 +4675,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = substruct3->nature;
         break;
     case MON_DATA_KNOWN_MOVES:
-        if (substruct0->species && !substruct3->isEgg && !IsBoxMonBadEgg(boxMon, field))
+        if (substruct0->species && !substruct3->isEgg)
         {
             u16 *moves = (u16 *)data;
             s32 i = 0;
@@ -4748,7 +4694,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_RIBBON_COUNT:
         retVal = 0;
-        if (substruct0->species && !substruct3->isEgg && !IsBoxMonBadEgg(boxMon, field))
+        if (substruct0->species && !substruct3->isEgg)
         {
             retVal += substruct3->coolRibbon;
             retVal += substruct3->beautyRibbon;
@@ -4764,7 +4710,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_RIBBONS:
         retVal = 0;
-        if (substruct0->species && !substruct3->isEgg && !IsBoxMonBadEgg(boxMon, field))
+        if (substruct0->species && !substruct3->isEgg)
         {
             retVal = substruct3->championRibbon
                 | (substruct3->coolRibbon << 1)
@@ -4853,12 +4799,6 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         substruct3 = &(GetSubstruct(boxMon, boxMon->personality, 3)->type3);
 
         DecryptBoxMon(boxMon);
-
-        if (IsBoxMonBadEgg(boxMon, field))
-        {
-            EncryptBoxMon(boxMon);
-            return;
-        }
     }
 
     switch (field)
@@ -5016,7 +4956,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     case MON_DATA_IS_EGG:
         SET8(substruct3->isEgg);
-        if (substruct3->isEgg || IsBoxMonBadEgg(boxMon, field))
+        if (substruct3->isEgg)
             boxMon->isEgg = 1;
         else
             boxMon->isEgg = 0;
@@ -5080,7 +5020,6 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 
     if (field > MON_DATA_ENCRYPT_SEPARATOR)
     {
-        boxMon->checksum = CalculateBoxMonChecksum(boxMon);
         EncryptBoxMon(boxMon);
     }
 }
