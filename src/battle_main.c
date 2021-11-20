@@ -4802,7 +4802,6 @@ static void CheckMegaEvolutionBeforeTurn(void)
             }
         }
     }
-    
     gBattleMainFunc = CheckFocusPunch_ClearVarsBeforeTurnStarts;
     gBattleStruct->focusPunchBattlerId = 0;
 }
