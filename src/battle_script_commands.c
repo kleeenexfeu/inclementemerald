@@ -13616,8 +13616,8 @@ static void Cmd_handleballthrow(void)
         }
         #if B_BALL_CATCH_CANT_FAIL != TRUE
         if (odds > 254) // mon caught
-        #endif
         {
+        #endif
             BtlController_EmitBallThrowAnim(0, BALL_3_SHAKES_SUCCESS);
             MarkBattlerForControllerExec(gActiveBattler);
             UndoFormChange(gBattlerPartyIndexes[gBattlerTarget], GET_BATTLER_SIDE(gBattlerTarget), FALSE);
@@ -13628,7 +13628,9 @@ static void Cmd_handleballthrow(void)
                 gBattleCommunication[MULTISTRING_CHOOSER] = 0;
             else
                 gBattleCommunication[MULTISTRING_CHOOSER] = 1;
+        #if B_BALL_CATCH_CANT_FAIL != TRUE
         }
+        #endif
         else // mon may be caught, calculate shakes
         {
             u8 shakes;
