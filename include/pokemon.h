@@ -38,17 +38,17 @@ struct BoxPokemon
     u32 speedIV:5;
     u32 spAttackIV:5;
     u32 spDefenseIV:5;
+    u32 abilityNum:2;
 	
 	u16 customAbility:9;
     u16 pokeball:5; //31 balls
-    u16 abilityNum:2;
 	
 	u8 customHp;
 	u8 customAtk;
 	u8 customDef;
-	u8 customSpe;
-	u8 customSpa;
-	u8 customSpd;
+	u8 customSpeed;
+	u8 customSpAtk;
+	u8 customSpDef;
 	u8 customType1;
 	u8 customType2;
 	
