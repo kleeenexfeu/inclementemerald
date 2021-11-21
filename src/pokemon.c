@@ -61,8 +61,8 @@ struct SpeciesItem
 // this file's functions
 static void Task_PlayMapChosenOrBattleBGM(u8 taskId);
 // static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
-u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats *basetype, u8 customtype);
-u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, u8 ivid, u8 evid, u8 customstatid, u8 statIndex);
+// u8 GetDataPokemonType(struct Pokemon *mon, u8 basetype, u8 customtype);
+// u16 GetDataCalculatedStats(struct Pokemon *mon, u8 base, u8 ivid, u8 evid, u8 customstatid, u8 statIndex);
 static bool8 ShouldSkipFriendshipChange(void);
 static void ShuffleStatArray(u8* statArray);
 
@@ -4569,7 +4569,7 @@ u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
     return retVal;
 }
 
-u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, u8 ivid, u8 evid, u8 customstatid, u8 statIndex)
+u16 GetDataCalculatedStats(struct Pokemon *mon, u8 base, u8 ivid, u8 evid, u8 customstatid, u8 statIndex)
 {
     u32 n = 0;
     s32 statIv = GetMonData(mon, ivid, NULL);
@@ -4580,7 +4580,7 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, u8 ivid,
     u16 baseStat = (customStat <= 0x7F) ? customStat + normalBaseStat : normalBaseStat - customStat;
     u8 nature = GetMonData(mon, MON_DATA_NATURE, NULL);
     s32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-    if ([base] != offsetof(struct BaseStats, baseHP))
+    if (base != offsetof(struct BaseStats, baseHP))
     {
         n = (((2 * baseStat + statIv + statEv / 4) * level) / 100) + 5;
         n = ModifyStatByNature(nature, n, statIndex);
@@ -4588,7 +4588,7 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, u8 ivid,
     return n;
 }
     
-u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats *basetype, u8 customtype)
+u8 GetDataPokemonType(struct Pokemon *mon, u8 basetype, u8 customtype)
 {
 	u8 type = GetMonData(mon, customtype, NULL);
 	type = (type != 0) ? type & 0x3F : gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].[basetype];
