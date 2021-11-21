@@ -61,8 +61,8 @@ struct SpeciesItem
 // this file's functions
 static void Task_PlayMapChosenOrBattleBGM(u8 taskId);
 // static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
-static u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats base, ivid, evid, customstatid, statIndex);
-static u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats basetype, customtype);
+u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats *basetype, u8 customtype);
+u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, u8 ivid, u8 evid, u8 customstatid, u8 statIndex);
 static bool8 ShouldSkipFriendshipChange(void);
 static void ShuffleStatArray(u8* statArray);
 
@@ -4569,7 +4569,7 @@ u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
     return retVal;
 }
 
-u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, ivid, evid, customstatid, statIndex)
+u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, u8 ivid, u8 evid, u8 customstatid, u8 statIndex)
 {
     u32 n = 0;
     s32 statIv = GetMonData(mon, ivid, NULL);
@@ -4588,7 +4588,7 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, ivid, ev
     return n;
 }
     
-u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats *basetype, customtype)
+u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats *basetype, u8 customtype)
 {
 	u8 type = GetMonData(mon, customtype, NULL);
 	type = (type != 0) ? type & 0x3F : gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].basetype;
