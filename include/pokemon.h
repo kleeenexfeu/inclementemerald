@@ -92,7 +92,7 @@ struct Pokemon
     union
 	{
 		union BoxPokemon;
-	}
+	};
     u32 status;
     u8 level;
     u16 hp;
