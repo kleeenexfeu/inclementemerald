@@ -4263,7 +4263,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 {
     s32 i;
     u32 retVal = 0;
-	struct Pokemon *mon = &boxMon;
+	struct Pokemon *mon = boxMon;
     switch (field)
     {
     case MON_DATA_PERSONALITY:
@@ -4622,7 +4622,7 @@ u8 GetSpeciesBaseStat(u16 species, u8 statIndex)
 u8 GetDataPokemonType(struct Pokemon *mon, u8 customtype)
 {
 	u8 type = GetMonData(mon, customtype, NULL);
-	if (customtype == MON_DATA_CUSTOM_TYP1)
+	if (customtype == MON_DATA_CUSTOM_TYPE1)
 	{
 	type = (type != 0) ? type & 0x3F : gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].type1;
 	}
