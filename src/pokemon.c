@@ -4569,7 +4569,7 @@ u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
     return retVal;
 }
 
-u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats base, ivid, evid, customstatid, statIndex)
+u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats *base, ivid, evid, customstatid, statIndex)
 {
     u32 n = 0;
     s32 statIv = GetMonData(mon, ivid, NULL);
@@ -4588,7 +4588,7 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats base, ivid, evi
     return n;
 }
     
-u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats basetype, customtype)
+u8 GetDataPokemonType(struct Pokemon *mon, struct BaseStats *basetype, customtype)
 {
 	u8 type = GetMonData(mon, customtype, NULL);
 	type = (type != 0) ? type & 0x3F : gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].basetype;
