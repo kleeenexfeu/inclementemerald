@@ -89,11 +89,8 @@ struct BoxPokemon
 
 struct Pokemon
 {
-    union
-	{
-		union BoxPokemon;
-	};
-    u32 status;
+    struct BoxPokemon box;
+    u32 status; // u16 probably enough, because only non-volatile statuses are stored here, rest is only for the BattleMons structure
     u8 level;
     u16 hp;
     u16 maxHP;

@@ -4235,11 +4235,28 @@ void SetMultiuseSpriteTemplateToTrainerFront(u16 arg0, u8 battlerPosition)
 
 u32 GetMonData(struct Pokemon *mon, s32 field, u8* data)
 {
-    u32 retVal = GetBoxMonData(&mon, field, data);
+	u32 retVal;
+	switch(field)
+	{
+	case MON_DATA_HP:
+		retVal = mon->hp;
+		break;
+	case MON_DATA_MAX_HP:
+		retVal = mon->maxHP;
+		break;
+	case MON_DATA_STATUS:
+		retVal = mon->status;
+		break;
+	case MON_DATA_LEVEL:
+		retVal = mon->level;
+		break;
+	default:	
+    u32 retVal = GetBoxMonData(&mon->box, field, data);
+	}
     return retVal;
 }
 
-u32 GetBoxMonData(struct Pokemon *mon, s32 field, u8 *data)
+u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
 {
     s32 i;
     u32 retVal = 0;
@@ -4451,18 +4468,6 @@ u32 GetBoxMonData(struct Pokemon *mon, s32 field, u8 *data)
     case MON_DATA_NATURE:
         retVal = mon->nature;
         break;
-    case MON_DATA_STATUS:
-        retVal = mon->status;
-        break;
-    case MON_DATA_LEVEL:
-        retVal = mon->level;
-        break;
-    case MON_DATA_HP:
-        retVal = mon->hp;
-        break;
-    case MON_DATA_MAX_HP:
-        retVal = mon->maxHP;
-        break;
 	case MON_DATA_CUSTOM_HP:
 		retVal = mon->customHp;
 		break;
@@ -4603,10 +4608,26 @@ u16 GetMonAbility(struct Pokemon *mon)
 void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg)
 {
 	const u8 *data = dataArg;
-    SetBoxMonData(&mon, field, data);
+	switch(field)
+	{
+	case MON_DATA_STATUS:
+        SET32(mon->status);
+        break;
+    case MON_DATA_LEVEL:
+        SET8(mon->level);
+        break;
+    case MON_DATA_HP:
+        SET16(mon->hp);
+        break;
+    case MON_DATA_MAX_HP:
+        SET16(mon->maxHP);
+        break;
+	default:
+    SetBoxMonData(&mon->box, field, data);
+	}
 }
 
-void SetBoxMonData(struct Pokemon *mon, s32 field, const void *dataArg)
+void SetBoxMonData(struct BoxPokemon *mon, s32 field, const void *dataArg)
 {
     const u8 *data = dataArg;
     switch (field)
@@ -4786,18 +4807,6 @@ void SetBoxMonData(struct Pokemon *mon, s32 field, const void *dataArg)
         break;
     case MON_DATA_NATURE:
         SET8(mon->nature);
-        break;
-    case MON_DATA_STATUS:
-        SET32(mon->status);
-        break;
-    case MON_DATA_LEVEL:
-        SET8(mon->level);
-        break;
-    case MON_DATA_HP:
-        SET16(mon->hp);
-        break;
-    case MON_DATA_MAX_HP:
-        SET16(mon->maxHP);
         break;
     case MON_DATA_CUSTOM_ATK:
         SET8(mon->customAtk);
