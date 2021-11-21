@@ -89,7 +89,10 @@ struct BoxPokemon
 
 struct Pokemon
 {
-    struct BoxPokemon box;
+    union
+	{
+		union BoxPokemon;
+	}
     u32 status;
     u8 level;
     u16 hp;
