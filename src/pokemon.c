@@ -61,6 +61,8 @@ struct SpeciesItem
 // this file's functions
 static void Task_PlayMapChosenOrBattleBGM(u8 taskId);
 // static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
+static u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats base, ivid, evid, customstatid, statIndex);
+static u8 GetDataPokemonType(struct Pokemon *mon,  struct BaseStats basetype, customtype);
 static bool8 ShouldSkipFriendshipChange(void);
 static void ShuffleStatArray(u8* statArray);
 
@@ -4251,7 +4253,7 @@ u32 GetMonData(struct Pokemon *mon, s32 field, u8* data)
 		retVal = mon->level;
 		break;
 	default:	
-    u32 retVal = GetBoxMonData(&mon->box, field, data);
+    retVal = GetBoxMonData(&mon->box, field, data);
 	}
     return retVal;
 }
@@ -4326,16 +4328,16 @@ u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
         retVal = mon->friendship;
         break;
     case MON_DATA_MOVE1:
-        retVal = mon->moves1;
+        retVal = mon->move1;
         break;
     case MON_DATA_MOVE2:
-        retVal = mon->moves2;
+        retVal = mon->move2;
         break;
     case MON_DATA_MOVE3:
-        retVal = mon->moves3;
+        retVal = mon->move3;
         break;
     case MON_DATA_MOVE4:
-        retVal = mon->moves4;
+        retVal = mon->move4;
         break;
     case MON_DATA_PP1:
         retVal = mon->ppmove1;
@@ -4473,35 +4475,35 @@ u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
 		break;
     case MON_DATA_ATK:
     case MON_DATA_ATK2:
-        retVal = GetDataCalculatedStats(mon, baseAttack, MON_DATA_ATK_IV, MON_DATA_ATK_EV, MON_DATA_CUSTOM_ATK, STAT_ATK);
+        retVal = GetDataCalculatedStats(mon, offsetof(struct BaseStats, baseAttack), MON_DATA_ATK_IV, MON_DATA_ATK_EV, MON_DATA_CUSTOM_ATK, STAT_ATK);
         break;
     case MON_DATA_CUSTOM_ATK:
         retVal = mon->customAtk;
         break;
     case MON_DATA_DEF:
     case MON_DATA_DEF2:
-        retVal = GetDataCalculatedStats(mon, baseDefense, MON_DATA_DEF_IV, MON_DATA_DEF_EV, MON_DATA_CUSTOM_DEF, STAT_DEF);
+        retVal = GetDataCalculatedStats(mon, offsetof(struct BaseStats, baseDefense), MON_DATA_DEF_IV, MON_DATA_DEF_EV, MON_DATA_CUSTOM_DEF, STAT_DEF);
         break;
     case MON_DATA_CUSTOM_DEF:
         retVal = mon->customDef;
         break;
     case MON_DATA_SPEED:
     case MON_DATA_SPEED2:
-        retVal = GetDataCalculatedStats(mon, baseSpeed, MON_DATA_SPEED_IV, MON_DATA_SPEED_EV, MON_DATA_CUSTOM_SPEED, STAT_SPEED);
+        retVal = GetDataCalculatedStats(mon, offsetof(struct BaseStats, baseSpeed), MON_DATA_SPEED_IV, MON_DATA_SPEED_EV, MON_DATA_CUSTOM_SPEED, STAT_SPEED);
         break;
     case MON_DATA_CUSTOM_SPEED:
         retVal = mon->customSpeed;
         break;
     case MON_DATA_SPATK:
     case MON_DATA_SPATK2:
-        retVal = GetDataCalculatedStats(mon, baseSpAttack, MON_DATA_SPATK_IV, MON_DATA_SPATK_EV, MON_DATA_CUSTOM_SPATK, STAT_SPATK);
+        retVal = GetDataCalculatedStats(mon, offsetof(struct BaseStats, baseSpAttack), MON_DATA_SPATK_IV, MON_DATA_SPATK_EV, MON_DATA_CUSTOM_SPATK, STAT_SPATK);
         break;
     case MON_DATA_CUSTOM_SPATK:
         retVal = mon->customSpAtk;
         break;
     case MON_DATA_SPDEF:
     case MON_DATA_SPDEF2:
-        retVal = GetDataCalculatedStats(mon, baseSpDefense, MON_DATA_SPDEF_IV, MON_DATA_SPDEF_EV, MON_DATA_CUSTOM_SPDEF, STAT_SPDEF);
+        retVal = GetDataCalculatedStats(mon, offsetof(struct BaseStats, baseSpDefense), MON_DATA_SPDEF_IV, MON_DATA_SPDEF_EV, MON_DATA_CUSTOM_SPDEF, STAT_SPDEF);
         break;
     case MON_DATA_CUSTOM_SPDEF:
         retVal = mon->customSpDef;
@@ -4513,16 +4515,16 @@ u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
         retVal = mon->customType2;
         break;
     case MON_DATA_TYPE1:
-        retVal = GetDataPokemonType(mon, type1, MON_DATA_CUSTOM_TYPE1);
+        retVal = GetDataPokemonType(mon, offsetof(struct BaseStats, type1), MON_DATA_CUSTOM_TYPE1);
         break;
     case MON_DATA_TYPE2:
-        retVal = GetDataPokemonType(mon, type2, MON_DATA_CUSTOM_TYPE2);
+        retVal = GetDataPokemonType(mon, offsetof(struct BaseStats, type2), MON_DATA_CUSTOM_TYPE2);
         break;
 	case MON_DATA_CUSTOM_ABILITY:
 		retVal = mon->customAbility;
 		break;
 	case MON_DATA_ABILITY:
-		retVal = GetMonAbility(mon)
+		retVal = GetMonAbility(&mon);
 		break;
     case MON_DATA_MAIL:
         retVal = MAIL_NONE;
@@ -4567,7 +4569,7 @@ u32 GetBoxMonData(struct BoxPokemon *mon, s32 field, u8 *data)
     return retVal;
 }
 
-u16 GetDataCalculatedStats(struct Pokemon *mon, base, ivid, evid, customstatid, statIndex)
+u16 GetDataCalculatedStats(struct Pokemon *mon, struct BaseStats base, ivid, evid, customstatid, statIndex)
 {
     u32 n = 0;
     s32 statIv = GetMonData(mon, ivid, NULL);
@@ -4577,8 +4579,8 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, base, ivid, evid, customstatid, 
     u8 normalBaseStat = gBaseStats[species].base;
     u16 baseStat = (customStat <= 0x7F) ? customStat + normalBaseStat : normalBaseStat - customStat;
     u8 nature = GetMonData(mon, MON_DATA_NATURE, NULL);
-    S32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-    if (!(baseid == baseHP))
+    s32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+    if (baseid != offsetof(struct BaseStats, baseHP))
     {
         n = (((2 * baseStat + statIv + statEv / 4) * level) / 100) + 5;
         n = ModifyStatByNature(nature, n, statIndex);
@@ -4671,16 +4673,16 @@ void SetBoxMonData(struct BoxPokemon *mon, s32 field, const void *dataArg)
         SET8(mon->friendship);
         break;
     case MON_DATA_MOVE1:
-        SET16(mon->moves1);
+        SET16(mon->move1);
         break;
     case MON_DATA_MOVE2:
-        SET16(mon->moves2);
+        SET16(mon->move2);
         break;
     case MON_DATA_MOVE3:
-        SET16(mon->moves3);
+        SET16(mon->move3);
         break;
     case MON_DATA_MOVE4:
-        SET16(mon->moves4);
+        SET16(mon->move4);
         break;
     case MON_DATA_PP1:
         SET8(mon->ppmove1);
