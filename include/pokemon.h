@@ -274,6 +274,7 @@ enum {
 	MON_DATA_ABILITY,
 	MON_DATA_TYPE1,
 	MON_DATA_TYPE2,
+	MON_DATA_KNOWN_MOVES,
 };
 
 #include "constants/battle_config.h"
