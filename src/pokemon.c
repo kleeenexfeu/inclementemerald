@@ -4263,7 +4263,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 {
     s32 i;
     u32 retVal = 0;
-	struct Pokemon *mon = boxMon;
+	const *mon = boxMon;
     switch (field)
     {
     case MON_DATA_PERSONALITY:
