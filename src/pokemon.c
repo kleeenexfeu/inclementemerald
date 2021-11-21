@@ -4263,7 +4263,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 {
     s32 i;
     u32 retVal = 0;
-	const *mon = boxMon;
+	// struct Pokemon *mon = boxMon;
     switch (field)
     {
     case MON_DATA_PERSONALITY:
@@ -4477,35 +4477,35 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 		break;
     case MON_DATA_ATK:
     case MON_DATA_ATK2:
-        retVal = GetDataCalculatedStats(mon, MON_DATA_ATK_IV, MON_DATA_ATK_EV, MON_DATA_CUSTOM_ATK, STAT_ATK);
+        retVal = GetDataCalculatedStats(boxMon, MON_DATA_ATK_IV, MON_DATA_ATK_EV, MON_DATA_CUSTOM_ATK, STAT_ATK);
         break;
     case MON_DATA_CUSTOM_ATK:
         retVal = boxMon->customAtk;
         break;
     case MON_DATA_DEF:
     case MON_DATA_DEF2:
-        retVal = GetDataCalculatedStats(mon, MON_DATA_DEF_IV, MON_DATA_DEF_EV, MON_DATA_CUSTOM_DEF, STAT_DEF);
+        retVal = GetDataCalculatedStats(boxMon, MON_DATA_DEF_IV, MON_DATA_DEF_EV, MON_DATA_CUSTOM_DEF, STAT_DEF);
         break;
     case MON_DATA_CUSTOM_DEF:
         retVal = boxMon->customDef;
         break;
     case MON_DATA_SPEED:
     case MON_DATA_SPEED2:
-        retVal = GetDataCalculatedStats(mon, MON_DATA_SPEED_IV, MON_DATA_SPEED_EV, MON_DATA_CUSTOM_SPEED, STAT_SPEED);
+        retVal = GetDataCalculatedStats(boxMon, MON_DATA_SPEED_IV, MON_DATA_SPEED_EV, MON_DATA_CUSTOM_SPEED, STAT_SPEED);
         break;
     case MON_DATA_CUSTOM_SPEED:
         retVal = boxMon->customSpeed;
         break;
     case MON_DATA_SPATK:
     case MON_DATA_SPATK2:
-        retVal = GetDataCalculatedStats(mon, MON_DATA_SPATK_IV, MON_DATA_SPATK_EV, MON_DATA_CUSTOM_SPATK, STAT_SPATK);
+        retVal = GetDataCalculatedStats(boxMon, MON_DATA_SPATK_IV, MON_DATA_SPATK_EV, MON_DATA_CUSTOM_SPATK, STAT_SPATK);
         break;
     case MON_DATA_CUSTOM_SPATK:
         retVal = boxMon->customSpAtk;
         break;
     case MON_DATA_SPDEF:
     case MON_DATA_SPDEF2:
-        retVal = GetDataCalculatedStats(mon, MON_DATA_SPDEF_IV, MON_DATA_SPDEF_EV, MON_DATA_CUSTOM_SPDEF, STAT_SPDEF);
+        retVal = GetDataCalculatedStats(boxMon, MON_DATA_SPDEF_IV, MON_DATA_SPDEF_EV, MON_DATA_CUSTOM_SPDEF, STAT_SPDEF);
         break;
     case MON_DATA_CUSTOM_SPDEF:
         retVal = boxMon->customSpDef;
@@ -4517,16 +4517,16 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = boxMon->customType2;
         break;
     case MON_DATA_TYPE1:
-        retVal = GetDataPokemonType(mon, MON_DATA_CUSTOM_TYPE1);
+        retVal = GetDataPokemonType(boxMon, MON_DATA_CUSTOM_TYPE1);
         break;
     case MON_DATA_TYPE2:
-        retVal = GetDataPokemonType(mon, MON_DATA_CUSTOM_TYPE2);
+        retVal = GetDataPokemonType(boxMon, MON_DATA_CUSTOM_TYPE2);
         break;
 	case MON_DATA_CUSTOM_ABILITY:
 		retVal = boxMon->customAbility;
 		break;
 	case MON_DATA_ABILITY:
-		retVal = GetMonAbility(mon);
+		retVal = GetMonAbility(boxMon);
 		break;
     case MON_DATA_MAIL:
         retVal = MAIL_NONE;
