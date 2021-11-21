@@ -61,8 +61,8 @@ struct SpeciesItem
 // this file's functions
 static void Task_PlayMapChosenOrBattleBGM(u8 taskId);
 // static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
-static u8 GetDataPokemonType(struct Pokemon *mon, u8 customtype)
-static u16 GetDataCalculatedStats(struct Pokemon *mon, u8 ivid, u8 evid, u8 customstatid, u8 statIndex)
+static u8 GetDataPokemonType(struct Pokemon *mon, u8 customtype);
+static u16 GetDataCalculatedStats(struct Pokemon *mon, u8 ivid, u8 evid, u8 customstatid, u8 statIndex);
 static u8 GetSpeciesBaseStat(u16 species, u8 statIndex);
 static bool8 ShouldSkipFriendshipChange(void);
 static void ShuffleStatArray(u8* statArray);
