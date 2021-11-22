@@ -5186,10 +5186,10 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     dst->spDefense = GetMonData(src, MON_DATA_SPDEF, NULL);
     dst->abilityNum = GetMonData(src, MON_DATA_ABILITY_NUM, NULL);
     dst->otId = GetMonData(src, MON_DATA_OT_ID, NULL);
-    dst->type1 = gBaseStats[dst->species].type1;
-    dst->type2 = gBaseStats[dst->species].type2;
+    dst->type1 = GetMonData(src, MON_DATA_TYPE1, NULL);
+    dst->type2 = GetMonData(src, MON_DATA_TYPE2, NULL);
     dst->type3 = TYPE_MYSTERY;
-    dst->ability = GetAbilityBySpecies(dst->species, dst->abilityNum);
+    dst->ability = GetMonData(src, MON_DATA_ABILITY, NULL);
     dst->nature = GetMonData(src, MON_DATA_NATURE, NULL);
     GetMonData(src, MON_DATA_NICKNAME, nickname);
     StringCopy10(dst->nickname, nickname);
@@ -8051,7 +8051,7 @@ u16 GetFormChangeTargetSpecies(struct Pokemon *mon, u16 method, u32 arg)
     if (formChanges != NULL)
     {
         heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, NULL);
-        ability = GetAbilityBySpecies(species, GetMonData(mon, MON_DATA_ABILITY_NUM, NULL));
+        ability = GetMonData(mon, MON_DATA_ABILITY, NULL);
 
         for (i = 0; formChanges[i].method != FORM_CHANGE_END; i++)
         {

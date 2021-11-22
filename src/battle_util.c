@@ -1927,8 +1927,8 @@ u8 GetImprisonedMovesCount(u8 battlerId, u16 move)
 
 void RestoreBattlerOriginalTypes(u8 battlerId)
 {
-    gBattleMons[battlerId].type1 = gBaseStats[gBattleMons[battlerId].species].type1;
-    gBattleMons[battlerId].type2 = gBaseStats[gBattleMons[battlerId].species].type2;
+    gBattleMons[battlerId].type1 = GetMonData(GetBattlerPartyData(battlerId), MON_DATA_TYPE1, NULL);
+    gBattleMons[battlerId].type2 = GetMonData(GetBattlerPartyData(battlerId), MON_DATA_TYPE2, NULL);
 }
 
 void TryToApplyMimicry(u8 battlerId, bool8 various)

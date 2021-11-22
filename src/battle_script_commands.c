@@ -5697,10 +5697,11 @@ static void Cmd_switchindataupdate(void)
         monData[i] = gBattleResources->bufferB[gActiveBattler][4 + i];
     }
 
-    gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
-    gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    gBattleMons[gActiveBattler].type1 = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_TYPE1, NULL);
+    gBattleMons[gActiveBattler].type2 = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_TYPE2, NULL);
     gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
-    gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
+    gBattleMons[gActiveBattler].ability = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_ABILITY, NULL);
+	gBattleMons[gActiveBattler].nature = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_NATURE, NULL);
 
     // check knocked off item
     i = GetBattlerSide(gActiveBattler);
@@ -7654,8 +7655,8 @@ static void RecalcBattlerStats(u32 battler, struct Pokemon *mon)
     gBattleMons[battler].spAttack = GetMonData(mon, MON_DATA_SPATK);
     gBattleMons[battler].spDefense = GetMonData(mon, MON_DATA_SPDEF);
     gBattleMons[battler].ability = GetMonAbility(mon);
-    gBattleMons[battler].type1 = gBaseStats[gBattleMons[battler].species].type1;
-    gBattleMons[battler].type2 = gBaseStats[gBattleMons[battler].species].type2;
+    gBattleMons[battler].type1 = GetMonData(mon, MON_DATA_TYPE1);
+    gBattleMons[battler].type2 = GetMonData(mon, MON_DATA_TYPE2);
 }
 
 static u32 GetHighestStatId(u32 battlerId)
