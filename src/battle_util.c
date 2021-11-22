@@ -902,7 +902,7 @@ void HandleAction_NothingIsFainted(void)
 
 void HandleAction_ActionFinished(void)
 {
-	s32 i, j;
+	u8 i, j;
 	u8 battler1 = 0;
     u8 battler2 = 0;
     *(gBattleStruct->monToSwitchIntoId + gBattlerByTurnOrder[gCurrentTurnActionNumber]) = 6;
