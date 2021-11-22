@@ -8376,7 +8376,7 @@ static u32 CalcMoveBasePowerAfterModifiers(u16 move, u8 battlerAtk, u8 battlerDe
         #if B_SOUL_DEW_BOOST >= GEN_7
         if ((gBattleMons[battlerAtk].species == SPECIES_LATIAS || gBattleMons[battlerAtk].species == SPECIES_LATIOS) && (moveType == TYPE_PSYCHIC || moveType == TYPE_DRAGON))
         #else
-        if ((gBattleMons[battlerAtk].species == SPECIES_LATIAS || gBattleMons[battlerAtk].species == SPECIES_LATIOS) && !(gBattleTypeFlags & BATTLE_TYPE_FRONTIER) && IS_MOVE_SPECIAL(move))
+        if ((gBattleMons[battlerAtk].species == SPECIES_LATIAS || gBattleMons[battlerAtk].species == SPECIES_LATIOS) && IS_MOVE_SPECIAL(move))
         #endif
             MulModifier(&modifier, holdEffectModifier);
         break;
@@ -8830,9 +8830,7 @@ static u32 CalcDefenseStat(u16 move, u8 battlerAtk, u8 battlerDef, u8 moveType, 
         break;
 #if B_SOUL_DEW_BOOST <= GEN_6
     case HOLD_EFFECT_SOUL_DEW:
-        if ((gBattleMons[battlerDef].species == SPECIES_LATIAS || gBattleMons[battlerDef].species == SPECIES_LATIOS)
-         && !(gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-         && !usesDefStat)
+        if ((gBattleMons[battlerDef].species == SPECIES_LATIAS || gBattleMons[battlerDef].species == SPECIES_LATIOS) && !usesDefStat)
             MulModifier(&modifier, UQ_4_12(1.5));
         break;
 #endif
