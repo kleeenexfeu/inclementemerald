@@ -903,6 +903,8 @@ void HandleAction_NothingIsFainted(void)
 void HandleAction_ActionFinished(void)
 {
 	s32 i, j;
+	u8 battler1 = 0;
+    u8 battler2 = 0;
     *(gBattleStruct->monToSwitchIntoId + gBattlerByTurnOrder[gCurrentTurnActionNumber]) = 6;
     gCurrentTurnActionNumber++;
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
@@ -940,8 +942,6 @@ void HandleAction_ActionFinished(void)
                     SwapTurnOrder(i, j);
         }
     }
-    gBattleMainFunc = CheckFocusPunch_ClearVarsBeforeTurnStarts;
-    gBattleStruct->focusPunchBattlerId = 0;
 }
 
 // rom const data
