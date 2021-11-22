@@ -929,20 +929,20 @@ void HandleAction_ActionFinished(void)
     gBattleScripting.multihitMoveEffect = 0;
     gBattleResources->battleScriptsStack->size = 0;
 	
-    for (i = gCurrentTurnActionNumber[0]; i < gBattlersCount - 1; i++)
-// i initialized to `gCurrentTurnActionNumber` because we don't want to recalculate turn order for mon that have already
-// taken action. It's been previously increased, which we want to not recalculate the turn order of the mon that just finished its action
-
+    for (i = gCurrentTurnActionNumber; i < gBattlersCount - 1; i++)
     {
         for (j = i + 1; j < gBattlersCount; j++)
         {
             u8 battler1 = gBattlerByTurnOrder[i];
             u8 battler2 = gBattlerByTurnOrder[j];
             if (GetWhoStrikesFirst(battler1, battler2, FALSE))
-                    SwapTurnOrder(i, j);
+                SwapTurnOrder(i, j);
         }
     }
 }
+// i initialized to `gCurrentTurnActionNumber` because we don't want to recalculate turn order for mon that have already
+// taken action. It's been previously increased, which we want to not recalculate the turn order of the mon that just finished its action
+
 
 // rom const data
 
