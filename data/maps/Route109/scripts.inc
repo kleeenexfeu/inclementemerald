@@ -377,7 +377,7 @@ Route_109_EventScript_SandMound::
 	lockall
 	faceplayer
 	special RockSmashWildEncounter
-	waitstate
+	delay 0x60
 	removeobject 25
 	releaseall
 	end
@@ -386,7 +386,7 @@ Route_109_EventScript_SandMound1::
 	lockall
 	faceplayer
 	special RockSmashWildEncounter
-	waitstate
+	delay 0x60
 	removeobject 26
 	releaseall
 	end
@@ -395,7 +395,7 @@ Route_109_EventScript_SandMound2::
 	lockall
 	faceplayer
 	special RockSmashWildEncounter
-	waitstate
+	delay 0x60
 	removeobject 27
 	releaseall
 	end
