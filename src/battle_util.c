@@ -929,7 +929,7 @@ void HandleAction_ActionFinished(void)
     gBattleScripting.multihitMoveEffect = 0;
     gBattleResources->battleScriptsStack->size = 0;
 	
-    for (i = gBattlerByTurnOrder[gCurrentTurnActionNumber]; i < gBattlersCount - 1; i++)
+    for (i = gBattlerByTurnOrder[gCurrentTurnActionNumber]; i < gBattlersCount; i++)
 // i initialized to `gBattlerByTurnOrder[gCurrentTurnActionNumber]` because we don't want to recalculate turn order for mon that have already
 // taken action. It's been previously increased, which we want to not recalculate the turn order of the mon that just finished its turn
 
