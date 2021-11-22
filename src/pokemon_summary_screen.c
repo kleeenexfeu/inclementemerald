@@ -3180,7 +3180,7 @@ static void PrintMonOTID(void)
 
 static void PrintMonAbilityName(void)
 {
-	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     u16 ability = GetMonData(mon, MON_DATA_ABILITY, NULL);
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gAbilityNames[ability], 0, 1, 0, 1);
 }
@@ -3988,7 +3988,7 @@ void SetTypeSpritePosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId) //HGSS_Ui
 static void SetMonTypeIcons(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     if (summary->isEgg)
     {
         SetTypeSpritePosAndPal(TYPE_MYSTERY, 120, 48, SPRITE_ARR_ID_TYPE);

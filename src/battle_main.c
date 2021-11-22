@@ -3012,8 +3012,8 @@ static void BattleStartClearSetData(void)
     }
 
     gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsBattleStyle;
-	gBattleScripting.expOnCatch = (B_EXP_CATCH >= GEN_6);
-	gBattleScripting.monCaught = FALSE;
+    gBattleScripting.expOnCatch = (B_EXP_CATCH >= GEN_6);
+    gBattleScripting.monCaught = FALSE;
 
     gMultiHitCounter = 0;
     gBattleOutcome = 0;
@@ -3270,7 +3270,7 @@ void FaintClearSetData(void)
     // gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
     // gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
     // gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
-	// Utturly useless, wast of code. I let them commented here in case I'm wrong though
+    // Utturly useless, wast of code. I let them commented here in case I'm wrong though
 
     ClearBattlerMoveHistory(gActiveBattler);
     ClearBattlerAbilityHistory(gActiveBattler);
@@ -4830,7 +4830,7 @@ static void TryChangeTurnOrder(void)
                 if (GetWhoStrikesFirst(battler1, battler2, FALSE))
                     SwapTurnOrder(i, j);
             }
-	}
+    }
      }
     gBattleMainFunc = CheckFocusPunch_ClearVarsBeforeTurnStarts;
     gBattleStruct->focusPunchBattlerId = 0;

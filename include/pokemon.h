@@ -14,9 +14,9 @@ struct BoxPokemon
 {
     u32 personality;
     u32 otId;
-	u32 experience:24;
+    u32 experience:24;
     u32 friendship:8;
-	
+    
     u16 species;
     u16 heldItem;
     
@@ -31,32 +31,32 @@ struct BoxPokemon
     u8 speedEV;
     u8 spAttackEV;
     u8 spDefenseEV;
-	
-	u32 hpIV:5;
+    
+    u32 hpIV:5;
     u32 attackIV:5;
     u32 defenseIV:5;
     u32 speedIV:5;
     u32 spAttackIV:5;
     u32 spDefenseIV:5;
     u32 abilityNum:2;
-	
-	u16 customAbility:9;
+    
+    u16 customAbility:9;
     u16 pokeball:5; //31 balls
-	
-	u8 customHp;
-	u8 customAtk;
-	u8 customDef;
-	u8 customSpeed;
-	u8 customSpAtk;
-	u8 customSpDef;
-	u8 customType1;
-	u8 customType2;
-	
+    
+    u8 customHp;
+    u8 customAtk;
+    u8 customDef;
+    u8 customSpeed;
+    u8 customSpAtk;
+    u8 customSpDef;
+    u8 customType1;
+    u8 customType2;
+    
     u8 nature:7;
     u8 isEgg:1;
-	
+    
     u8 ppBonuses;
-	
+    
     u8 ppmove1;
     u8 ppmove2;
     u8 ppmove3;
@@ -262,19 +262,19 @@ enum {
     MON_DATA_SPATK2,
     MON_DATA_SPDEF2,
     MON_DATA_NATURE,
-	MON_DATA_CUSTOM_HP,
-	MON_DATA_CUSTOM_ATK,
-	MON_DATA_CUSTOM_DEF,
-	MON_DATA_CUSTOM_SPEED,
-	MON_DATA_CUSTOM_SPATK,
-	MON_DATA_CUSTOM_SPDEF,
-	MON_DATA_CUSTOM_ABILITY,
-	MON_DATA_CUSTOM_TYPE1,
-	MON_DATA_CUSTOM_TYPE2,
-	MON_DATA_ABILITY,
-	MON_DATA_TYPE1,
-	MON_DATA_TYPE2,
-	MON_DATA_KNOWN_MOVES,
+    MON_DATA_CUSTOM_HP,
+    MON_DATA_CUSTOM_ATK,
+    MON_DATA_CUSTOM_DEF,
+    MON_DATA_CUSTOM_SPEED,
+    MON_DATA_CUSTOM_SPATK,
+    MON_DATA_CUSTOM_SPDEF,
+    MON_DATA_CUSTOM_ABILITY,
+    MON_DATA_CUSTOM_TYPE1,
+    MON_DATA_CUSTOM_TYPE2,
+    MON_DATA_ABILITY,
+    MON_DATA_TYPE1,
+    MON_DATA_TYPE2,
+    MON_DATA_KNOWN_MOVES,
 };
 
 #include "constants/battle_config.h"
