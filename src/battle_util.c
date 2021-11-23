@@ -929,19 +929,25 @@ void HandleAction_ActionFinished(void)
     gBattleScripting.multihitMoveEffect = 0;
     gBattleResources->battleScriptsStack->size = 0;
 	
+    // i starts at `gCurrentTurnActionNumber` because we don't want to recalculate turn order for mon that have already
+    // taken action. It's been previously increased, which we want in order to not recalculate the turn of the mon that just finished its action
     for (i = gCurrentTurnActionNumber; i < gBattlersCount - 1; i++)
     {
         for (j = i + 1; j < gBattlersCount; j++)
         {
             u8 battler1 = gBattlerByTurnOrder[i];
             u8 battler2 = gBattlerByTurnOrder[j];
-            if (GetWhoStrikesFirst(battler1, battler2, FALSE))
-                SwapTurnOrder(i, j);
+			if((gActionsByTurnOrder[i] == B_ACTION_USE_MOVE && gActionsByTurnOrder[j] == B_ACTION_USE_MOVE)
+                || (gActionsByTurnOrder[i] == B_ACTION_SWITCH && gActionsByTurnOrder[j] == B_ACTION_SWITCH))
+            // We recalculate order only for action of the same priority. If any action other than switch/move has been taken, they should
+            // have been executed before. The only recalculation needed is for moves/switch. Mega evolution is handled in src/battle_main.c/TryChangeOrder
+            {
+			    if (GetWhoStrikesFirst(battler1, battler2, FALSE))
+                    SwapTurnOrder(i, j);
+            }
         }
     }
 }
-// i initialized to `gCurrentTurnActionNumber` because we don't want to recalculate turn order for mon that have already
-// taken action. It's been previously increased, which we want to not recalculate the turn order of the mon that just finished its action
 
 
 // rom const data
