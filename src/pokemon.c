@@ -4580,6 +4580,10 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, u8 ivid, u8 evid, u8 customstati
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 customStat = GetMonData(mon, customstatid, NULL);
     u8 normalBaseStat = GetSpeciesBaseStat(species, statIndex);
+<<<<<<< HEAD
+=======
+    u16 baseStat = (customStat <= 0x7F) ? customStat + normalBaseStat : normalBaseStat - (customStat - 0x7F); // simulated a signed number until I lean better how to use them
+>>>>>>> master_recalc_turn_order_after_actions
     u8 nature = GetMonData(mon, MON_DATA_NATURE, NULL);
     s32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
     if (customStat <= 0x7F) // Not exactly a signed number because we want the base stats to be able to go above 255, but not overflow at 60K
