@@ -4574,7 +4574,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 u16 GetDataCalculatedStats(struct Pokemon *mon, u8 ivid, u8 evid, u8 customstatid, u8 statIndex)
 {
     u32 n = 0;
-	u16 baseStat = 1; // Initialize basestats at 1
+    u16 baseStat = 1; // Initialize basestats at 1
     s32 statIv = GetMonData(mon, ivid, NULL);
     s32 statEv = GetMonData(mon, evid, NULL);
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
@@ -4582,18 +4582,18 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, u8 ivid, u8 evid, u8 customstati
     u8 normalBaseStat = GetSpeciesBaseStat(species, statIndex);
     u8 nature = GetMonData(mon, MON_DATA_NATURE, NULL);
     s32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-	if (customStat <= 0x7F) // Not exactly a signed number because we want the base stats to be able to go above 255, but not overflow at 60K
-	    u16 baseStat = normalBaseStat +customStat;
-	else if (customStat > 0x7F && normalBaseStat > customStat - 0x7F)
+    if (customStat <= 0x7F) // Not exactly a signed number because we want the base stats to be able to go above 255, but not overflow at 60K
+        u16 baseStat = normalBaseStat +customStat;
+    else if (customStat > 0x7F && normalBaseStat > customStat - 0x7F)
         u16 baseStat = normalBaseStat - (customStat - 0x7F);
-	else
-	    u16 baseStat = normalBaseStat;
+    else
+        u16 baseStat = normalBaseStat;
     if (statIndex != STAT_HP)
     {
         n = (((2 * baseStat + statIv + statEv / 4) * level) / 100) + 5;
         n = ModifyStatByNature(nature, n, statIndex);
     else
-	    n = (((2 * baseStat + statIv + statEv / 4) * level) / 100) + level + 10;
+        n = (((2 * baseStat + statIv + statEv / 4) * level) / 100) + level + 10;
     }
     return n;
 }
