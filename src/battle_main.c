@@ -3053,6 +3053,7 @@ static void BattleStartClearSetData(void)
     gBattleStruct->mega.triggerSpriteId = 0xFF;
     
     gBattleStruct->stickyWebUser = 0xFF;
+    gBattleStruct->appearedInBattle = 0;
     
     for (i = 0; i < PARTY_SIZE; i++)
     {
@@ -3695,6 +3696,9 @@ static void TryDoEventsBeforeFirstTurn(void)
         *(gBattleStruct->monToSwitchIntoId + i) = PARTY_SIZE;
         gChosenActionByBattler[i] = B_ACTION_NONE;
         gChosenMoveByBattler[i] = MOVE_NONE;
+        // Record party slots of player's mons that appeared in battle
+        if (!IsBattlerAIControlled(i))
+            gBattleStruct->appearedInBattle |= gBitTable[gBattlerPartyIndexes[i]];
     }
     TurnValuesCleanUp(FALSE);
     SpecialStatusesClear();
@@ -3995,22 +3999,7 @@ static void HandleTurnActionSelectionState(void)
                     {
                         struct ChooseMoveStruct moveInfo;
 
-                        moveInfo.mega = gBattleStruct->mega;
-                        moveInfo.species = gBattleMons[gActiveBattler].species;
-                        moveInfo.monType1 = gBattleMons[gActiveBattler].type1;
-                        moveInfo.monType2 = gBattleMons[gActiveBattler].type2;
-                        moveInfo.monType3 = gBattleMons[gActiveBattler].type3;
-
-                        for (i = 0; i < MAX_MON_MOVES; i++)
-                        {
-                            moveInfo.moves[i] = gBattleMons[gActiveBattler].moves[i];
-                            moveInfo.currentPp[i] = gBattleMons[gActiveBattler].pp[i];
-                            moveInfo.maxPp[i] = CalculatePPWithBonus(
-                                                            gBattleMons[gActiveBattler].moves[i],
-                                                            gBattleMons[gActiveBattler].ppBonuses,
-                                                            i);
-                        }
-
+                        FillChooseMoveStruct(&moveInfo);
                         BtlController_EmitChooseMove(0, (gBattleTypeFlags & BATTLE_TYPE_DOUBLE) != 0, FALSE, &moveInfo);
                         MarkBattlerForControllerExec(gActiveBattler);
                     }
@@ -4806,7 +4795,7 @@ static void CheckMegaEvolutionBeforeTurn(void)
         }
     }
 
-    #if B_MEGA_EVO_ALTER_TURN_ORDER <= GEN_6
+    #if B_MEGA_EVO_TURN_ORDER <= GEN_6
         gBattleMainFunc = CheckFocusPunch_ClearVarsBeforeTurnStarts;
         gBattleStruct->focusPunchBattlerId = 0;
     #else
@@ -4830,11 +4819,12 @@ static void TryChangeTurnOrder(void)
                 if (GetWhoStrikesFirst(battler1, battler2, FALSE))
                     SwapTurnOrder(i, j);
             }
+        }
     }
-     }
     gBattleMainFunc = CheckFocusPunch_ClearVarsBeforeTurnStarts;
     gBattleStruct->focusPunchBattlerId = 0;
 }
+
 
 static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void)
 {
@@ -5438,5 +5428,26 @@ void SetTotemBoost(void)
             gTotemBoosts[battlerId].statChanges[i] = *(&gSpecialVar_0x8001 + i);
             gTotemBoosts[battlerId].stats |= 0x80;  // used as a flag for the "totem flared to life" script
         }
+    }
+}
+
+void FillChooseMoveStruct(struct ChooseMoveStruct * moveInfo)
+{
+    int i;
+
+    moveInfo->mega = gBattleStruct->mega;
+    moveInfo->species = gBattleMons[gActiveBattler].species;
+    moveInfo->monType1 = gBattleMons[gActiveBattler].type1;
+    moveInfo->monType2 = gBattleMons[gActiveBattler].type2;
+    moveInfo->monType3 = gBattleMons[gActiveBattler].type3;
+
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        moveInfo->moves[i] = gBattleMons[gActiveBattler].moves[i];
+        moveInfo->currentPp[i] = gBattleMons[gActiveBattler].pp[i];
+        moveInfo->maxPp[i] = CalculatePPWithBonus(
+                                        gBattleMons[gActiveBattler].moves[i],
+                                        gBattleMons[gActiveBattler].ppBonuses,
+                                        i);
     }
 }
