@@ -4592,9 +4592,9 @@ u16 GetDataCalculatedStats(struct Pokemon *mon, u8 ivid, u8 evid, u8 customstati
     {
         n = (((2 * baseStat + statIv + statEv / 4) * level) / 100) + 5;
         n = ModifyStatByNature(nature, n, statIndex);
+	}
     else
         n = (((2 * baseStat + statIv + statEv / 4) * level) / 100) + level + 10;
-    }
     return n;
 }
 
