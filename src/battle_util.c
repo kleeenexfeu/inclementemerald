@@ -7829,6 +7829,9 @@ u32 GetMoveTargetCount(u16 move, u8 battlerAtk, u8 battlerDef)
 static void MulModifier(u16 *modifier, u16 val)
 {
     *modifier = UQ_4_12_TO_INT((*modifier * val) + UQ_4_12_ROUND);
+	#if B_FUNCTION_CALL_COUNTER
+	gFunctionCallsCounter++;
+	#endif
 }
 
 static u32 ApplyModifier(u16 modifier, u32 val)

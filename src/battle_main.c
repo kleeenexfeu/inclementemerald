@@ -145,6 +145,11 @@ EWRAM_DATA static struct UnknownPokemonStruct4* sMultiPartnerPartyBuffer = NULL;
 EWRAM_DATA u8 *gUnknown_0202305C = NULL;
 EWRAM_DATA u8 *gUnknown_02023060 = NULL;
 EWRAM_DATA u8 gActiveBattler = 0;
+#if B_FUNCTION_CALL_COUNTER
+EWRAM_DATA u32 gFunctionCallsCounter = 0;
+EWRAM_DATA u32 gAI_CheckViabilityCounter = 0;
+EWRAM_DATA u32 gAI_TryToFaintCounter = 0;
+#endif
 EWRAM_DATA u32 gBattleControllerExecFlags = 0;
 EWRAM_DATA u8 gBattlersCount = 0;
 EWRAM_DATA u16 gBattlerPartyIndexes[MAX_BATTLERS_COUNT] = {0};
@@ -518,6 +523,20 @@ const u8 * const gStatusConditionStringsTable[7][2] =
     {gStatusConditionString_ConfusionJpn, gText_Confusion},
     {gStatusConditionString_LoveJpn, gText_Love}
 };
+
+
+#if B_FUNCTION_CALL_COUNTER
+void ResetFunctionCallsCounter(void)
+{
+	gFunctionCallsCounter = 0;
+	gFunctionCallsCounter1 = 0;
+	gFunctionCallsCounter2 = 0;
+	gFunctionCallsCounter3 = 0;
+	gFunctionCallsCounter4 = 0;
+	gFunctionCallsCounter5 = 0;
+	gFunctionCallsCounter6 = 0;
+}
+#endif
 
 // code
 void CB2_InitBattle(void)

@@ -172,5 +172,6 @@
 #define B_NEW_SURF_PARTICLE_PALETTE     FALSE    // If set to TRUE, it updates Surf's wave palette.
 
 #define B_ENABLE_DEBUG                  TRUE     // If set to TRUE, enables a debug menu to use in battles by pressing the Select button.
+#define B_FUNCTION_CALL_COUNTER         FALSE     // This gives space in the ram if you want to have counters
 
 #endif // GUARD_CONSTANTS_BATTLE_CONFIG_H

@@ -454,6 +454,9 @@ static void BattleAI_DoAIProcessing(void)
                       && sBattleAiFuncTable[AI_THINKING_STRUCT->aiLogicId] != NULL)
                     {
                         // Call AI function
+						#if B_FUNCTION_CALL_COUNTER
+						// ResetFunctionCallsCounter();
+						#endif
                         AI_THINKING_STRUCT->score[AI_THINKING_STRUCT->movesetIndex] =
                             sBattleAiFuncTable[AI_THINKING_STRUCT->aiLogicId](sBattler_AI,
                               gBattlerTarget,
@@ -2436,6 +2439,9 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 
 static s16 AI_TryToFaint(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 {    
+	#if B_FUNCTION_CALL_COUNTER
+	gFunctionCallsCounter2++;
+	#endif
     if (IsTargetingPartner(battlerAtk, battlerDef))
         return score;
     
@@ -2883,6 +2889,9 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
     u32 i;
     u8 atkHpPercent = GetHealthPercentage(battlerAtk);
     u8 defHpPercent = GetHealthPercentage(battlerDef);
+	#if B_FUNCTION_CALL_COUNTER
+	gFunctionCallsCounter1++;
+	#endif
     
     // Targeting partner, check benefits of doing that instead
     if (IsTargetingPartner(battlerAtk, battlerDef))

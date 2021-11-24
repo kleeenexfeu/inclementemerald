@@ -80,6 +80,9 @@ void SpecialStatusesClear(void);
 void SetTypeBeforeUsingMove(u16 move, u8 battlerAtk);
 void FillChooseMoveStruct(struct ChooseMoveStruct *moveInfo);
 s32 GetHighestLevelInPlayerParty(void);
+#if B_FUNCTION_CALL_COUNTER
+void ResetFunctionCallsCounter(void);
+#endif
 
 extern struct UnknownPokemonStruct4 gMultiPartnerParty[MULTI_PARTY_SIZE];
 
