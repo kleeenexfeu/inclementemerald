@@ -529,8 +529,12 @@ const u8 * const gStatusConditionStringsTable[7][2] =
 void ResetFunctionCallsCounter(void)
 {
 	gFunctionCallsCounter = 0;
-	gAI_CheckViabilityCounter = 0;
-	gAI_TryToFaintCounter = 0;
+	gFunctionCallsCounter1 = 0;
+	gFunctionCallsCounter2 = 0;
+	gFunctionCallsCounter3 = 0;
+	gFunctionCallsCounter4 = 0;
+	gFunctionCallsCounter5 = 0;
+	gFunctionCallsCounter6 = 0;
 }
 #endif
 
