@@ -2880,9 +2880,6 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 // AI_FLAG_CHECK_VIABILITY - a weird mix of increasing and decreasing scores
 static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 {
-	#if B_FUNCTION_CALL_COUNTER
-	IncrementFunctionCallsCounter(gAI_CheckViabilityCounter);
-	#endif
     // move data
     u16 moveEffect = gBattleMoves[move].effect;
     u8 effectiveness = AI_GetMoveEffectiveness(move, battlerAtk, battlerDef);
@@ -2892,6 +2889,9 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
     u32 i;
     u8 atkHpPercent = GetHealthPercentage(battlerAtk);
     u8 defHpPercent = GetHealthPercentage(battlerDef);
+	#if B_FUNCTION_CALL_COUNTER
+	IncrementFunctionCallsCounter(gAI_CheckViabilityCounter);
+	#endif
     
     // Targeting partner, check benefits of doing that instead
     if (IsTargetingPartner(battlerAtk, battlerDef))
