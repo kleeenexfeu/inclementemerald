@@ -5799,7 +5799,7 @@ void PcRegistersPartyMonInPokedex(void)
 	u32 partyCount = CalculatePlayerPartyCount();
 	for (i=0; i < partyCount; i++)
 	{
-		species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
+		species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
 		if (species != SPECIES_NONE && species != SPECIES_EGG && species < NUM_SPECIES)
 		{
 			GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_SEEN);
