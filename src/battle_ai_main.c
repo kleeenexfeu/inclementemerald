@@ -455,7 +455,7 @@ static void BattleAI_DoAIProcessing(void)
                     {
                         // Call AI function
 						#if B_FUNCTION_CALL_COUNTER
-						ResetFunctionCallsCounter();
+						// ResetFunctionCallsCounter();
 						#endif
                         AI_THINKING_STRUCT->score[AI_THINKING_STRUCT->movesetIndex] =
                             sBattleAiFuncTable[AI_THINKING_STRUCT->aiLogicId](sBattler_AI,
@@ -2439,6 +2439,9 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 
 static s16 AI_TryToFaint(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 {    
+	#if B_FUNCTION_CALL_COUNTER
+	IncrementFunctionCallsCounter(gAI_TryToFaintCounter);
+	#endif
     if (IsTargetingPartner(battlerAtk, battlerDef))
         return score;
     
@@ -2877,6 +2880,9 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 // AI_FLAG_CHECK_VIABILITY - a weird mix of increasing and decreasing scores
 static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 {
+	#if B_FUNCTION_CALL_COUNTER
+	IncrementFunctionCallsCounter(gAI_CheckViabilityCounter);
+	#endif
     // move data
     u16 moveEffect = gBattleMoves[move].effect;
     u8 effectiveness = AI_GetMoveEffectiveness(move, battlerAtk, battlerDef);

@@ -833,6 +833,8 @@ extern u32 gBattleTypeFlags;
 extern u8 gBattleTerrain;
 extern u32 gUnusedFirstBattleVar1;
 #if B_FUNCTION_CALL_COUNTER
+extern u32 gAI_CheckViabilityCounter;
+extern u32 gAI_TryToFaintCounter;
 extern u32 gFunctionCallsCounter;
 #endif
 extern u8 *gUnknown_0202305C;

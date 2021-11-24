@@ -147,6 +147,8 @@ EWRAM_DATA u8 *gUnknown_02023060 = NULL;
 EWRAM_DATA u8 gActiveBattler = 0;
 #if B_FUNCTION_CALL_COUNTER
 EWRAM_DATA u32 gFunctionCallsCounter = 0;
+EWRAM_DATA u32 gAI_CheckViabilityCounter = 0;
+EWRAM_DATA u32 gAI_TryToFaintCounter = 0;
 #endif
 EWRAM_DATA u32 gBattleControllerExecFlags = 0;
 EWRAM_DATA u8 gBattlersCount = 0;
@@ -524,14 +526,16 @@ const u8 * const gStatusConditionStringsTable[7][2] =
 
 
 #if B_FUNCTION_CALL_COUNTER
-void IncrementFunctionCallsCounter(void)
+void IncrementFunctionCallsCounter(u32 counter)
 {
-	gFunctionCallsCounter ++;
+	counter ++;
 }
 
 void ResetFunctionCallsCounter(void)
 {
 	gFunctionCallsCounter = 0;
+	gAI_CheckViabilityCounter = 0;
+	gAI_TryToFaintCounter = 0;
 }
 #endif
 
