@@ -7830,7 +7830,7 @@ static void MulModifier(u16 *modifier, u16 val)
 {
     *modifier = UQ_4_12_TO_INT((*modifier * val) + UQ_4_12_ROUND);
 	#if B_FUNCTION_CALL_COUNTER
-	IncrementFunctionCallsCounter(gFunctionCallsCounter);
+	IncrementFunctionCallsCounter(&gFunctionCallsCounter);
 	#endif
 }
 
