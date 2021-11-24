@@ -832,6 +832,9 @@ extern u8 gBattleTextBuff3[TEXT_BUFF_ARRAY_COUNT];
 extern u32 gBattleTypeFlags;
 extern u8 gBattleTerrain;
 extern u32 gUnusedFirstBattleVar1;
+#if B_FUNCTION_CALL_COUNTER
+extern u32 gFunctionCallsCounter;
+#endif
 extern u8 *gUnknown_0202305C;
 extern u8 *gUnknown_02023060;
 extern u8 gActiveBattler;

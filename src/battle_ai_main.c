@@ -454,6 +454,9 @@ static void BattleAI_DoAIProcessing(void)
                       && sBattleAiFuncTable[AI_THINKING_STRUCT->aiLogicId] != NULL)
                     {
                         // Call AI function
+						#if B_FUNCTION_CALL_COUNTER
+						ResetFunctionCallsCounter();
+						#endif
                         AI_THINKING_STRUCT->score[AI_THINKING_STRUCT->movesetIndex] =
                             sBattleAiFuncTable[AI_THINKING_STRUCT->aiLogicId](sBattler_AI,
                               gBattlerTarget,
