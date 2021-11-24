@@ -31,6 +31,7 @@
 #include "party_menu.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "pokedex.h"
 #include "pokemon_storage_system.h"
 #include "random.h"
 #include "rayquaza_scene.h"
@@ -5796,7 +5797,7 @@ void GetStaticEncounterLevel (void)
 void PcRegistersPartyMonInPokedex(void)
 {
 	u16 species = 0;
-	u32 partyCount = CalculatePlayerPartyCount();
+	u32 i, partyCount = CalculatePlayerPartyCount();
 	for (i=0; i < partyCount; i++)
 	{
 		species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
