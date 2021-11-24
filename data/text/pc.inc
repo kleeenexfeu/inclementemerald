@@ -15,3 +15,7 @@ gText_AccessedPlayersPC:: @ 82726C2
 
 gText_AccessedLanettesPC:: @ 82726D4
 	.string "Accessed Lanette's PC.$"
+
+gText_NewSpeciesRegisteredPokedex::
+	.string "New species registeres in the Pokédex!$"
+

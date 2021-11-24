@@ -5,6 +5,9 @@ EventScript_PC::
 	playse SE_PC_ON
 	msgbox Text_BootUpPC, MSGBOX_DEFAULT
 	special PcRegistersPartyMonInPokedex
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_PCMainMenu
+	msgbox gText_NewSpeciesRegisteredPokedex, MSGBOX_DEFAULT
 	goto EventScript_PCMainMenu
 	end
 

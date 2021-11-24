@@ -5796,8 +5796,8 @@ void GetStaticEncounterLevel (void)
 
 void PcRegistersPartyMonInPokedex(void)
 {
-	u16 species = 0;
-	u32 i, partyCount = CalculatePlayerPartyCount();
+	u16 i, numberRegistered, species = 0;
+	u32 partyCount = CalculatePlayerPartyCount();
 	for (i=0; i < partyCount; i++)
 	{
 		species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
@@ -5805,8 +5805,10 @@ void PcRegistersPartyMonInPokedex(void)
 		{
 			GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_SEEN);
 			GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_CAUGHT);
+			numberRegistered++;
 		}
 	}
+	return numberRegistered;
 }
 
 #define MYSTERY_GIFT_SPECIES       0
