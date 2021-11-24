@@ -5996,7 +5996,9 @@ void ChooseMonForInBattleItem(void)
 
 static u8 GetPartyMenuActionsTypeInBattle(struct Pokemon *mon)
 {
-    if (GetMonData(&gPlayerParty[1], MON_DATA_SPECIES) != SPECIES_NONE && GetMonData(mon, MON_DATA_IS_EGG) == FALSE)
+    // Fix for the lock out space center
+    if (GetMonData(&gPlayerParty[(gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) ? 2 : 1], MON_DATA_SPECIES)
+    != SPECIES_NONE && GetMonData(mon, MON_DATA_IS_EGG) == FALSE)
     {
         if (gPartyMenu.action == PARTY_ACTION_SEND_OUT)
             return ACTIONS_SEND_OUT;

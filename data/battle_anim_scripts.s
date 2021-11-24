@@ -14219,7 +14219,22 @@ Move_JUNGLE_HEALING::
 	goto Move_AROMATHERAPY
 
 Move_WICKED_BLOW::
-	end @to do:
+        loadspritegfx ANIM_TAG_HANDS_AND_FEET
+        loadspritegfx ANIM_TAG_CROSS_IMPACT
+        monbg ANIM_DEF_PARTNER
+        setalpha 12, 8
+        playsewithpan SE_M_MEGA_KICK, SOUND_PAN_TARGET
+        createsprite gCrossChopHandSpriteTemplate, ANIM_ATTACKER, 2, 0, 0, 0
+        createsprite gCrossChopHandSpriteTemplate, ANIM_ATTACKER, 2, 0, 0, 1
+        delay 40
+        playsewithpan SE_M_RAZOR_WIND, SOUND_PAN_TARGET
+        createsprite gComplexPaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, 31, 3, 1, RGB_WHITE, 10, 0, 10
+        createsprite gCrossImpactSpriteTemplate, ANIM_ATTACKER, 3, 0, 0, 1, 20
+        createvisualtask AnimTask_ShakeMon, 5, ANIM_TARGET, 7, 0, 9, 1
+        waitforvisualfinish
+        clearmonbg ANIM_DEF_PARTNER
+        blendoff
+        end
 
 Move_SURGING_STRIKES::
 	end @to do:

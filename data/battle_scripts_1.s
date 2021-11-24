@@ -5391,6 +5391,7 @@ BattleScript_EffectYawn::
     attackcanceler
     attackstring
     ppreduce
+    jumpifaffectedbyprotect BattleScript_ButItFailed @ For now it'll do, but it shouldn't be needed
     jumpifability BS_TARGET, ABILITY_VITAL_SPIRIT, BattleScript_PrintBankAbilityMadeIneffective
     jumpifability BS_TARGET, ABILITY_INSOMNIA, BattleScript_PrintBankAbilityMadeIneffective
     jumpifability BS_TARGET, ABILITY_COMATOSE, BattleScript_PrintBankAbilityMadeIneffective

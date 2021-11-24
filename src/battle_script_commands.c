@@ -1839,7 +1839,9 @@ static bool32 JumpIfMoveFailed(u8 adder, u16 move)
     return FALSE;
 }
 
-static void Cmd_jumpifaffectedbyprotect(void)
+static void Cmd_jumpifaffectedbyprotect(void) 
+// I use it because yawn bypasses protect for some reason, but it should be
+// unused otherwise
 {
     if (IsBattlerProtected(gBattlerTarget, gCurrentMove))
     {
@@ -11182,6 +11184,7 @@ static void Cmd_weatherdamage(void)
                 && ability != ABILITY_SAND_FORCE
                 && ability != ABILITY_SAND_RUSH
                 && ability != ABILITY_OVERCOAT
+                && ability != ABILITY_SAND_STREAM
                 && !(gStatuses3[gBattlerAttacker] & (STATUS3_UNDERGROUND | STATUS3_UNDERWATER))
                 && GetBattlerHoldEffect(gBattlerAttacker, TRUE) != HOLD_EFFECT_SAFETY_GOGGLES)
             {
