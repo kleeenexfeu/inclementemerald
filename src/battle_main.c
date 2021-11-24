@@ -526,13 +526,6 @@ const u8 * const gStatusConditionStringsTable[7][2] =
 
 
 #if B_FUNCTION_CALL_COUNTER
-void IncrementFunctionCallsCounter(u32 *counter)
-{
-	u32 *inc = counter;
-	inc++;
-	counter = inc;
-}
-
 void ResetFunctionCallsCounter(void)
 {
 	gFunctionCallsCounter = 0;

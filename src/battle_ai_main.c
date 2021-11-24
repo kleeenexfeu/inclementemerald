@@ -2440,7 +2440,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 static s16 AI_TryToFaint(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 {    
 	#if B_FUNCTION_CALL_COUNTER
-	IncrementFunctionCallsCounter(&gAI_TryToFaintCounter);
+	gAI_TryToFaintCounter++;
 	#endif
     if (IsTargetingPartner(battlerAtk, battlerDef))
         return score;
@@ -2890,7 +2890,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
     u8 atkHpPercent = GetHealthPercentage(battlerAtk);
     u8 defHpPercent = GetHealthPercentage(battlerDef);
 	#if B_FUNCTION_CALL_COUNTER
-	IncrementFunctionCallsCounter(&gAI_CheckViabilityCounter);
+	gAI_CheckViabilityCounter++;
 	#endif
     
     // Targeting partner, check benefits of doing that instead
