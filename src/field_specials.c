@@ -5792,6 +5792,22 @@ void GetStaticEncounterLevel (void)
     }
 }
 
+
+void PcRegistersPartyMonInPokedex(void)
+{
+	u16 species = 0;
+	u32 partyCount = CalculatePlayerPartyCount();
+	for (i=0; i < partyCount; i++)
+	{
+		species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
+		if (species != SPECIES_NONE && species != SPECIES_EGG && species < NUM_SPECIES)
+		{
+			GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_SEEN);
+			GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_CAUGHT);
+		}
+	}
+}
+
 #define MYSTERY_GIFT_SPECIES       0
 #define MYSTERY_GIFT_ITEM          1
 #define MYSTERY_GIFT_RECEIVED_FLAG 2

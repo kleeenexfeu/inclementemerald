@@ -4,6 +4,7 @@ EventScript_PC::
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
 	msgbox Text_BootUpPC, MSGBOX_DEFAULT
+	special PcRegistersPartyMonInPokedex
 	goto EventScript_PCMainMenu
 	end
 

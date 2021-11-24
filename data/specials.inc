@@ -578,3 +578,4 @@ gSpecials::
 	def_special HoneyWildEncounter
 	def_special GetStaticEncounterLevel
 	def_special GetMysteryGiftSpecies
+	def_special PcRegistersPartyMonInPokedex
