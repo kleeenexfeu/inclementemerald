@@ -48,5 +48,9 @@ jobs:
           path: pokeemerald.gba
       - uses: actions/upload-artifact@v2
         with:
+          name: pokeemerald_elf
+          path: pokeemerald.elf
+      - uses: actions/upload-artifact@v2
+        with:
           name: pokeemerald_map
           path: pokeemerald.map
