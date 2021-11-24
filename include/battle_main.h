@@ -81,7 +81,7 @@ void SetTypeBeforeUsingMove(u16 move, u8 battlerAtk);
 void FillChooseMoveStruct(struct ChooseMoveStruct *moveInfo);
 s32 GetHighestLevelInPlayerParty(void);
 #if B_FUNCTION_CALL_COUNTER
-void IncrementFunctionCallsCounter(u32 counter);
+void IncrementFunctionCallsCounter(u32 *counter);
 void ResetFunctionCallsCounter(void);
 #endif
 
