@@ -5796,7 +5796,9 @@ void GetStaticEncounterLevel (void)
 
 u16 PcRegistersPartyMonInPokedex(void)
 {
-	u16 i, numberRegistered, species = 0;
+	u16 i = 0;
+	u16 numberRegistered = 0;
+	u16 species = 0;
 	u32 partyCount = CalculatePlayerPartyCount();
 	for (i=0; i < partyCount; i++)
 	{
