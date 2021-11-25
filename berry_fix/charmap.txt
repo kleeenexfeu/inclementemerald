@@ -344,8 +344,6 @@ MAXIE               = FD 0E
 KYOGRE              = FD 0F
 GROUDON             = FD 10
 
-@ battle string placeholders
-
 B_BUFF1 = FD 00
 B_BUFF2 = FD 01
 B_COPY_VAR_1 = FD 02

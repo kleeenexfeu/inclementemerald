@@ -3275,7 +3275,7 @@ void FaintClearSetData(void)
     gBattleStruct->palaceFlags &= ~(gBitTable[gActiveBattler]);
     
     if (gActiveBattler == gBattleStruct->stickyWebUser)
-        gBattleStruct->stickyWebUser = 0xFF;    // User of sticky web fainted, so reset the stored battler ID
+        gBattleStruct->stickyWebUser = 0xFF;    // User of sticky web fainted, so reset the stored battler ID.
 
     for (i = 0; i < gBattlersCount; i++)
     {

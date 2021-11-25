@@ -1624,7 +1624,8 @@ void DestroyMegaIndicatorSprite(u32 healthboxSpriteId)
     if (*spriteId != 0xFF)
     {
         DestroySprite(&gSprites[*spriteId]);
-        //*spriteId = 0xFF; // Why does removing this fix the icon bug?
+        // *spriteId = 0xFF; // Why does removing this fix the icon bug? =>> Actually it doesn't, and letting it does the same thing
+		// clearly the intented target is mixed up somewhere
     }
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
