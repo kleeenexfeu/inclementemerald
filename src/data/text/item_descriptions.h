@@ -459,7 +459,7 @@ static const u8 sAbilityPatchDesc[] = _(
 static const u8 sPokeVialDesc[] = _(
     "Potent medicine\n"
     "that fully restores\n"
-    "all Pokémon. Use:DISPLAY_VAR_CONTENT"), VAR_POKE_VIAL_CHARGES,_(".");
+    "all Pokémon. Use:{DISPLAY_VAR_CONTENT}"), VAR_POKE_VIAL_CHARGES,_(".");
 
 static const u8 sEscapeRopeDesc[] = _(
     "Use to escape\n"
