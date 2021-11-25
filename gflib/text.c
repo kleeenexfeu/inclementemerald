@@ -874,7 +874,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
 			currCharPlaceHolder = currChar | 8<<(*textPrinter->printerTemplate.currentChar);
 			if (currCharPlaceHolder == DISPLAY_VAR_CONTENT)
 			{
-				var = *textPrinter->printerTemplate.currentChar[1] | *textPrinter->printerTemplate.currentChar[2];
+				var = *textPrinter->printerTemplate.currentChar[1] | (8<<*textPrinter->printerTemplate.currentChar[2]);
 				currChar = (VarGet(var) & 0xF) + 0xA1;
 				if (currChar > 0xAA)
 				{
@@ -886,7 +886,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
 			}	
 		}
 		// TRYING
-	
+		// https://github.com/LOuroboros/pokeemerald/commit/07cb5670ae8503f20dbe8e80469e27277561df89
         switch (currChar)
         {
         case CHAR_NEWLINE:
