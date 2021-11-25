@@ -5803,11 +5803,13 @@ u16 PcRegistersPartyMonInPokedex(void)
 		species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
 		if (species != SPECIES_NONE && species != SPECIES_EGG && species < NUM_SPECIES)
 		{
-			if (!GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_GET_SEEN) 
-				|| !GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_CAUGHT))
+			if (!(GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_GET_SEEN)) 
+				|| !(GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_GET_CAUGHT)))
+			{
 			    GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_SEEN);
 			    GetSetPokedexFlag(gSpeciesToNationalPokedexNum[species - 1], FLAG_SET_CAUGHT);
 			    numberRegistered++;
+			}
 		}
 	}
 	return numberRegistered;
