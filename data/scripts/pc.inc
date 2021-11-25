@@ -4,6 +4,7 @@ EventScript_PC::
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
 	msgbox Text_BootUpPC, MSGBOX_DEFAULT
+	setvar VAR_RESULT, 0
 	specialvar VAR_RESULT, PcRegistersPartyMonInPokedex
 	compare VAR_RESULT, FALSE
 	goto_if_eq EventScript_PCMainMenu
