@@ -879,7 +879,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
 				var = *textPrinter->printerTemplate.currentChar;
 				textPrinter->printerTemplate.currentChar++;
 				var2 = *textPrinter->printerTemplate.currentChar;
-				var2 = 8 << var2;
+				var2 = var2 << 8;
 				var = var | var2;
 				currChar = (VarGet(var) & 0xF) + 0xA1;
 				if (currChar > 0xAA)
