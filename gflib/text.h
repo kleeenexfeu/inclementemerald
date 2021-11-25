@@ -266,8 +266,6 @@
 #define PLACEHOLDER_ID_KYOGRE               0xF
 #define PLACEHOLDER_ID_GROUDON              0x10
 #define PLACEHOLDER_ID_DISPLAY_VAR_CONTENT  0x11
-#define DISPLAY_VAR_CONTENT 0xFD11
-#define VAR_POKE_VIAL_CHARGES 0x4091
 
 // battle placeholders are located in battle_message.h
 
