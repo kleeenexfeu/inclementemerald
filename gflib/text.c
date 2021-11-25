@@ -11,6 +11,7 @@
 #include "blit.h"
 #include "menu.h"
 #include "dynamic_placeholder_text_util.h"
+#include "event_data.h"
 
 EWRAM_DATA struct TextPrinter gTempTextPrinter = {0};
 EWRAM_DATA struct TextPrinter gTextPrinters[NUM_TEXT_PRINTERS] = {0};
@@ -837,8 +838,10 @@ u16 RenderText(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
     u16 currChar;
+    u16 currCharPlaceHolder;
     s32 width;
     s32 widthHelper;
+	u32 var;
 
     switch (textPrinter->state)
     {
@@ -864,7 +867,26 @@ u16 RenderText(struct TextPrinter *textPrinter)
 
         currChar = *textPrinter->printerTemplate.currentChar;
         textPrinter->printerTemplate.currentChar++;
-
+		
+		// TRYING
+		if (currChar == PLACEHOLDER_BEGIN)
+		{
+			currCharPlaceHolder = currChar | 8<<(*textPrinter->printerTemplate.currentChar);
+			if (currCharPlaceHolder == DISPLAY_VAR_CONTENT)
+			{
+				var = *textPrinter->printerTemplate.currentChar[1] | *textPrinter->printerTemplate.currentChar[2];
+				currChar = (VarGet(var) & 0xF) + 0xA1;
+				if (currChar > 0xAA)
+				{
+					currChar = 0xA1;
+				}
+				textPrinter->printerTemplate.currentChar++;
+				textPrinter->printerTemplate.currentChar++;
+				textPrinter->printerTemplate.currentChar++;
+			}	
+		}
+		// TRYING
+	
         switch (currChar)
         {
         case CHAR_NEWLINE:
