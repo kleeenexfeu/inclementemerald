@@ -343,9 +343,6 @@ ARCHIE              = FD 0D
 MAXIE               = FD 0E
 KYOGRE              = FD 0F
 GROUDON             = FD 10
-DISPLAY_VAR_CONTENT = FD A0
-VAR_POKE_VIAL_CHARGES = 91 04 @ VAR_POKE_VIAL_CHARGES reversed
-@ battle string placeholders
 
 B_BUFF1 = FD 00
 B_BUFF2 = FD 01
