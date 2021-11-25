@@ -841,7 +841,8 @@ u16 RenderText(struct TextPrinter *textPrinter)
     u16 currCharPlaceHolder;
     s32 width;
     s32 widthHelper;
-	u32 var;
+	u16 var;
+	u16 var2;
 
     switch (textPrinter->state)
     {
@@ -877,14 +878,14 @@ u16 RenderText(struct TextPrinter *textPrinter)
 				textPrinter->printerTemplate.currentChar++;
 				var = *textPrinter->printerTemplate.currentChar;
 				textPrinter->printerTemplate.currentChar++;
-				var |= (8<<(*textPrinter->printerTemplate.currentChar));
+				var2 = *textPrinter->printerTemplate.currentChar;
+				var2 = 8 << var2;
+				var = var | var2;
 				currChar = (VarGet(var) & 0xF) + 0xA1;
 				if (currChar > 0xAA)
 				{
 					currChar = 0xA1;
 				}
-				textPrinter->printerTemplate.currentChar++;
-				textPrinter->printerTemplate.currentChar++;
 				textPrinter->printerTemplate.currentChar++;
 			}	
 		}
