@@ -875,18 +875,13 @@ u16 RenderText(struct TextPrinter *textPrinter)
 			currCharPlaceHolder = *textPrinter->printerTemplate.currentChar;
 			if (currCharPlaceHolder == PLACEHOLDER_ID_DISPLAY_VAR_CONTENT)
 			{
-				textPrinter->printerTemplate.currentChar++;
-				var = *textPrinter->printerTemplate.currentChar;
-				textPrinter->printerTemplate.currentChar++;
-				var2 = *textPrinter->printerTemplate.currentChar;
-				var2 = var2 << 8;
-				var = var | var2;
+				var = *textPrinter->printerTemplate.currentChar[1] | (*textPrinter->printerTemplate.currentChar[2] << 8);
 				currChar = (VarGet(var) & 0xF) + 0xA1;
 				if (currChar > 0xAA)
 				{
 					currChar = 0xA1;
 				}
-				textPrinter->printerTemplate.currentChar++;
+				textPrinter->printerTemplate.currentChar += 3;
 			}	
 		}
 		// TRYING
