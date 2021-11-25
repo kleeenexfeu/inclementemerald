@@ -838,10 +838,8 @@ u16 RenderText(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
     u16 currChar;
-    u16 currCharPlaceHolder;
     s32 width;
     s32 widthHelper;
-	u32 var;
 
     switch (textPrinter->state)
     {
@@ -868,25 +866,6 @@ u16 RenderText(struct TextPrinter *textPrinter)
         currChar = *textPrinter->printerTemplate.currentChar;
         textPrinter->printerTemplate.currentChar++;
 		
-		// TRYING
-		if (currChar == PLACEHOLDER_BEGIN)
-		{
-			currCharPlaceHolder = currChar | 8<<(*textPrinter->printerTemplate.currentChar);
-			if (currCharPlaceHolder == DISPLAY_VAR_CONTENT)
-			{
-				var = *textPrinter->printerTemplate.currentChar[1] | (8<<*textPrinter->printerTemplate.currentChar[2]);
-				currChar = (VarGet(var) & 0xF) + 0xA1;
-				if (currChar > 0xAA)
-				{
-					currChar = 0xA1;
-				}
-				textPrinter->printerTemplate.currentChar++;
-				textPrinter->printerTemplate.currentChar++;
-				textPrinter->printerTemplate.currentChar++;
-			}	
-		}
-		// TRYING
-		// https://github.com/LOuroboros/pokeemerald/commit/07cb5670ae8503f20dbe8e80469e27277561df89
         switch (currChar)
         {
         case CHAR_NEWLINE:
