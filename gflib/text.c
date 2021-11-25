@@ -875,7 +875,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
 			if (currCharPlaceHolder == PLACEHOLDER_ID_DISPLAY_VAR_CONTENT)
 			{
 				textPrinter->printerTemplate.currentChar++;
-				var = *textPrinter->printerTemplate.currentChar
+				var = *textPrinter->printerTemplate.currentChar;
 				textPrinter->printerTemplate.currentChar++;
 				var |= (8<<(*textPrinter->printerTemplate.currentChar));
 				currChar = (VarGet(var) & 0xF) + 0xA1;
