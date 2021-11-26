@@ -9335,7 +9335,6 @@ bool32 CanMegaEvolve(u8 battlerId)
     struct Pokemon *mon;
     u8 battlerPosition = GetBattlerPosition(battlerId);
     u8 partnerPosition = GetBattlerPosition(BATTLE_PARTNER(battlerId));
-    struct MegaEvolutionData *mega = &(((struct ChooseMoveStruct*)(&gBattleResources->bufferA[gActiveBattler][4]))->mega);
 
     // Check if Player has a Mega Ring and the appropriate flag is set
     if ((GetBattlerPosition(battlerId) == B_POSITION_PLAYER_LEFT || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && GetBattlerPosition(battlerId) == B_POSITION_PLAYER_RIGHT))
@@ -9345,12 +9344,12 @@ bool32 CanMegaEvolve(u8 battlerId)
     }
 
     // Check if trainer already mega evolved a pokemon.
-    if (mega->alreadyEvolved[battlerPosition])
+    if (gBattleStruct->mega.alreadyEvolved[battlerPosition])
         return FALSE;
     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
     {
         if (IsPartnerMonFromSameTrainer(battlerId)
-            && (mega->alreadyEvolved[partnerPosition] || (gBattleStruct->mega.toEvolve & gBitTable[BATTLE_PARTNER(battlerId)])))
+            && (gBattleStruct->mega.alreadyEvolved[partnerPosition] || (gBattleStruct->mega.toEvolve & gBitTable[BATTLE_PARTNER(battlerId)])))
             return FALSE;
     }
 
