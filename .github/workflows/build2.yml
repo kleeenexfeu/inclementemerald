@@ -42,6 +42,7 @@ jobs:
           COMPARE: 0
         run: make -j${nproc} all
         
+      - name: Upload
       - uses: actions/upload-artifact@v2
         with:
           name: pokeemerald_built
@@ -54,3 +55,8 @@ jobs:
         with:
           name: pokeemerald_map
           path: pokeemerald.map
+
+      - name: Purge
+      - uses: kolpav/purge-artifacts-action@v1
+        with:
+          expire-in: 10 minutes
