@@ -41,8 +41,7 @@ jobs:
           MODERN: 1
           COMPARE: 0
         run: make -j${nproc} all
-        
-      - name: Upload
+
       - uses: actions/upload-artifact@v2
         with:
           name: pokeemerald_built
