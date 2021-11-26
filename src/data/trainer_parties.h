@@ -20564,10 +20564,11 @@ static const struct TrainerMonItemCustomMoves sParty_Sidney4[] = { // doubles le
     },
     {
     .lvl = 1,
-    .species = SPECIES_ABSOL,
-    .heldItem = ITEM_ABSOLITE,
-    .spread = SPREAD_31_IV_ATK_SPEED_NAIVE,
-    .moves = MOVE_KNOCK_OFF, MOVE_PLAY_ROUGH, MOVE_FIRE_BLAST, MOVE_CLOSE_COMBAT
+    .species = SPECIES_GRENINJA,
+    .heldItem = ITEM_LIFE_ORB,
+    .ability = 2, // Protean
+    .spread = SPREAD_31_IV_SPATK_SPEED_HASTY,
+    .moves = MOVE_MAT_BLOCK, MOVE_ICE_BEAM, MOVE_EXTRASENSORY, MOVE_GUNK_SHOT
     },
     {
     .lvl = 1,
