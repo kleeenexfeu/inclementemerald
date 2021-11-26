@@ -669,8 +669,8 @@
 	.byte 0x77
 	.endm
 
-@ now unused, can be changed to anything else
-	.macro faintifabilitynotdamp
+@ previously faintifabilitynotdamp
+	.macro canpursuitusermegaevolve
 	.byte 0x78
 	.endm
 

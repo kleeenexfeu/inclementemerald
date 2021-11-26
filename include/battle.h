@@ -476,8 +476,10 @@ struct MegaEvolutionData
     u8 battlerId;
     bool8 playerSelect;
     u8 triggerSpriteId;
-    bool8 isWishMegaEvo;
+    bool8 isWishMegaEvo[4]; // array to check whether the mega to be executed will be wish
     bool8 isPrimalReversion;
+	u8 megaEvoWasDone; // used after executing the battlescript for mega evolution, to set gCurrentActionFuncId back to B_ACTION_USE_MOVE and not bypass the
+					   // fastest mon's turn. Mega evolutions are done one by one, so a single byte (even bit) is enough
 };
 
 struct Illusion
