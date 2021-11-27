@@ -867,7 +867,7 @@ u8 CreateBattlerHealthboxSprites(u8 battlerId)
      || gBattleStruct->mega.primalRevertedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]])
     {
 		u8 spriteId = GetMegaIndicatorSpriteId(gHealthboxSpriteIds[battlerId]);
-        if (spriteId != 0xFF)
+        if (spriteId == 0xFF)
 		{
 			megaIndicatorSpriteId = CreateMegaIndicatorSprite(battlerId, 0);
 			gSprites[megaIndicatorSpriteId].invisible = TRUE;
