@@ -866,8 +866,12 @@ u8 CreateBattlerHealthboxSprites(u8 battlerId)
     if (gBattleStruct->mega.evolvedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]]
      || gBattleStruct->mega.primalRevertedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]])
     {
-        megaIndicatorSpriteId = CreateMegaIndicatorSprite(battlerId, 0);
-        gSprites[megaIndicatorSpriteId].invisible = TRUE;
+		u8 spriteId = GetMegaIndicatorSpriteId(gHealthboxSpriteIds[battlerId]);
+        if (spriteId != 0xFF)
+		{
+			megaIndicatorSpriteId = CreateMegaIndicatorSprite(battlerId, 0);
+			gSprites[megaIndicatorSpriteId].invisible = TRUE;
+		}
     }
 
     gBattleStruct->ballSpriteIds[0] = MAX_SPRITES;
@@ -1624,7 +1628,7 @@ void DestroyMegaIndicatorSprite(u32 healthboxSpriteId)
     if (*spriteId != 0xFF)
     {
         DestroySprite(&gSprites[*spriteId]);
-        // *spriteId = 0xFF; // Why does removing this fix the icon bug? =>> Actually it doesn't, and letting it does the same thing
+        *spriteId = 0xFF; // Why does removing this fix the icon bug? =>> Actually it doesn't, and letting it does the same thing
 		// clearly the intented target is mixed up somewhere
     }
 
