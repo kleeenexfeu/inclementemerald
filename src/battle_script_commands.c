@@ -8519,7 +8519,9 @@ static void Cmd_various(void)
         else
         {
             UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], mon, HEALTHBOX_ALL);
-            CreateMegaIndicatorSprite(gActiveBattler, 0);
+            #if B_DISPLAY_MEGA_INDICATORS
+			CreateMegaIndicatorSprite(gActiveBattler, 0);
+			#endif
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
                 SetBattlerShadowSpriteCallback(gActiveBattler, gBattleMons[gActiveBattler].species);
         }
@@ -8560,7 +8562,9 @@ static void Cmd_various(void)
         else
         {
             UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], mon, HEALTHBOX_ALL);
-            CreateMegaIndicatorSprite(gActiveBattler, 0);
+            #if B_DISPLAY_MEGA_INDICATORS
+			CreateMegaIndicatorSprite(gActiveBattler, 0);
+			#endif
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
                 SetBattlerShadowSpriteCallback(gActiveBattler, gBattleMons[gActiveBattler].species);
         }
