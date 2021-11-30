@@ -52,7 +52,7 @@ struct BoxPokemon
     u8 customType1;
     u8 customType2;
     
-    u8 nature:7;
+    u8 nature:7; // 5 is enough, but we don't need the space
     u8 isEgg:1;
     
     u8 ppBonuses;
