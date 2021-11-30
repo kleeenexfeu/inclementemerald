@@ -8036,6 +8036,7 @@ BattleScript_MoveStatDrain::
 	waitmessage B_WAIT_TIME_LONG
 	clearsemiinvulnerablebit
 	tryfaintmon BS_ATTACKER, FALSE, NULL
+	orhalfword gMoveResultFlags, MOVE_RESULT_DOESNT_AFFECT_FOE
 	goto BattleScript_MoveEnd
 
 BattleScript_MonMadeMoveUseless_PPLoss::
@@ -8059,6 +8060,7 @@ BattleScript_FlashFireBoost::
 	printfromtable gFlashFireStringIds
 	waitmessage B_WAIT_TIME_LONG
 	tryfaintmon BS_ATTACKER, FALSE, NULL
+	orhalfword gMoveResultFlags, MOVE_RESULT_DOESNT_AFFECT_FOE
 	goto BattleScript_MoveEnd
 
 BattleScript_AbilityPreventsPhasingOut::
