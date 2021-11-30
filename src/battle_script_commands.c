@@ -1630,6 +1630,7 @@ static bool32 JumpIfMoveFailed(u8 adder, u16 move)
     {
         TrySetDestinyBondToHappen();
         if (AbilityBattleEffects(ABILITYEFFECT_ABSORBING, gBattlerTarget, 0, 0, move))
+			gMultiHitCounter = 1;
             return TRUE;
     }
     gBattlescriptCurrInstr += adder;
