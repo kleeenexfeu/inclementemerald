@@ -1624,14 +1624,12 @@ static bool32 JumpIfMoveFailed(u8 adder, u16 move)
         gLastLandedMoves[gBattlerTarget] = 0;
         gLastHitByType[gBattlerTarget] = 0;
         gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
-		gMultiHitCounter = 0;
         return TRUE;
     }
     else
     {
         TrySetDestinyBondToHappen();
         if (AbilityBattleEffects(ABILITYEFFECT_ABSORBING, gBattlerTarget, 0, 0, move))
-			gMultiHitCounter = 0;
             return TRUE;
     }
     gBattlescriptCurrInstr += adder;
