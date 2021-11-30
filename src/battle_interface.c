@@ -871,12 +871,12 @@ u8 CreateBattlerHealthboxSprites(u8 battlerId)
 	if (gBattleStruct->mega.evolvedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]]
      || gBattleStruct->mega.primalRevertedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]])
     {
-		u8 spriteId = GetMegaIndicatorSpriteId(gHealthboxSpriteIds[battlerId]);
+        u8 spriteId = GetMegaIndicatorSpriteId(gHealthboxSpriteIds[battlerId]);
         if (spriteId == 0xFF)
-		{
-			megaIndicatorSpriteId = CreateMegaIndicatorSprite(battlerId, 0);
-			gSprites[megaIndicatorSpriteId].invisible = TRUE;
-		}
+        {
+            megaIndicatorSpriteId = CreateMegaIndicatorSprite(battlerId, 0);
+            gSprites[megaIndicatorSpriteId].invisible = TRUE;
+        }
     }
 	#endif
 
@@ -1653,7 +1653,7 @@ void DestroyMegaIndicatorSprite(u32 healthboxSpriteId)
     {
         DestroySprite(&gSprites[*spriteId]);
         *spriteId = 0xFF; // Why does removing this fix the icon bug? =>> Actually it doesn't, and letting it does the same thing
-		// clearly the intented target is mixed up somewhere
+        // clearly the intented target is mixed up somewhere
     }
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
@@ -3257,19 +3257,19 @@ static void Task_FreeAbilityPopUpGfx(u8 taskId)
 
 static const struct OamData sOamData_LastUsedBall =
 {
-	.y = 0,
-	.affineMode = 0,
-	.objMode = 0,
-	.mosaic = 0,
-	.bpp = 0,
-	.shape = SPRITE_SHAPE(32x32),
-	.x = 0,
-	.matrixNum = 0,
-	.size = SPRITE_SIZE(32x32),
-	.tileNum = 0,
-	.priority = 1,
-	.paletteNum = 0,
-	.affineParam = 0,
+    .y = 0,
+    .affineMode = 0,
+    .objMode = 0,
+    .mosaic = 0,
+    .bpp = 0,
+    .shape = SPRITE_SHAPE(32x32),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(32x32),
+    .tileNum = 0,
+    .priority = 1,
+    .paletteNum = 0,
+    .affineParam = 0,
 };
 
 static const struct SpriteTemplate sSpriteTemplate_LastUsedBallWindow =

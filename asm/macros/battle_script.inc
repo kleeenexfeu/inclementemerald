@@ -669,6 +669,7 @@
 	.byte 0x77
 	.endm
 
+@ now unused, can be changed to anything else
 	.macro faintifabilitynotdamp
 	.byte 0x78
 	.endm
