@@ -8020,7 +8020,7 @@ BattleScript_MoveHPDrain::
 	datahpupdate BS_TARGET
 	printstring STRINGID_PKMNRESTOREDHPUSING
 	waitmessage B_WAIT_TIME_LONG
-	tryfaintmon BS_ATTACKER, FALSE, NULL
+	@tryfaintmon BS_ATTACKER, FALSE, NULL
 	orhalfword gMoveResultFlags, MOVE_RESULT_DOESNT_AFFECT_FOE
 	goto BattleScript_MoveEnd
 
