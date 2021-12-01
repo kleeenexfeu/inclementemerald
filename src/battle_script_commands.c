@@ -1456,6 +1456,7 @@ static void Cmd_attackcanceler(void)
         gCurrentActionFuncId = B_ACTION_FINISHED;
         return;
     }
+	
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
     {
         gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
@@ -1491,6 +1492,18 @@ static void Cmd_attackcanceler(void)
         BattleScriptPushCursor();
         gBattlescriptCurrInstr = BattleScript_ProteanActivates;
         return;
+    }
+	
+	if (gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE
+	    && (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT))
+    {
+        if (IsAbilityOnField(ABILITY_DAMP))
+        {
+            gLastUsedAbility = ABILITY_DAMP;
+            RecordAbilityBattle(--gBattlerTarget, ABILITY_DAMP);
+            gBattlescriptCurrInstr = BattleScript_DampStopsExplosion;
+            return;
+        }
     }
 
     if (AtkCanceller_UnableToUseMove2())
@@ -4949,6 +4962,18 @@ static void Cmd_moveend(void)
             gBattleScripting.savedDmg += gHpDealt;
             gBattleScripting.moveendState++;
             break;
+		case MOVEEND_KO_USER:
+			if (!IsAbilityOnField(ABILITY_DAMP) 
+				&& (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT)
+				&& gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
+			{
+				gActiveBattler = gBattlerAttacker;
+				gBattleMoveDamage = gBattleMons[gActiveBattler].hp;
+				BtlController_EmitHealthBarUpdate(0, INSTANT_HP_BAR_DROP);
+				MarkBattlerForControllerExec(gActiveBattler);
+			}
+			gBattleScripting.moveendState++;
+			break;
         case MOVEEND_PROTECT_LIKE_EFFECT:
             if (gProtectStructs[gBattlerAttacker].touchedProtectLike)
             {

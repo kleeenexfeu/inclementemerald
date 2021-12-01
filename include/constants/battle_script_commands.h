@@ -267,20 +267,21 @@
 #define MOVEEND_UPDATE_LAST_MOVES                 16
 #define MOVEEND_MIRROR_MOVE                       17
 #define MOVEEND_NEXT_TARGET                       18    // Everything up until here is handled for each strike of a multi-hit move
-#define MOVEEND_MULTIHIT_MOVE                     19
-#define MOVEEND_MOVE_EFFECTS2                     20
-#define MOVEEND_RECOIL                            21
-#define MOVEEND_EJECT_BUTTON                      22
-#define MOVEEND_RED_CARD                          23
-#define MOVEEND_EJECT_PACK                        24
-#define MOVEEND_LIFEORB_SHELLBELL                 25    // Includes shell bell, throat spray, etc
-#define MOVEEND_CHANGED_ITEMS                     26
-#define MOVEEND_DEFROST                           27
-#define MOVEEND_PICKPOCKET                        28
-#define MOVEEND_DANCER                            29
-#define MOVEEND_EMERGENCY_EXIT                    30
-#define MOVEEND_CLEAR_BITS                        31
-#define MOVEEND_COUNT                             32
+#define MOVEEND_KO_USER                           19    // Explosion like move
+#define MOVEEND_MULTIHIT_MOVE                     20
+#define MOVEEND_MOVE_EFFECTS2                     21
+#define MOVEEND_RECOIL                            22
+#define MOVEEND_EJECT_BUTTON                      23
+#define MOVEEND_RED_CARD                          24
+#define MOVEEND_EJECT_PACK                        25
+#define MOVEEND_LIFEORB_SHELLBELL                 26    // Includes shell bell, throat spray, etc
+#define MOVEEND_CHANGED_ITEMS                     27
+#define MOVEEND_DEFROST                           28
+#define MOVEEND_PICKPOCKET                        29
+#define MOVEEND_DANCER                            30
+#define MOVEEND_EMERGENCY_EXIT                    31
+#define MOVEEND_CLEAR_BITS                        32
+#define MOVEEND_COUNT                             33
 
 // switch cases
 #define B_SWITCH_NORMAL     0
