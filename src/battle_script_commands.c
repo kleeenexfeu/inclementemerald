@@ -4965,18 +4965,6 @@ static void Cmd_moveend(void)
             gBattleScripting.savedDmg += gHpDealt;
             gBattleScripting.moveendState++;
             break;
-		case MOVEEND_KO_USER:
-			if (!IsAbilityOnField(ABILITY_DAMP)
-				&& IsBattlerAlive(gBattlerAttacker)
-				&& (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT)
-				&& gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
-			{
-				BattleScriptPushCursor();
-				gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
-				effect = 1;
-			}
-			gBattleScripting.moveendState++;
-			break;
         case MOVEEND_PROTECT_LIKE_EFFECT:
             if (gProtectStructs[gBattlerAttacker].touchedProtectLike)
             {
@@ -5396,6 +5384,18 @@ static void Cmd_moveend(void)
             RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
             gBattleScripting.moveendState++;
             break;
+		case MOVEEND_KO_USER:
+			if (!IsAbilityOnField(ABILITY_DAMP)
+				&& IsBattlerAlive(gBattlerAttacker)
+				&& (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT)
+				&& gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
+			{
+				BattleScriptPushCursor();
+				gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
+				effect = 1;
+			}
+			gBattleScripting.moveendState++;
+			break;
         case MOVEEND_EJECT_BUTTON:
             if (gCurrentMove != MOVE_DRAGON_TAIL
               && gCurrentMove != MOVE_CIRCLE_THROW
