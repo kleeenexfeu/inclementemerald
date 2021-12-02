@@ -5387,7 +5387,8 @@ static void Cmd_moveend(void)
 		case MOVEEND_KO_USER:
 			if (!IsAbilityOnField(ABILITY_DAMP)
 				&& IsBattlerAlive(gBattlerAttacker)
-				&& (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT)
+				&& (gCurrentMove != 0 || gCurrentMove != 0xFFFF)
+				&& (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
 				&& gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
 			{
 				BattleScriptPushCursor();
