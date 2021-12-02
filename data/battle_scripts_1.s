@@ -8008,7 +8008,6 @@ BattleScript_SturdyPreventsOHKO::
 
 BattleScript_DampStopsExplosion::
 	pause B_WAIT_TIME_SHORT
-	copybyte gBattlerAbility, gBattlerTarget
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_PKMNPREVENTSUSAGE
 	pause B_WAIT_TIME_LONG
