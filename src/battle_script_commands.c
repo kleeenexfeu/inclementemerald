@@ -1500,8 +1500,8 @@ static void Cmd_attackcanceler(void)
         if (IsAbilityOnField(ABILITY_DAMP))
         {
             gLastUsedAbility = ABILITY_DAMP;
-            RecordAbilityBattle(--IsAbilityOnField(ABILITY_DAMP), ABILITY_DAMP);
-			gBattlerAbility = --IsAbilityOnField(ABILITY_DAMP);
+            RecordAbilityBattle(IsAbilityOnField(ABILITY_DAMP) - 1, ABILITY_DAMP);
+			gBattlerAbility = IsAbilityOnField(ABILITY_DAMP) - 1 ;
             gBattlescriptCurrInstr = BattleScript_DampStopsExplosion;
             return;
         }
