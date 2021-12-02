@@ -2631,6 +2631,17 @@ BattleScript_EffectPlaceholder:
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectExplosion::
+	attackcanceler
+	attackstring
+	ppreduce
+	attackanimation
+	waitanimation
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	critcalc
+	damagecalc
+	adjustdamage
+	goto BattleScript_HitFromEffectivenessSound
+	
 BattleScript_EffectHit::
 BattleScript_HitFromAtkCanceler::
 	attackcanceler
@@ -2646,6 +2657,7 @@ BattleScript_HitFromCritCalc::
 BattleScript_HitFromAtkAnimation::
 	attackanimation
 	waitanimation
+BattleScript_HitFromEffectivenessSound:
 	effectivenesssound
 	hitanimation BS_TARGET
 	waitstate
