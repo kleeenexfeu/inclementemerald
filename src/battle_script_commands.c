@@ -1501,9 +1501,10 @@ static void Cmd_attackcanceler(void)
         if (battlerWithDamp)
         {
 			battlerWithDamp = battlerWithDamp - 1; // IsAbilityOnField returns the battlerId+1, so we put it back to being battlerId
-            gLastUsedAbility = ABILITY_DAMP;
+            gLastUsedAbility = ABILITY_DAMP; // for the string ability prevents usage move
             RecordAbilityBattle(battlerWithDamp, ABILITY_DAMP);
-			gBattlerAbility = battlerWithDamp;
+			gBattlerAbility = battlerWithDamp; // For ability pop-up
+			gActiveBattler = battlerWithDamp; // for the string mon's ability prevents..
             gBattlescriptCurrInstr = BattleScript_DampStopsExplosion;
             return;
         }
