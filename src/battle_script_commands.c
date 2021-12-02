@@ -5393,9 +5393,8 @@ static void Cmd_moveend(void)
             RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
             gBattleScripting.moveendState++;
             break;
-        case MOVEEND_KO_USER:
-            if (!IsAbilityOnField(ABILITY_DAMP)
-                && IsBattlerAlive(gBattlerAttacker)
+        case MOVEEND_KO_USER: // Explosion/selfdestruct. Mind blown may need another one
+            if (IsBattlerAlive(gBattlerAttacker)
                 && gCurrentMove != 0 && gCurrentMove != 0xFFFF
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
                 && gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
@@ -5404,6 +5403,18 @@ static void Cmd_moveend(void)
                 gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
                 effect = 1;
             }
+			else if (gSpecialStatuses[gBattlerAttacker].parentalBondOn != 1 // parental bonded mind blown should only hurt on FIRST and NOT SECOND STRIKE
+																			// that's how it's written in bulbapedia at least at the time I'm writing this code (kleenexfeu)
+                && IsBattlerAlive(gBattlerAttacker)
+                && gCurrentMove != 0 && gCurrentMove != 0xFFFF
+                && (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN)
+                && gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
+			{
+                gBattleMoveDamage = ((gBattleMons[gBattlerAttacker].maxHP + 1)/2); // damage = half max HP of user rounded up
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_MoveEffectRecoil;
+                effect = TRUE;
+			}
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_EJECT_BUTTON:
