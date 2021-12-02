@@ -1504,7 +1504,6 @@ static void Cmd_attackcanceler(void)
             gLastUsedAbility = ABILITY_DAMP; // for the string ability prevents usage move
             RecordAbilityBattle(battlerWithDamp, ABILITY_DAMP);
 			gBattlerAbility = battlerWithDamp; // For ability pop-up
-			gActiveBattler = battlerWithDamp; // for the string mon's ability prevents..
             gBattlescriptCurrInstr = BattleScript_DampStopsExplosion;
             return;
         }
