@@ -2889,6 +2889,49 @@ BattleScript_EffectFreezeHit::
 BattleScript_EffectParalyzeHit::
 	setmoveeffect MOVE_EFFECT_PARALYSIS
 	goto BattleScript_EffectHit
+	
+@BattleScript_EffectExplosion::
+@	attackcanceler
+@	attackstring
+@	ppreduce
+@	faintifabilitynotdamp
+@	setatkhptozero
+@	waitstate
+@	jumpifbyte CMP_NO_COMMON_BITS, gMoveResultFlags, MOVE_RESULT_MISSED, BattleScript_ExplosionDoAnimStartLoop
+@	call BattleScript_PreserveMissedBitDoMoveAnim
+@	goto BattleScript_ExplosionLoop
+BattleScript_ExplosionDoAnimStartLoop:
+	attackanimation
+	waitanimation
+BattleScript_ExplosionLoop:
+	movevaluescleanup
+	critcalc
+	damagecalc
+	adjustdamage
+	accuracycheck BattleScript_ExplosionMissed, ACC_CURR_MOVE
+	effectivenesssound
+	hitanimation BS_TARGET
+	waitstate
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	critmessage
+	waitmessage B_WAIT_TIME_LONG
+	resultmessage
+	waitmessage B_WAIT_TIME_LONG
+	tryfaintmon BS_TARGET, FALSE, NULL
+	moveendto MOVEEND_NEXT_TARGET
+	jumpifnexttargetvalid BattleScript_ExplosionLoop
+	tryfaintmon BS_ATTACKER, FALSE, NULL
+	moveendcase MOVEEND_CLEAR_BITS
+	end
+BattleScript_ExplosionMissed:
+	effectivenesssound
+	resultmessage
+	waitmessage B_WAIT_TIME_LONG
+	moveendto MOVEEND_NEXT_TARGET
+	jumpifnexttargetvalid BattleScript_ExplosionLoop
+	tryfaintmon BS_ATTACKER, FALSE, NULL
+	end
 
 BattleScript_EffectMindBlown::
 	attackcanceler
