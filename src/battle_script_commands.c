@@ -4963,7 +4963,8 @@ static void Cmd_moveend(void)
             gBattleScripting.moveendState++;
             break;
 		case MOVEEND_KO_USER:
-			if (!IsAbilityOnField(ABILITY_DAMP) 
+			if (!IsAbilityOnField(ABILITY_DAMP)
+				&& IsBattlerAlive(gBattlerAttacker)
 				&& (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT)
 				&& gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
 			{
@@ -4971,6 +4972,9 @@ static void Cmd_moveend(void)
 				gBattleMoveDamage = gBattleMons[gActiveBattler].hp;
 				BtlController_EmitHealthBarUpdate(0, INSTANT_HP_BAR_DROP);
 				MarkBattlerForControllerExec(gActiveBattler);
+				BattleScriptPushCursor();
+				gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
+				effect = 1;
 			}
 			gBattleScripting.moveendState++;
 			break;
