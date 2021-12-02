@@ -314,6 +314,7 @@ extern const u8 BattleScript_GrassyTerrainHeals[];
 extern const u8 BattleScript_VCreateStatLoss[];
 extern const u8 BattleScript_SpikyShieldEffect[];
 extern const u8 BattleScript_KingsShieldEffect[];
+extern const u8 BattleScript_ExplosionFaint[];
 extern const u8 BattleScript_BanefulBunkerEffect[];
 extern const u8 BattleScript_FlowerVeilProtectsRet[];
 extern const u8 BattleScript_SweetVeilProtectsRet[];
