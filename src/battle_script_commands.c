@@ -1497,11 +1497,13 @@ static void Cmd_attackcanceler(void)
 	if (gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE
 	    && (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT))
     {
-        if (IsAbilityOnField(ABILITY_DAMP))
+		u8 battlerWithDamp = IsAbilityOnField(ABILITY_DAMP);
+        if (battlerWithDamp)
         {
+			battlerWithDamp = battlerWithDamp - 1; // IsAbilityOnField returns the battlerId+1, so we put it back to being battlerId
             gLastUsedAbility = ABILITY_DAMP;
-            RecordAbilityBattle(IsAbilityOnField(ABILITY_DAMP) - 1, ABILITY_DAMP);
-			gBattlerAbility = IsAbilityOnField(ABILITY_DAMP) - 1 ;
+            RecordAbilityBattle(battlerWithDamp, ABILITY_DAMP);
+			gBattlerAbility = battlerWithDamp;
             gBattlescriptCurrInstr = BattleScript_DampStopsExplosion;
             return;
         }
