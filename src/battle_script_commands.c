@@ -4969,9 +4969,12 @@ static void Cmd_moveend(void)
 				&& gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
 			{
 				gActiveBattler = gBattlerAttacker;
-				gBattleMoveDamage = gBattleMons[gActiveBattler].hp;
+				gBattleMons[gActiveBattler].hp = 0;
+				// BtlController_EmitSetMonData(0, REQUEST_HP_BATTLE, 0, 2, &gBattleMons[gActiveBattler].hp);
+				// MarkBattlerForControllerExec(gActiveBattler);
 				BtlController_EmitHealthBarUpdate(0, INSTANT_HP_BAR_DROP);
 				MarkBattlerForControllerExec(gActiveBattler);
+
 				BattleScriptPushCursor();
 				gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
 				effect = 1;
