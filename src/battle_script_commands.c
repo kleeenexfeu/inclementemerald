@@ -1456,7 +1456,7 @@ static void Cmd_attackcanceler(void)
         gCurrentActionFuncId = B_ACTION_FINISHED;
         return;
     }
-	
+    
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
     {
         gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
@@ -1493,18 +1493,22 @@ static void Cmd_attackcanceler(void)
         gBattlescriptCurrInstr = BattleScript_ProteanActivates;
         return;
     }
-	
-	if (gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE
-	    && (gCurrentMove == MOVE_EXPLOSION || gCurrentMove == MOVE_SELF_DESTRUCT))
+    
+    // damp check for explosion and mind blown
+    if (gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE
+        && gCurrentMove != 0 && gCurrentMove != 0xFFFF // don't know if those are necessary but it can't hurt
+        && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
+        && (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN))
     {
-		u8 battlerWithDamp = IsAbilityOnField(ABILITY_DAMP);
+        u8 battlerWithDamp = IsAbilityOnField(ABILITY_DAMP);
         if (battlerWithDamp)
         {
-			battlerWithDamp = battlerWithDamp - 1; // IsAbilityOnField returns the battlerId+1, so we put it back to being battlerId
+            battlerWithDamp = battlerWithDamp - 1; // IsAbilityOnField returns the battlerId+1, so we put it back to being battlerId
             gLastUsedAbility = ABILITY_DAMP; // for the string ability prevents usage move
             RecordAbilityBattle(battlerWithDamp, ABILITY_DAMP);
-			gBattlerAbility = battlerWithDamp; // For ability pop-up
+            gBattlerAbility = battlerWithDamp; // For ability pop-up
             gBattlescriptCurrInstr = BattleScript_DampStopsExplosion;
+            // I choose to not push the current battlescript because damps stops entirely these moves
             return;
         }
     }
@@ -1543,7 +1547,8 @@ static void Cmd_attackcanceler(void)
     }
 
     gHitMarker |= HITMARKER_OBEYS;
-    if (NoTargetPresent(gCurrentMove) && (!IsTwoTurnsMove(gCurrentMove) || (gBattleMons[gBattlerAttacker].status2 & STATUS2_MULTIPLETURNS)))
+    if ((NoTargetPresent(gCurrentMove) && (gBattleMoves[gCurrentMove].effect != EFFECT_EXPLOSION)) // explosion can happen against no pokémon and you die!
+		&& (!IsTwoTurnsMove(gCurrentMove) || (gBattleMons[gBattlerAttacker].status2 & STATUS2_MULTIPLETURNS)))
     {
         gBattlescriptCurrInstr = BattleScript_ButItFailedAtkStringPpReduce;
         if (!IsTwoTurnsMove(gCurrentMove) || (gBattleMons[gBattlerAttacker].status2 & STATUS2_MULTIPLETURNS))
@@ -5037,7 +5042,7 @@ static void Cmd_moveend(void)
                 gActiveBattler = gBattlerTarget;
                 BtlController_EmitSetMonData(0, REQUEST_STATUS_BATTLE, 0, 4, &gBattleMons[gBattlerTarget].status1);
                 MarkBattlerForControllerExec(gActiveBattler);
-				
+                
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_DefrostedViaFireMove;
                 effect = TRUE;
@@ -5384,19 +5389,19 @@ static void Cmd_moveend(void)
             RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
             gBattleScripting.moveendState++;
             break;
-		case MOVEEND_KO_USER:
-			if (!IsAbilityOnField(ABILITY_DAMP)
-				&& IsBattlerAlive(gBattlerAttacker)
-				&& (gCurrentMove != 0 || gCurrentMove != 0xFFFF)
-				&& (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
-				&& gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
-			{
-				BattleScriptPushCursor();
-				gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
-				effect = 1;
-			}
-			gBattleScripting.moveendState++;
-			break;
+        case MOVEEND_KO_USER:
+            if (!IsAbilityOnField(ABILITY_DAMP)
+                && IsBattlerAlive(gBattlerAttacker)
+                && gCurrentMove != 0 && gCurrentMove != 0xFFFF
+                && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
+                && gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
+            {
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
+                effect = 1;
+            }
+            gBattleScripting.moveendState++;
+            break;
         case MOVEEND_EJECT_BUTTON:
             if (gCurrentMove != MOVE_DRAGON_TAIL
               && gCurrentMove != MOVE_CIRCLE_THROW
