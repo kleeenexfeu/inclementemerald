@@ -5408,6 +5408,7 @@ static void Cmd_moveend(void)
                 && IsBattlerAlive(gBattlerAttacker)
                 && gCurrentMove != 0 && gCurrentMove != 0xFFFF
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN)
+				&& !(gMoveResultFlags | MOVE_RESULT_FAILED)
                 && gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
 			{
                 gBattleMoveDamage = ((gBattleMons[gBattlerAttacker].maxHP + 1)/2); // damage = half max HP of user rounded up
