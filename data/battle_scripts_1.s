@@ -2662,6 +2662,8 @@ BattleScript_MoveEnd::
 	end
 	
 BattleScript_ExplosionFaint::
+	faintifabilitynotdamp
+	setatkhptozero
 	tryfaintmon BS_ATTACKER, FALSE, NULL
 	return
 
