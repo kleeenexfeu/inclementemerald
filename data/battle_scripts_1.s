@@ -4952,7 +4952,7 @@ BattleScript_ButItFailed::
 	
 BattleScript_ExplosionInVoid::
 	attackstring
-	bichalfword gMoveResultFlags, MOVE_RESULT_FAILED | MOVE_RESULT_MISSED
+	bichalfword gMoveResultFlags, MOVE_RESULT_FAILED
 	attackanimation
 	waitanimation
 	orhalfword gMoveResultFlags, MOVE_RESULT_FAILED

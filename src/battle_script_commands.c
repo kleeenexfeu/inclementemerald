@@ -1549,7 +1549,7 @@ static void Cmd_attackcanceler(void)
     gHitMarker |= HITMARKER_OBEYS;
     if (NoTargetPresent(gCurrentMove) && (!IsTwoTurnsMove(gCurrentMove) || (gBattleMons[gBattlerAttacker].status2 & STATUS2_MULTIPLETURNS)))
     {
-		if (gBattleMoves[gCurrentMove].effect != EFFECT_EXPLOSION) // explosion can happen in void and you die!
+		if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION) // explosion can happen in void and you die!
 		{
             gBattlescriptCurrInstr = BattleScript_ExplosionInVoid;
 			return;
