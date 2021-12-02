@@ -4951,9 +4951,11 @@ BattleScript_ButItFailed::
 	goto BattleScript_MoveEnd
 	
 BattleScript_ExplosionInVoid::
+	bichalfword gMoveResultFlags, MOVE_RESULT_FAILED
 	attackstring
 	attackanimation
 	waitanimation
+	orhalfword gMoveResultFlags, MOVE_RESULT_FAILED
 	goto BattleScript_ButItFailedPpReduce
 
 BattleScript_NotAffected::
