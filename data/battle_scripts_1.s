@@ -7973,6 +7973,7 @@ BattleScript_SturdyPreventsOHKO::
 	goto BattleScript_MoveEnd
 
 BattleScript_DampStopsExplosion::
+	call BattleScript_FlushMessageBox
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_PKMNPREVENTSUSAGE
