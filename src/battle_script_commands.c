@@ -9638,7 +9638,7 @@ static void Cmd_setprotectlike(void)
     gBattlescriptCurrInstr++;
 }
 
-static void Cmd_faintifabilitynotdamp(void)
+static void Cmd_faintifabilitynotdamp(void) // Now unused, can be changed to anything else
 {
     if (gBattleControllerExecFlags)
         return;
