@@ -7541,7 +7541,6 @@ BattleScript_DoRecoilNoString::
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	tryfaintmon BS_ATTACKER, FALSE, NULL
-BattleScript_RecoilEnd::
 	return
 
 BattleScript_EffectWithChance::
