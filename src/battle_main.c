@@ -4893,19 +4893,16 @@ static void CheckQuickClaw_CustapBerryActivation(void)
     gBattleScripting.multihitMoveEffect = 0;
     gBattleResources->battleScriptsStack->size = 0;
 }
-
-void SetActionUseMoveBeforeRunTurnActionsFunctions(void)
-{
-	gCurrentActionFuncId = B_ACTION_USE_MOVE;
-	gBattleMainFunc = RunTurnActionsFunctions;
-	gBattleCommunication[3] = 0;
-    gBattleCommunication[4] = 0;
-    gBattleScripting.multihitMoveEffect = 0;
-}
 	
 static void RunTurnActionsFunctions(void)
 {
 	s32 i, j;
+	if (gBattleStruct->megaEvoWasDone == 1)
+	{
+		gCurrentActionFuncId = B_ACTION_USE_MOVE;
+		gBattleStruct->megaEvoWasDone = 0;
+	}
+	
     if (gBattleOutcome != 0)
         gCurrentActionFuncId = B_ACTION_FINISHED;
 	
@@ -4928,7 +4925,7 @@ static void RunTurnActionsFunctions(void)
 						BattleScriptExecute(BattleScript_WishMegaEvolution);
 					else
 						BattleScriptExecute(BattleScript_MegaEvolution);
-					gBattleMainFunc = SetActionUseMoveBeforeRunTurnActionsFunctions;
+					gBattleStruct->megaEvoWasDone = 1;
 					return;
 				}
 			}

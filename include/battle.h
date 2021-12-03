@@ -497,6 +497,7 @@ struct StolenItem
 
 struct BattleStruct
 {
+	u8 megaEvoWasDone
     u8 turnEffectsTracker;
     u8 turnEffectsBattlerId;
     u8 turnCountersTracker;
