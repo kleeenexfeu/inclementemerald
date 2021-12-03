@@ -107,6 +107,8 @@ static void sub_803CDF8(void);
 static bool8 AllAtActionConfirmed(void);
 static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void);
 static void CheckQuickClaw_CustapBerryActivation(void);
+static u32 CheckMegaEvolutionBeforeMoves(void);
+static void TryChangeTurnOrder(void);
 static void FreeResetData_ReturnToOvOrDoEvolutions(void);
 static void ReturnFromBattleToOverworld(void);
 static void TryEvolvePokemon(void);
@@ -4893,19 +4895,29 @@ static void CheckQuickClaw_CustapBerryActivation(void)
     gBattleScripting.multihitMoveEffect = 0;
     gBattleResources->battleScriptsStack->size = 0;
 }
-	
-static void RunTurnActionsFunctions(void)
+
+static void TryChangeTurnOrder(void)
 {
 	s32 i, j;
-	if (gBattleStruct->mega.megaEvoWasDone)
-	{
-		gCurrentActionFuncId = B_ACTION_USE_MOVE;
-		gBattleStruct->mega.megaEvoWasDone = 0;
-	}
-	
-    if (gBattleOutcome != 0)
-        gCurrentActionFuncId = B_ACTION_FINISHED;
-	
+    for (i = 0; i < gBattlersCount - 1; i++)
+    {
+        for (j = i + 1; j < gBattlersCount; j++)
+        {
+            u8 battler1 = gBattlerByTurnOrder[i];
+            u8 battler2 = gBattlerByTurnOrder[j];
+            if (gActionsByTurnOrder[i] == B_ACTION_USE_MOVE
+                && gActionsByTurnOrder[j] == B_ACTION_USE_MOVE)
+            {
+                if (GetWhoStrikesFirst(battler1, battler2, FALSE))
+                    SwapTurnOrder(i, j);
+            }
+        }
+    }
+}
+
+static u32 CheckMegaEvolutionBeforeMoves(void)
+{
+	u32 val = 0;
 	if (gCurrentActionFuncId == B_ACTION_USE_MOVE) // mega evolution has priority only on moves
 	{
 		if (!(gHitMarker & HITMARKER_RUN))
@@ -4925,29 +4937,35 @@ static void RunTurnActionsFunctions(void)
 						BattleScriptExecute(BattleScript_WishMegaEvolution);
 					else
 						BattleScriptExecute(BattleScript_MegaEvolution);
-					gBattleStruct->mega.megaEvoWasDone = 1;
-					return;
+					val = 1;
+					return val;
 				}
 			}
 		}
 	}
+	return val;
+}
+
 	
-	#if B_MEGA_EVO_TURN_ORDER <= GEN_6
-    for (i = 0; i < gBattlersCount - 1; i++)
-    {
-        for (j = i + 1; j < gBattlersCount; j++)
-        {
-            u8 battler1 = gBattlerByTurnOrder[i];
-            u8 battler2 = gBattlerByTurnOrder[j];
-            if (gActionsByTurnOrder[i] == B_ACTION_USE_MOVE
-                && gActionsByTurnOrder[j] == B_ACTION_USE_MOVE)
-            {
-                if (GetWhoStrikesFirst(battler1, battler2, FALSE))
-                    SwapTurnOrder(i, j);
-            }
-        }
-    }
-	#endif
+static void RunTurnActionsFunctions(void)
+{
+	if (gBattleStruct->mega.megaEvoWasDone)
+	{
+		gCurrentActionFuncId = B_ACTION_USE_MOVE;
+		gBattleStruct->mega.megaEvoWasDone = 0;
+		#if B_MEGA_EVO_TURN_ORDER <= GEN_6
+		TryChangeTurnOrder();
+		#endif
+	}
+	
+	if (CheckMegaEvolutionBeforeMoves())
+	{
+		gBattleStruct->mega.megaEvoWasDone = 1;
+		return;
+	}
+	
+    if (gBattleOutcome != 0)
+        gCurrentActionFuncId = B_ACTION_FINISHED;
 	
     *(&gBattleStruct->savedTurnActionNumber) = gCurrentTurnActionNumber;
     sTurnActionsFuncsTable[gCurrentActionFuncId]();
