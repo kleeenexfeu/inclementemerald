@@ -4953,7 +4953,7 @@ static void RunTurnActionsFunctions(void)
 	{
 		gCurrentActionFuncId = B_ACTION_USE_MOVE;
 		gBattleStruct->mega.megaEvoWasDone = 0;
-		#if B_MEGA_EVO_TURN_ORDER <= GEN_6
+		#if B_MEGA_EVO_TURN_ORDER >= GEN_6
 		TryChangeTurnOrder();
 		#endif
 	}
