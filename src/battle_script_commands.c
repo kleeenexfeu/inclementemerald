@@ -5397,7 +5397,7 @@ static void Cmd_moveend(void)
             if (IsBattlerAlive(gBattlerAttacker)
                 && gCurrentMove != 0 && gCurrentMove != 0xFFFF
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
-                && gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
+                && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
             {
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
@@ -5409,8 +5409,8 @@ static void Cmd_moveend(void)
                 && gCurrentMove != 0 && gCurrentMove != 0xFFFF
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN)
 				&& (GetBattlerAbility(gBattlerAttacker) != ABILITY_MAGIC_GUARD)
-				&& !(gMoveResultFlags | MOVE_RESULT_FAILED)
-                && gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE)
+				&& !(gMoveResultFlags & MOVE_RESULT_FAILED)
+                && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
 			{
                 gBattleMoveDamage = ((gBattleMons[gBattlerAttacker].maxHP + 1)/2); // damage = half max HP of user rounded up
                 BattleScriptPushCursor();
