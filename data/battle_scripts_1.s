@@ -7540,6 +7540,7 @@ BattleScript_DoRecoilNoString::
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE | HITMARKER_IGNORE_DISGUISE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
+	waitstate
 	tryfaintmon BS_ATTACKER, FALSE, NULL
 	return
 
