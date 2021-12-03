@@ -478,6 +478,8 @@ struct MegaEvolutionData
     u8 triggerSpriteId;
     bool8 isWishMegaEvo;
     bool8 isPrimalReversion;
+	u8 megaEvoWasDone; // used after executing the battlescript for mega evolution, to set gCurrentActionFuncId back to B_ACTION_USE_MOVE and not bypass the
+					   // fastest mon's turn
 };
 
 struct Illusion
@@ -497,7 +499,6 @@ struct StolenItem
 
 struct BattleStruct
 {
-	u8 megaEvoWasDone
     u8 turnEffectsTracker;
     u8 turnEffectsBattlerId;
     u8 turnCountersTracker;

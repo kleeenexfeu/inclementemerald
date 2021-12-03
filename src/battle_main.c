@@ -4897,10 +4897,10 @@ static void CheckQuickClaw_CustapBerryActivation(void)
 static void RunTurnActionsFunctions(void)
 {
 	s32 i, j;
-	if (gBattleStruct->megaEvoWasDone == 1)
+	if (gBattleStruct->mega.megaEvoWasDone)
 	{
 		gCurrentActionFuncId = B_ACTION_USE_MOVE;
-		gBattleStruct->megaEvoWasDone = 0;
+		gBattleStruct->mega.megaEvoWasDone = 0;
 	}
 	
     if (gBattleOutcome != 0)
@@ -4925,7 +4925,7 @@ static void RunTurnActionsFunctions(void)
 						BattleScriptExecute(BattleScript_WishMegaEvolution);
 					else
 						BattleScriptExecute(BattleScript_MegaEvolution);
-					gBattleStruct->megaEvoWasDone = 1;
+					gBattleStruct->mega.megaEvoWasDone = 1;
 					return;
 				}
 			}
