@@ -66,6 +66,8 @@
 #define B_TXT_DEF_TEAM2 0x3B // your/the opposing
 #define B_TXT_ACTIVE_NAME 0x3C
 #define B_TXT_ACTIVE_NAME2 0x3D // no Illusion check
+#define B_TXT_BATTLER_ABILITY_NAME_WITH_PREFIX 0x3E // to avoid confusion, it uses the same battlerid than pop up ability
+
 
 // for B_TXT_BUFF1, B_TXT_BUFF2 and B_TXT_BUFF3
 
