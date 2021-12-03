@@ -5396,9 +5396,10 @@ static void Cmd_moveend(void)
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
                 && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)) // Only condition for explosion not to faint the user. Even a failed move KOes user
             {
+                gBattleMoveDamage = gBattleMons[gBattlerAttacker].hp; // damage = hp
                 BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
-                effect = 1;
+                gBattlescriptCurrInstr = BattleScript_DoRecoilNoString; // instant bar drop doesn't exist in later generations
+                effect = TRUE;
             }
 			else if (gSpecialStatuses[gBattlerAttacker].parentalBondOn != 1 // parental bonded mind blown should only hurt user on FIRST and NOT SECOND STRIKE
 																			// that's how it's written in bulbapedia at least at the time I'm writing this code (kleenexfeu)

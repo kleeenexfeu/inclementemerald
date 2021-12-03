@@ -2673,12 +2673,6 @@ BattleScript_HitFromEffectivenessSound:
 BattleScript_MoveEnd::
 	moveendall
 	end
-	
-BattleScript_ExplosionFaint::
-	faintifabilitynotdamp
-	setatkhptozero
-	tryfaintmon BS_ATTACKER, FALSE, NULL
-	return
 
 BattleScript_EffectNaturalGift:
 	attackcanceler

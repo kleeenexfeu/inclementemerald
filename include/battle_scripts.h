@@ -161,7 +161,6 @@ extern const u8 BattleScript_TookAttack[];
 extern const u8 BattleScript_SturdyPreventsOHKO[];
 extern const u8 BattleScript_DampStopsExplosion[];
 extern const u8 BattleScript_ExplosionInVoid[];
-extern const u8 BattleScript_ExplosionFaint[];
 extern const u8 BattleScript_MoveHPDrain_PPLoss[];
 extern const u8 BattleScript_MoveHPDrain[];
 extern const u8 BattleScript_MonMadeMoveUseless_PPLoss[];
