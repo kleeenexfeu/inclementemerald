@@ -1495,10 +1495,8 @@ static void Cmd_attackcanceler(void)
     }
     
     // damp check for explosion and mind blown
-    if (gHitMarker != HITMARKER_UNABLE_TO_USE_MOVE
-        && gCurrentMove != 0 && gCurrentMove != 0xFFFF // don't know if those are necessary but it can't hurt
-        && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
-        && (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN))
+    if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
+        && ((gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION) || (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN)))
     {
         u8 battlerWithDamp = IsAbilityOnField(ABILITY_DAMP);
         if (battlerWithDamp)
@@ -5393,20 +5391,18 @@ static void Cmd_moveend(void)
             RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
             gBattleScripting.moveendState++;
             break;
-        case MOVEEND_KO_USER: // Explosion/selfdestruct. Mind blown may need another one
+        case MOVEEND_KO_USER: // Explosion/selfdestruct and mind blown
             if (IsBattlerAlive(gBattlerAttacker)
-                && gCurrentMove != 0 && gCurrentMove != 0xFFFF
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
-                && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
+                && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)) // Only condition for explosion not to faint the user. Even a failed move KOes user
             {
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_ExplosionFaint;
                 effect = 1;
             }
-			else if (gSpecialStatuses[gBattlerAttacker].parentalBondOn != 1 // parental bonded mind blown should only hurt on FIRST and NOT SECOND STRIKE
+			else if (gSpecialStatuses[gBattlerAttacker].parentalBondOn != 1 // parental bonded mind blown should only hurt user on FIRST and NOT SECOND STRIKE
 																			// that's how it's written in bulbapedia at least at the time I'm writing this code (kleenexfeu)
                 && IsBattlerAlive(gBattlerAttacker)
-                && gCurrentMove != 0 && gCurrentMove != 0xFFFF
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN)
 				&& (GetBattlerAbility(gBattlerAttacker) != ABILITY_MAGIC_GUARD)
 				&& !(gMoveResultFlags & MOVE_RESULT_FAILED)
@@ -5422,7 +5418,7 @@ static void Cmd_moveend(void)
         case MOVEEND_EJECT_BUTTON:
             if (gCurrentMove != MOVE_DRAGON_TAIL
               && gCurrentMove != MOVE_CIRCLE_THROW
-              && IsBattlerAlive(gBattlerAttacker)
+              && IsBattlerAlive(gBattlerAttacker) // might have to do more check for explosion, because it currently doesn't activate eject button
               && !TestSheerForceFlag(gBattlerAttacker, gCurrentMove)
               && (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER || (gBattleTypeFlags & BATTLE_TYPE_TRAINER)))
             {
