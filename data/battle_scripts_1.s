@@ -7535,6 +7535,14 @@ BattleScript_DoRecoil::
 	tryfaintmon BS_ATTACKER, FALSE, NULL
 BattleScript_RecoilEnd::
 	return
+	
+BattleScript_DoRecoilNoString::
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE | HITMARKER_IGNORE_DISGUISE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	tryfaintmon BS_ATTACKER, FALSE, NULL
+BattleScript_RecoilEnd::
+	return
 
 BattleScript_EffectWithChance::
 	seteffectwithchance

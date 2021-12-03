@@ -5410,7 +5410,7 @@ static void Cmd_moveend(void)
 			{
                 gBattleMoveDamage = ((gBattleMons[gBattlerAttacker].maxHP + 1)/2); // damage = half max HP of user rounded up
                 BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_DoRecoil;
+                gBattlescriptCurrInstr = BattleScript_DoRecoilNoString;
                 effect = TRUE;
 			}
             gBattleScripting.moveendState++;
