@@ -9375,14 +9375,14 @@ bool32 CanMegaEvolve(u8 battlerId)
         // Can Mega Evolve via Mega Stone.
         if (holdEffect == HOLD_EFFECT_MEGA_STONE)
         {
-            gBattleStruct->mega.isWishMegaEvo = FALSE;
+            gBattleStruct->mega.isWishMegaEvo[battlerId] = FALSE;
             return TRUE;
         }
 
         // Can undergo Primal Reversion.
         if (holdEffect == HOLD_EFFECT_PRIMAL_ORB)
         {
-            gBattleStruct->mega.isWishMegaEvo = FALSE;
+            gBattleStruct->mega.isWishMegaEvo[battlerId] = FALSE;
             gBattleStruct->mega.isPrimalReversion = TRUE;
             return TRUE;
         }
@@ -9391,7 +9391,7 @@ bool32 CanMegaEvolve(u8 battlerId)
     // Check if there is an entry in the evolution table for Wish Mega Evolution.
     if (GetWishMegaEvolutionSpecies(species, GetMonData(mon, MON_DATA_MOVE1), GetMonData(mon, MON_DATA_MOVE2), GetMonData(mon, MON_DATA_MOVE3), GetMonData(mon, MON_DATA_MOVE4)))
     {
-        gBattleStruct->mega.isWishMegaEvo = TRUE;
+        gBattleStruct->mega.isWishMegaEvo[battlerId] = TRUE;
         return TRUE;
     }
 
