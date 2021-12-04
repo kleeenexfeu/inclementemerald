@@ -4946,26 +4946,27 @@ static u32 CheckMegaEvolutionBeforeMoves(void)
 	return val;
 }
 
-	
 static void RunTurnActionsFunctions(void)
 {
-	if (gBattleStruct->mega.megaEvoWasDone)
+	if (gBattleOutcome != 0)
+		gCurrentActionFuncId = B_ACTION_FINISHED;
+	else
 	{
-		gCurrentActionFuncId = B_ACTION_USE_MOVE;
-		gBattleStruct->mega.megaEvoWasDone = 0;
-		#if B_MEGA_EVO_TURN_ORDER > GEN_6
-		TryChangeTurnOrder();
-		#endif
+		if (gBattleStruct->mega.megaEvoWasDone)
+		{
+			gCurrentActionFuncId = B_ACTION_USE_MOVE; // restores gCurrentActionFuncId after mega battlescript was executed, thus allowing the mon to use move
+			gBattleStruct->mega.megaEvoWasDone = 0;
+			#if B_MEGA_EVO_TURN_ORDER > GEN_6
+			TryChangeTurnOrder();
+			#endif
+		}
+
+		if (CheckMegaEvolutionBeforeMoves())
+		{
+			gBattleStruct->mega.megaEvoWasDone = 1;
+			return;
+		}
 	}
-	
-	if (CheckMegaEvolutionBeforeMoves())
-	{
-		gBattleStruct->mega.megaEvoWasDone = 1;
-		return;
-	}
-	
-    if (gBattleOutcome != 0)
-        gCurrentActionFuncId = B_ACTION_FINISHED;
 	
     *(&gBattleStruct->savedTurnActionNumber) = gCurrentTurnActionNumber;
     sTurnActionsFuncsTable[gCurrentActionFuncId]();
