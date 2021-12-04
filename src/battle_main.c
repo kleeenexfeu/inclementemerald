@@ -4933,7 +4933,7 @@ static u32 CheckMegaEvolutionBeforeMoves(void)
 				{
 					gBattleStruct->mega.toEvolve &= ~(gBitTable[gActiveBattler]);
 					gLastUsedItem = gBattleMons[gActiveBattler].item;
-					if (gBattleStruct->mega.isWishMegaEvo == TRUE)
+					if (gBattleStruct->mega.isWishMegaEvo[gActiveBattler] == TRUE)
 						BattleScriptExecute(BattleScript_WishMegaEvolution);
 					else
 						BattleScriptExecute(BattleScript_MegaEvolution);

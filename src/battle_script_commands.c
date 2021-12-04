@@ -9648,7 +9648,7 @@ static void Cmd_canpursuitusermegaevolve(void) // previously faintifabilitynotda
 		gBattleStruct->mega.toEvolve &= ~(gBitTable[gActiveBattler]);
 		gLastUsedItem = gBattleMons[gActiveBattler].item;
 	    BattleScriptPushCursor();
-		if (gBattleStruct->mega.isWishMegaEvo == TRUE)
+		if (gBattleStruct->mega.isWishMegaEvo[gActiveBattler] == TRUE)
 			BattleScriptExecute(BattleScript_WishMegaEvolutionPursuit);
 		else
 			BattleScriptExecute(BattleScript_MegaEvolutionPursuit);
