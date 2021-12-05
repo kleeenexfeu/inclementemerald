@@ -163,7 +163,8 @@ bool32 IsBattlerWeatherAffected(u8 battlerId, u32 weatherFlags);
 void TryToApplyMimicry(u8 battlerId, bool8 various);
 void TryToRevertMimicry(void);
 void RestoreBattlerOriginalTypes(u8 battlerId);
-bool8 IsMoveAffectedByParentalBond(u16 move, u8 battlerId);
+bool8 IsMoveParentalBondAffected(u16 move);
+bool32 WillMoveHitMoreThanOneTarget(u16 move);
 
 // Ability checks
 bool32 IsRolePlayBannedAbilityAtk(u16 ability);

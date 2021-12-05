@@ -77,6 +77,7 @@ bool8 TryRunFromBattle(u8 battlerId);
 void SpecialStatusesClear(void);
 void SetTypeBeforeUsingMove(u16 move, u8 battlerAtk);
 s32 GetHighestLevelInPlayerParty(void);
+void Dummyglobal(void); // used to debugg in a specific place
 #if B_FUNCTION_CALL_COUNTER
 void ResetFunctionCallsCounter(void);
 #endif

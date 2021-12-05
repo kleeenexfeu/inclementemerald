@@ -885,7 +885,7 @@ BattleScript_JungleHealingTryRestoreAlly:
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectAttackerDefenseDownHit:
-	setmoveeffect MOVE_EFFECT_DEF_MINUS_1 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
+	setmoveeffect MOVE_EFFECT_DEF_MINUS_1 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN | MOVE_EFFECT_ONCE_PER_USE
 	goto BattleScript_EffectHit
 
 BattleScript_EffectRelicSong:
@@ -2642,6 +2642,15 @@ BattleScript_EffectExplosion::
 	damagecalc
 	adjustdamage
 	goto BattleScript_HitFromEffectivenessSound
+
+BattleScript_SetEffectWithChance::
+	bichalfword gMoveResultFlags, MOVE_RESULT_NO_EFFECT
+	seteffectwithchance
+	return
+	
+BattleScript_EffectWithChance::
+	seteffectwithchance
+	return
 	
 BattleScript_EffectHit::
 BattleScript_HitFromAtkCanceler::
@@ -7544,10 +7553,6 @@ BattleScript_DoRecoilNoString::
 	datahpupdate BS_ATTACKER
 	pause B_WAIT_TIME_SHORT
 	tryfaintmon BS_ATTACKER, FALSE, NULL
-	return
-
-BattleScript_EffectWithChance::
-	seteffectwithchance
 	return
 
 BattleScript_ItemSteal::

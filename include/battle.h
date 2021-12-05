@@ -504,6 +504,7 @@ struct BattleStruct
     u8 turnCountersTracker;
     u16 wrappedMove[MAX_BATTLERS_COUNT];
     u16 moveTarget[MAX_BATTLERS_COUNT];
+	u16 gMoveResultFlagsSaved;
     u8 expGetterMonId;
     u8 wildVictorySong;
     u8 dynamicMoveType;
