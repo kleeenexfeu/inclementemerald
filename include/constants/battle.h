@@ -358,9 +358,9 @@
 #define MOVE_EFFECT_TRAP_BOTH           0x45
 #define NUM_MOVE_EFFECTS                0x46
 
+#define MOVE_EFFECT_ONCE_PER_USE        0x2000
 #define MOVE_EFFECT_AFFECTS_USER        0x4000
 #define MOVE_EFFECT_CERTAIN             0x8000
-#define MOVE_EFFECT_ONCE_PER_USE        0x10000
 
 // Battle terrain defines for gBattleTerrain.
 #define BATTLE_TERRAIN_GRASS            0
