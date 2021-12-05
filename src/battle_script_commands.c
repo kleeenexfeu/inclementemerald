@@ -3596,10 +3596,10 @@ static void Cmd_seteffectwithchance(void)
 
     if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
     {
-		if (!IsCurrentTargetTheLastOne(gCurrentMove))
-			gBattlescriptCurrInstr++;
-		else
-			gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
+        if (!IsCurrentTargetTheLastOne(gCurrentMove))
+            gBattlescriptCurrInstr++;
+        else
+            gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
         return;
     }
         
