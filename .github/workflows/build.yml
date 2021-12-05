@@ -1,8 +1,9 @@
-name: ManualBuild
+name: CI
 
 on:
   workflow_dispatch
   push:
+    branches:
 
 jobs:
   build:
