@@ -1937,7 +1937,7 @@
 
 	.macro setmoveeffect effect:req, savedeffect=\effect
 	sethword sMOVE_EFFECT \effect
-	sethword sSAVED_MOVE_EFFECT \effect
+	sethword sSAVED_MOVE_EFFECT \savedeffect
 	.endm
 
 	.macro chosenstatus1animation battler:req, status:req
