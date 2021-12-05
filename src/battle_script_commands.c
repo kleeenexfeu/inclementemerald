@@ -3548,12 +3548,12 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
     return TRUE;
 }	
 
-bool32 IsCurrentTargetTheLastOne(u8 battler, u16 move)
+bool32 IsCurrentTargetTheLastOne(u16 move)
 {
 	u8 battlerId = 0;
 	if ((gBattlersCount == 2)
 		|| !(gBattleMoves[move].target & MOVE_TARGET_FOES_AND_ALLY || gBattleMoves[move].target & MOVE_TARGET_BOTH)
-		|| !WillMoveHitMoreThanOneTarget(battler, move))
+		|| !WillMoveHitMoreThanOneTarget(move))
 		return TRUE;// if we aren't in double/multi battle,  and/or the move doesn't target several pokémon at once, current target is the last one
 	
 	if (gBattleMoves[move].target & MOVE_TARGET_BOTH)
@@ -3588,7 +3588,7 @@ static void Cmd_seteffectwithchance(void)
     u8 moveEffect = gBattleMoves[gCurrentMove].effect;
 
 	if ((moveEffect & MOVE_EFFECT_ONCE_PER_USE) 
-		&& !IsCurrentTargetTheLastOne(gBattlerAttacker, gCurrentMove))
+		&& !IsCurrentTargetTheLastOne(gCurrentMove)
 	{
 		gBattlescriptCurrInstr++;
 		gBattleScripting.moveEffect = gBattleScripting.savedMoveEffect = 0;
