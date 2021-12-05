@@ -34,7 +34,10 @@ jobs:
           ./install.sh ../
         working-directory: agbcc
 
-      - name: Agbcc
+      - name: Modern
+        env:
+          MODERN: 1
+          COMPARE: 0
         run: make -j${nproc} all
 
       - uses: actions/upload-artifact@v2
