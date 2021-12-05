@@ -1471,7 +1471,7 @@ static void Cmd_attackcanceler(void)
         return;
     if (!gSpecialStatuses[gBattlerAttacker].parentalBondOn
     && GetBattlerAbility(gBattlerAttacker) == ABILITY_PARENTAL_BOND
-    && IsMoveAffectedByParentalBond(gCurrentMove, gBattlerAttacker)
+    && IsMoveParentalBondAffected(gCurrentMove)
     && !(gAbsentBattlerFlags & gBitTable[gBattlerTarget]))
     {
         gSpecialStatuses[gBattlerAttacker].parentalBondOn = 2;
@@ -3529,25 +3529,23 @@ void SetMoveEffect(bool32 primary, u32 certain)
     gBattleScripting.moveEffect = 0;
 }
 
-bool32 WillMoveHitMoreThanOneTarget(u8 battler, u16 move)
+bool32 WillMoveHitMoreThanOneTarget(u16 move)
 {
-	u8 sideToCheck = (battler & BIT_SIDE)^BIT_SIDE;
-	if (gBattlersCount == 2)
-		return FALSE;
-	
-	if (gBattleMoves[move].target & MOVE_TARGET_BOTH)
-	{
-		if (IsBattlerAlive(sideToCheck) && IsBattlerAlive(sideToCheck | BIT_FLANK))
-			return TRUE;
-		else
-			return FALSE;
-	}
-	
-	if ((gBattleMoves[move].target & MOVE_TARGET_FOES_AND_ALLY)
-		&& (IsBattlerAlive(sideToCheck) + IsBattlerAlive(sideToCheck | BIT_FLANK) + IsBattlerAlive(battler^BIT_FLANK)) > 1)
-			return TRUE;
-		
-	return FALSE;
+    if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+    {
+        switch (gBattleMoves[move].target)
+        {
+            case MOVE_TARGET_BOTH:
+                if (CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) >= 2) // Check for single target
+                    return FALSE;
+                break;
+            case MOVE_TARGET_FOES_AND_ALLY:
+                if (CountAliveMonsInBattle(BATTLE_ALIVE_EXCEPT_ATTACKER) >= 2) // Count mons on both sides; ignore attacker
+                    return FALSE;
+                break;
+        }
+    }
+    return TRUE;
 }	
 
 bool32 IsCurrentTargetTheLastOne(u8 battler, u16 move)
@@ -14291,25 +14289,10 @@ static bool32 CriticalCapture(u32 odds)
     #endif
 }
 
-bool8 IsMoveAffectedByParentalBond(u16 move, u8 battlerId)
+bool8 IsMoveParentalBondAffected(u16 move)
 {
-    if (gBattleMoves[move].split != SPLIT_STATUS && !(sForbiddenMoves[move] & FORBIDDEN_PARENTAL_BOND))
-    {
-        if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-        {
-            switch (gBattleMoves[move].target)
-            {
-                case MOVE_TARGET_BOTH:
-                    if (CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) >= 2) // Check for single target
-                        return FALSE;
-                    break;
-                case MOVE_TARGET_FOES_AND_ALLY:
-                    if (CountAliveMonsInBattle(BATTLE_ALIVE_EXCEPT_ACTIVE) >= 2) // Count mons on both sides; ignore attacker
-                        return FALSE;
-                    break;
-            }
-        }
-        return TRUE;
-    }
-    return FALSE;
+    if (gBattleMoves[move].split != SPLIT_STATUS && !(sForbiddenMoves[move] & FORBIDDEN_PARENTAL_BOND) && !WillMoveHitMoreThanOneTarget)
+		return TRUE;
+	else
+		return FALSE;
 }
