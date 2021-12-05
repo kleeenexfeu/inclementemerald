@@ -3594,10 +3594,12 @@ static void Cmd_seteffectwithchance(void)
     u8 moveType = gBattleMoves[gCurrentMove].type;
     u8 moveEffect = gBattleMoves[gCurrentMove].effect;
 
-    if ((gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE) 
-        && !IsCurrentTargetTheLastOne(gCurrentMove))
+    if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
     {
-        gBattlescriptCurrInstr++;
+		if (!IsCurrentTargetTheLastOne(gCurrentMove))
+			gBattlescriptCurrInstr++;
+		else
+			gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE)
         return;
     }
         
