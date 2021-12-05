@@ -267,21 +267,22 @@
 #define MOVEEND_UPDATE_LAST_MOVES                 16
 #define MOVEEND_MIRROR_MOVE                       17
 #define MOVEEND_NEXT_TARGET                       18    // Everything up until here is handled for each strike of a multi-hit move
-#define MOVEEND_KO_USER                           19    // Explosion like move
-#define MOVEEND_MULTIHIT_MOVE                     20
-#define MOVEEND_MOVE_EFFECTS2                     21
-#define MOVEEND_RECOIL                            22
-#define MOVEEND_EJECT_BUTTON                      23
-#define MOVEEND_RED_CARD                          24
-#define MOVEEND_EJECT_PACK                        25
-#define MOVEEND_LIFEORB_SHELLBELL                 26    // Includes shell bell, throat spray, etc
-#define MOVEEND_CHANGED_ITEMS                     27
-#define MOVEEND_DEFROST                           28
-#define MOVEEND_PICKPOCKET                        29
-#define MOVEEND_DANCER                            30
-#define MOVEEND_EMERGENCY_EXIT                    31
-#define MOVEEND_CLEAR_BITS                        32
-#define MOVEEND_COUNT                             33
+#define MOVEEND_EFFECT_ONCE_PER_USE               19    // Spread moves doing their effect only once
+#define MOVEEND_KO_USER                           20    // Explosion like move
+#define MOVEEND_MULTIHIT_MOVE                     21
+#define MOVEEND_MOVE_EFFECTS2                     22
+#define MOVEEND_RECOIL                            23
+#define MOVEEND_EJECT_BUTTON                      24
+#define MOVEEND_RED_CARD                          25
+#define MOVEEND_EJECT_PACK                        26
+#define MOVEEND_LIFEORB_SHELLBELL                 27    // Includes shell bell, throat spray, etc
+#define MOVEEND_CHANGED_ITEMS                     28
+#define MOVEEND_DEFROST                           29
+#define MOVEEND_PICKPOCKET                        30
+#define MOVEEND_DANCER                            31
+#define MOVEEND_EMERGENCY_EXIT                    32
+#define MOVEEND_CLEAR_BITS                        33
+#define MOVEEND_COUNT                             34
 
 // switch cases
 #define B_SWITCH_NORMAL     0
