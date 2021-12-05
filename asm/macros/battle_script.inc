@@ -1935,9 +1935,9 @@
 	setbyte sSTATCHANGER \stat | \stages << 3 | \down << 7
 	.endm
 
-	.macro setmoveeffect effect:req, savedeffect=effect
+	.macro setmoveeffect effect:req, savedeffect=\effect
 	sethword sMOVE_EFFECT \effect
-	sethword sSAVED_MOVE_EFFECT \savedeffect
+	sethword sSAVED_MOVE_EFFECT \effect
 	.endm
 
 	.macro chosenstatus1animation battler:req, status:req
