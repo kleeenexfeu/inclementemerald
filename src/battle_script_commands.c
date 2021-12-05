@@ -3531,7 +3531,7 @@ void SetMoveEffect(bool32 primary, u32 certain)
 
 bool8 IsMoveParentalBondAffected(u16 move)
 {
-    if (gBattleMoves[move].split != SPLIT_STATUS && !(sForbiddenMoves[move] & FORBIDDEN_PARENTAL_BOND) && !WillMoveHitMoreThanOneTarget)
+    if (gBattleMoves[move].split != SPLIT_STATUS && !(sForbiddenMoves[move] & FORBIDDEN_PARENTAL_BOND) && !WillMoveHitMoreThanOneTarget(move))
 		return TRUE;
 	else
 		return FALSE;
@@ -3548,7 +3548,7 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
                     return TRUE;
                 break;
             case MOVE_TARGET_FOES_AND_ALLY:
-                if (CountAliveMonsInBattle(BATTLE_ALIVE_EXCEPT_ACTIVE) >= 2) // Count mons on both sides; ignore attacker
+                if (CountAliveMonsInBattle(BATTLE_ALIVE_EXCEPT_ATTACKER) >= 2) // Count mons on both sides; ignore attacker
                     return TRUE;
                 break;
         }
@@ -3587,7 +3587,6 @@ bool32 IsCurrentTargetTheLastOne(u16 move)
 			return TRUE;
 	}
 }
-	
 
 static void Cmd_seteffectwithchance(void)
 {
