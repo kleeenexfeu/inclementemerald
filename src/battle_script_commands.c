@@ -3568,7 +3568,7 @@ bool32 IsCurrentTargetTheLastOne(u16 move)
 	{
 		for (battlerId = gBattlersCount - 1; battlerId != 0; battlerId--)
 		{
-			if ((battlerId == gBattlerAttacker)
+			if (battlerId == gBattlerAttacker)
 				continue;
 			if (IsBattlerAlive(battlerId))
 				break;
