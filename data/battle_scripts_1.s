@@ -889,7 +889,7 @@ BattleScript_EffectAttackerDefenseDownHit:
 	goto BattleScript_EffectHit
 
 BattleScript_EffectRelicSong:
-	setmoveeffect MOVE_EFFECT_RELIC_SONG | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
+	setmoveeffect MOVE_EFFECT_RELIC_SONG | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, MOVE_EFFECT_OCCURS_ONCE
 	attackcanceler
 	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
 	attackstring

@@ -288,4 +288,6 @@
 #define B_SWITCH_HIT        1   // dragon tail, circle throw
 #define B_SWITCH_RED_CARD   2
 
+#define MOVE_EFFECT_OCCURS_ONCE                   0
+
 #endif // GUARD_CONSTANTS_BATTLE_SCRIPT_COMMANDS_H
