@@ -1935,13 +1935,9 @@
 	setbyte sSTATCHANGER \stat | \stages << 3 | \down << 7
 	.endm
 
-	.macro setmoveeffect effect:req, occursonce=0
+	.macro setmoveeffect effect:req
 	sethword sMOVE_EFFECT \effect
-	.if \occursonce
-	sethword sSAVED_MOVE_EFFECT 0
-	.else
 	sethword sSAVED_MOVE_EFFECT \effect
-	.endif
 	.endm
 
 	.macro chosenstatus1animation battler:req, status:req
