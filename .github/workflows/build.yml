@@ -1,11 +1,7 @@
-name: CI
-
-workflow_dispatch:
+name: Manual
 
 on:
   push:
-    branches:
-
 
 jobs:
   build:
