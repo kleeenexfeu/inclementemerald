@@ -3599,7 +3599,7 @@ static void Cmd_seteffectwithchance(void)
 		if (!IsCurrentTargetTheLastOne(gCurrentMove))
 			gBattlescriptCurrInstr++;
 		else
-			gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE)
+			gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
         return;
     }
         
