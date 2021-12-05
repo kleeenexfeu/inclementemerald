@@ -1937,7 +1937,7 @@
 
 	.macro setmoveeffect effect:req, occursonce:req
 	sethword sMOVE_EFFECT \effect
-	.if \occursonce
+	.ifdef occursonce
 	sethword sSAVED_MOVE_EFFECT 0
 	.else
 	sethword sSAVED_MOVE_EFFECT \effect
