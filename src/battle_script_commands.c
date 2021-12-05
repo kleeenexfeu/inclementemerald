@@ -3529,6 +3529,14 @@ void SetMoveEffect(bool32 primary, u32 certain)
     gBattleScripting.moveEffect = 0;
 }
 
+bool8 IsMoveParentalBondAffected(u16 move)
+{
+    if (gBattleMoves[move].split != SPLIT_STATUS && !(sForbiddenMoves[move] & FORBIDDEN_PARENTAL_BOND) && !WillMoveHitMoreThanOneTarget)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 bool32 WillMoveHitMoreThanOneTarget(u16 move)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
@@ -3540,7 +3548,7 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
                     return TRUE;
                 break;
             case MOVE_TARGET_FOES_AND_ALLY:
-                if (CountAliveMonsInBattle(BATTLE_ALIVE_EXCEPT_ATTACKER) >= 2) // Count mons on both sides; ignore attacker
+                if (CountAliveMonsInBattle(BATTLE_ALIVE_EXCEPT_ACTIVE) >= 2) // Count mons on both sides; ignore attacker
                     return TRUE;
                 break;
         }
@@ -14287,12 +14295,4 @@ static bool32 CriticalCapture(u32 odds)
     #else
         return FALSE;
     #endif
-}
-
-bool8 IsMoveParentalBondAffected(u16 move)
-{
-    if (gBattleMoves[move].split != SPLIT_STATUS && !(sForbiddenMoves[move] & FORBIDDEN_PARENTAL_BOND) && !WillMoveHitMoreThanOneTarget)
-		return TRUE;
-	else
-		return FALSE;
 }
