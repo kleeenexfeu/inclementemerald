@@ -1,6 +1,9 @@
 name: ManualBuild
 
-on: workflow_dispatch
+workflow_dispatch:
+
+on:
+  push:
 
 jobs:
   build:
@@ -34,12 +37,6 @@ jobs:
         working-directory: agbcc
 
       - name: Agbcc
-        run: make -j${nproc} all
-
-      - name: Modern
-        env:
-          MODERN: 1
-          COMPARE: 0
         run: make -j${nproc} all
 
       - uses: actions/upload-artifact@v2
