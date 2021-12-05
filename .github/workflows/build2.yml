@@ -33,23 +33,20 @@ jobs:
           ./install.sh ../
         working-directory: agbcc
 
-      - name: Modern
-        env:
-          MODERN: 1
-          COMPARE: 0
+      - name: Agbcc
         run: make -j${nproc} all
 
       - uses: actions/upload-artifact@v2
         with:
           name: pokeemerald_built
-          path: pokeemerald_modern.gba
+          path: pokeemerald.gba
           
       - uses: actions/upload-artifact@v2
         with:
           name: pokeemerald_elf
-          path: pokeemerald_modern.elf
+          path: pokeemerald.elf
           
       - uses: actions/upload-artifact@v2
         with:
           name: pokeemerald_map
-          path: pokeemerald_modern.map
+          path: pokeemerald.map
