@@ -3598,8 +3598,6 @@ static void Cmd_seteffectwithchance(void)
         && !IsCurrentTargetTheLastOne(gCurrentMove))
     {
         gBattlescriptCurrInstr++;
-        gBattleScripting.moveEffect = gBattleScripting.savedMoveEffect = 0;
-        gBattleScripting.multihitMoveEffect = 0;
         return;
     }
         
