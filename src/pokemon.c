@@ -4092,6 +4092,13 @@ u8 CountAliveMonsInBattle(u8 caseId)
             if (i != gActiveBattler && !(gAbsentBattlerFlags & gBitTable[i]))
                 retVal++;
         }
+		break;
+    case BATTLE_ALIVE_EXCEPT_ATTACKER:
+        for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+        {
+            if (i != gBattlerAttacker && !(gAbsentBattlerFlags & gBitTable[i]))
+                retVal++;
+        }
         break;
     case BATTLE_ALIVE_ATK_SIDE:
         for (i = 0; i < MAX_BATTLERS_COUNT; i++)
