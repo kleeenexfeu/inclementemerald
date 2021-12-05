@@ -1547,11 +1547,11 @@ static void Cmd_attackcanceler(void)
     gHitMarker |= HITMARKER_OBEYS;
     if (NoTargetPresent(gCurrentMove) && (!IsTwoTurnsMove(gCurrentMove) || (gBattleMons[gBattlerAttacker].status2 & STATUS2_MULTIPLETURNS)))
     {
-		if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION) // explosion can happen in void and you die!
-		{
+        if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION) // explosion can happen in void and you die!
+        {
             gBattlescriptCurrInstr = BattleScript_ExplosionInVoid;
-			return;
-		}
+            return;
+        }
         gBattlescriptCurrInstr = BattleScript_ButItFailedAtkStringPpReduce;
         if (!IsTwoTurnsMove(gCurrentMove) || (gBattleMons[gBattlerAttacker].status2 & STATUS2_MULTIPLETURNS))
             CancelMultiTurnMoves(gBattlerAttacker);
@@ -3532,9 +3532,9 @@ void SetMoveEffect(bool32 primary, u32 certain)
 bool8 IsMoveParentalBondAffected(u16 move)
 {
     if (gBattleMoves[move].split != SPLIT_STATUS && !(sForbiddenMoves[move] & FORBIDDEN_PARENTAL_BOND) && !WillMoveHitMoreThanOneTarget(move))
-		return TRUE;
-	else
-		return FALSE;
+        return TRUE;
+    else
+        return FALSE;
 }
 
 bool32 WillMoveHitMoreThanOneTarget(u16 move)
@@ -3554,38 +3554,38 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
         }
     }
     return FALSE;
-}	
+}    
 
 bool32 IsCurrentTargetTheLastOne(u16 move)
 {
-	u8 battlerId = 0;
-	if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-		|| !(gBattleMoves[move].target & MOVE_TARGET_FOES_AND_ALLY || gBattleMoves[move].target & MOVE_TARGET_BOTH)
-		|| !WillMoveHitMoreThanOneTarget(move))
-		return TRUE;// if we aren't in double/multi battle,  and/or the move doesn't target several pokémon at once, current target is the last one
-	
-	if (gBattleMoves[move].target & MOVE_TARGET_BOTH)
-	{
-		if (IsBattlerAlive(gBattlerTarget ^ BIT_FLANK)
-			&& (gBattlerTarget ^ BIT_FLANK) > gBattlerTarget )
-			return FALSE; // Other flank is alive, and will be hit after the current one, because its index is > to the current one
-		else
-			return TRUE;
-	}
-	else
-	{
-		for (battlerId = gBattlersCount - 1; battlerId != 0; battlerId--)
-		{
-			if (battlerId == gBattlerAttacker)
-				continue;
-			if (IsBattlerAlive(battlerId))
-				break;
-		}
-		if (battlerId > gBattlerTarget && battlerId < gBattlersCount)
-			return FALSE;
-		else
-			return TRUE;
-	}
+    u8 battlerId = 0;
+    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+        || !(gBattleMoves[move].target & MOVE_TARGET_FOES_AND_ALLY || gBattleMoves[move].target & MOVE_TARGET_BOTH)
+        || !WillMoveHitMoreThanOneTarget(move))
+        return TRUE;// if we aren't in double/multi battle,  and/or the move doesn't target several pokémon at once, current target is the last one
+    
+    if (gBattleMoves[move].target & MOVE_TARGET_BOTH)
+    {
+        if (IsBattlerAlive(gBattlerTarget ^ BIT_FLANK)
+            && (gBattlerTarget ^ BIT_FLANK) > gBattlerTarget )
+            return FALSE; // Other flank is alive, and will be hit after the current one, because its index is > to the current one
+        else
+            return TRUE;
+    }
+    else
+    {
+        for (battlerId = gBattlersCount - 1; battlerId != 0; battlerId--)
+        {
+            if (battlerId == gBattlerAttacker)
+                continue;
+            if (IsBattlerAlive(battlerId))
+                break;
+        }
+        if (battlerId > gBattlerTarget && battlerId < gBattlersCount)
+            return FALSE;
+        else
+            return TRUE;
+    }
 }
 
 static void Cmd_seteffectwithchance(void)
@@ -3594,15 +3594,15 @@ static void Cmd_seteffectwithchance(void)
     u8 moveType = gBattleMoves[gCurrentMove].type;
     u8 moveEffect = gBattleMoves[gCurrentMove].effect;
 
-	if ((gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE) 
-		&& !IsCurrentTargetTheLastOne(gCurrentMove))
-	{
-		gBattlescriptCurrInstr++;
-		gBattleScripting.moveEffect = gBattleScripting.savedMoveEffect = 0;
-		gBattleScripting.multihitMoveEffect = 0;
-		return;
-	}
-		
+    if ((gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE) 
+        && !IsCurrentTargetTheLastOne(gCurrentMove))
+    {
+        gBattlescriptCurrInstr++;
+        gBattleScripting.moveEffect = gBattleScripting.savedMoveEffect = 0;
+        gBattleScripting.multihitMoveEffect = 0;
+        return;
+    }
+        
     if (GetBattlerAbility(gBattlerAttacker) == ABILITY_SERENE_GRACE)
         percentChance = gBattleMoves[gCurrentMove].secondaryEffectChance * 2;
     else if (GetBattlerAbility(gBattlerAttacker) == ABILITY_PYROMANCY
@@ -5469,19 +5469,19 @@ static void Cmd_moveend(void)
                 gBattlescriptCurrInstr = BattleScript_DoRecoilNoString; // instant bar drop doesn't exist in later generations
                 effect = TRUE;
             }
-			else if (gSpecialStatuses[gBattlerAttacker].parentalBondOn != 1 // parental bonded mind blown should only hurt user on FIRST and NOT SECOND STRIKE
-																			// that's how it's written in bulbapedia at least at the time I'm writing this code (kleenexfeu)
+            else if (gSpecialStatuses[gBattlerAttacker].parentalBondOn != 1 // parental bonded mind blown should only hurt user on FIRST and NOT SECOND STRIKE
+                                                                            // that's how it's written in bulbapedia at least at the time I'm writing this code (kleenexfeu)
                 && IsBattlerAlive(gBattlerAttacker)
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_MIND_BLOWN)
-				&& (GetBattlerAbility(gBattlerAttacker) != ABILITY_MAGIC_GUARD)
-				&& !(gMoveResultFlags & MOVE_RESULT_FAILED)
+                && (GetBattlerAbility(gBattlerAttacker) != ABILITY_MAGIC_GUARD)
+                && !(gMoveResultFlags & MOVE_RESULT_FAILED)
                 && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
-			{
+            {
                 gBattleMoveDamage = ((gBattleMons[gBattlerAttacker].maxHP + 1)/2); // damage = half max HP of user rounded up
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_DoRecoilNoString;
                 effect = TRUE;
-			}
+            }
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_EJECT_BUTTON:
@@ -9708,19 +9708,19 @@ static void Cmd_setprotectlike(void)
 
 static void Cmd_canpursuitusermegaevolve(void) // previously faintifabilitynotdamp
 {
-	gBattlescriptCurrInstr++;
-	gBattleStruct->mega.battlerId = gActiveBattler = gBattlerAttacker;
-	if (gBattleStruct->mega.toEvolve & gBitTable[gActiveBattler]
-		&& !(gProtectStructs[gActiveBattler].noValidMoves))
-	{
-		gBattleStruct->mega.toEvolve &= ~(gBitTable[gActiveBattler]);
-		gLastUsedItem = gBattleMons[gActiveBattler].item;
-	    BattleScriptPushCursor();
-		if (gBattleStruct->mega.isWishMegaEvo[gActiveBattler] == TRUE)
-			BattleScriptExecute(BattleScript_WishMegaEvolutionPursuit);
-		else
-			BattleScriptExecute(BattleScript_MegaEvolutionPursuit);
-	}
+    gBattlescriptCurrInstr++;
+    gBattleStruct->mega.battlerId = gActiveBattler = gBattlerAttacker;
+    if (gBattleStruct->mega.toEvolve & gBitTable[gActiveBattler]
+        && !(gProtectStructs[gActiveBattler].noValidMoves))
+    {
+        gBattleStruct->mega.toEvolve &= ~(gBitTable[gActiveBattler]);
+        gLastUsedItem = gBattleMons[gActiveBattler].item;
+        BattleScriptPushCursor();
+        if (gBattleStruct->mega.isWishMegaEvo[gActiveBattler] == TRUE)
+            BattleScriptExecute(BattleScript_WishMegaEvolutionPursuit);
+        else
+            BattleScriptExecute(BattleScript_MegaEvolutionPursuit);
+    }
 }
 
 static void Cmd_setatkhptozero(void)
