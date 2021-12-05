@@ -3537,21 +3537,21 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
         {
             case MOVE_TARGET_BOTH:
                 if (CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) >= 2) // Check for single target
-                    return FALSE;
+                    return TRUE;
                 break;
             case MOVE_TARGET_FOES_AND_ALLY:
                 if (CountAliveMonsInBattle(BATTLE_ALIVE_EXCEPT_ATTACKER) >= 2) // Count mons on both sides; ignore attacker
-                    return FALSE;
+                    return TRUE;
                 break;
         }
     }
-    return TRUE;
+    return FALSE;
 }	
 
 bool32 IsCurrentTargetTheLastOne(u16 move)
 {
 	u8 battlerId = 0;
-	if ((gBattlersCount == 2)
+	if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
 		|| !(gBattleMoves[move].target & MOVE_TARGET_FOES_AND_ALLY || gBattleMoves[move].target & MOVE_TARGET_BOTH)
 		|| !WillMoveHitMoreThanOneTarget(move))
 		return TRUE;// if we aren't in double/multi battle,  and/or the move doesn't target several pokémon at once, current target is the last one
