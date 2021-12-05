@@ -1935,9 +1935,9 @@
 	setbyte sSTATCHANGER \stat | \stages << 3 | \down << 7
 	.endm
 
-	.macro setmoveeffect effect:req, occursonce:req
+	.macro setmoveeffect effect:req, occursonce=0
 	sethword sMOVE_EFFECT \effect
-	.ifdef occursonce
+	.if \occursonce
 	sethword sSAVED_MOVE_EFFECT 0
 	.else
 	sethword sSAVED_MOVE_EFFECT \effect
