@@ -768,10 +768,10 @@ static const struct SpriteTemplate sSpriteTemplate_OmegaIndicator =
 
 u8 GetMegaIndicatorSpriteId(u32 healthboxSpriteId)
 {
-    u8 spriteId = gSprites[healthboxSpriteId].oam.affineParam;
-    if (spriteId >= MAX_SPRITES)
+    // u8 spriteId = gSprites[healthboxSpriteId].oam.affineParam;
+    // if (spriteId >= MAX_SPRITES)
         return 0xFF;
-    return gSprites[spriteId].hOther_IndicatorSpriteId;
+    // return gSprites[spriteId].hOther_IndicatorSpriteId;
 }
 
 static void InitLastUsedBallAssets(void)
@@ -1036,7 +1036,7 @@ void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
         u8 healthboxLeftSpriteId = gHealthboxSpriteIds[i];
         u8 healthboxRightSpriteId = gSprites[gHealthboxSpriteIds[i]].oam.affineParam;
         u8 healthbarSpriteId = gSprites[gHealthboxSpriteIds[i]].hMain_HealthBarSpriteId;
-        u8 indicatorSpriteId = GetMegaIndicatorSpriteId(healthboxRightSpriteId);
+        u8 indicatorSpriteId = GetMegaIndicatorSpriteId(healthboxRightSpriteId); // GetMegaIndicatorSpriteId returns always 0xFF
 
         gSprites[healthboxLeftSpriteId].oam.priority = priority;
         gSprites[healthboxRightSpriteId].oam.priority = priority;
