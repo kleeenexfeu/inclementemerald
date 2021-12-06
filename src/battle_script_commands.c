@@ -5473,6 +5473,7 @@ static void Cmd_moveend(void)
                 gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
 				BattleScriptPushCursor();
 			    gBattlescriptCurrInstr = BattleScript_EffectWithChance;
+				effect = TRUE;
 				return;
 			}
 			gBattleScripting.moveendState++;
