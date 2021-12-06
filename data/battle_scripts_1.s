@@ -2678,10 +2678,6 @@ BattleScript_HitFromEffectivenessSound:
 BattleScript_MoveEnd::
 	moveendall
 	end
-	
-BattleScript_EffectWithChance::
-	seteffectwithchance
-	return
 
 BattleScript_EffectNaturalGift:
 	attackcanceler

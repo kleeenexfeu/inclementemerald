@@ -5470,6 +5470,7 @@ static void Cmd_moveend(void)
 				&& gProtectStructs[gBattlerAttacker].targetAffected)
 			{
 				gBattleStruct->gMoveResultFlagsSaved = gMoveResultFlags;
+				gMoveResultFlags &= ~(MOVE_RESULT_NO_EFFECT);
                 gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
 				BattleScriptPushCursor();
 			    gBattlescriptCurrInstr = BattleScript_EffectWithChance;
