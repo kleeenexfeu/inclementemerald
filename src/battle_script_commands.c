@@ -3594,7 +3594,7 @@ static void Cmd_seteffectwithchance(void)
     u8 moveType = gBattleMoves[gCurrentMove].type;
     u8 moveEffect = gBattleMoves[gCurrentMove].effect;
 
-    if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
+    if (gBattleScripting.moveEffect & (MOVE_EFFECT_ONCE_PER_USE | MOVE_EFFECT_DO_ONCE_PER_USE))
     {
         gBattlescriptCurrInstr++;
         return;
@@ -5463,8 +5463,8 @@ static void Cmd_moveend(void)
                 }
             }
 			if (gBattleScripting.moveEffect & MOVE_EFFECT_DO_ONCE_PER_USE)
-				gBattleScripting.moveEffect &= ~(MOVE_EFFECT_DO_ONCE_PER_USE);
 			{
+				gBattleScripting.moveEffect &= ~(MOVE_EFFECT_DO_ONCE_PER_USE);
 				BattleScriptPushCursor();
 			    gBattlescriptCurrInstr = BattleScript_EffectWithChance;
 				return;
