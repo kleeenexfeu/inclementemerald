@@ -2957,8 +2957,7 @@ void BeginBattleIntroDummy(void)
 
 void Dummyglobal(void)
 {
-	u8 var = 1;
-	var +=1;
+
 }
 
 void BeginBattleIntro(void)

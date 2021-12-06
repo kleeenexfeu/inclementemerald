@@ -5474,7 +5474,6 @@ static void Cmd_moveend(void)
 				BattleScriptPushCursor();
 			    gBattlescriptCurrInstr = BattleScript_EffectWithChance;
 				effect = TRUE;
-				return;
 			}
 			gBattleScripting.moveendState++;
 			break;
