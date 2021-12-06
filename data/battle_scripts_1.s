@@ -2677,6 +2677,10 @@ BattleScript_HitFromEffectivenessSound:
 BattleScript_MoveEnd::
 	moveendall
 	end
+	
+BattleScript_EffectWithChance::
+	seteffectwithchance
+	return
 
 BattleScript_EffectNaturalGift:
 	attackcanceler
@@ -7548,10 +7552,6 @@ BattleScript_DoRecoilNoString::
 	datahpupdate BS_ATTACKER
 	pause B_WAIT_TIME_SHORT
 	tryfaintmon BS_ATTACKER, FALSE, NULL
-	return
-
-BattleScript_EffectWithChance::
-	seteffectwithchance
 	return
 
 BattleScript_ItemSteal::

@@ -5451,7 +5451,8 @@ static void Cmd_moveend(void)
                 {
 					if (IsCurrentTargetTheLastOne(gCurrentMove)
 						&& (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
-					    && (gProtectStructs[gBattlerAttacker].targetAffected == TRUE))
+					    && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
+                        && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
 					{
                         gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
 						BattleScriptPushCursor();
