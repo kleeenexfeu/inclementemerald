@@ -3556,38 +3556,6 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
     return FALSE;
 }    
 
-bool32 IsCurrentTargetTheLastOne(u16 move)
-{
-    u8 battlerId = 0;
-    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-        || !(gBattleMoves[move].target & MOVE_TARGET_FOES_AND_ALLY || gBattleMoves[move].target & MOVE_TARGET_BOTH)
-        || !WillMoveHitMoreThanOneTarget(move))
-        return TRUE;// if we aren't in double/multi battle,  and/or the move doesn't target several pokémon at once, current target is the last one
-    
-    if (gBattleMoves[move].target & MOVE_TARGET_BOTH)
-    {
-        if (IsBattlerAlive(gBattlerTarget ^ BIT_FLANK)
-            && (gBattlerTarget ^ BIT_FLANK) > gBattlerTarget )
-            return FALSE; // Other flank is alive, and will be hit after the current one, because its index is > to the current one
-        else
-            return TRUE;
-    }
-    else
-    {
-        for (battlerId = gBattlersCount - 1; battlerId != 0; battlerId--)
-        {
-            if (battlerId == gBattlerAttacker)
-                continue;
-            if (IsBattlerAlive(battlerId))
-                break;
-        }
-        if (battlerId > gBattlerTarget && battlerId < gBattlersCount)
-            return FALSE;
-        else
-            return TRUE;
-    }
-}
-
 static void Cmd_seteffectwithchance(void)
 {
     u32 percentChance;
@@ -3596,10 +3564,7 @@ static void Cmd_seteffectwithchance(void)
 
     if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
     {
-        if (!IsCurrentTargetTheLastOne(gCurrentMove))
-            gBattlescriptCurrInstr++;
-        else
-            gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
+        gBattlescriptCurrInstr++;
         return;
     }
         
@@ -5414,7 +5379,7 @@ static void Cmd_moveend(void)
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
              && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
                 gProtectStructs[gBattlerAttacker].targetAffected = TRUE;
-        
+			
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
                 && gBattleTypeFlags & BATTLE_TYPE_DOUBLE
                 && !gProtectStructs[gBattlerAttacker].chargingTurn
@@ -5459,6 +5424,27 @@ static void Cmd_moveend(void)
             RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
             gBattleScripting.moveendState++;
             break;
+		case MOVEEND_EFFECT_ONCE_PER_USE:
+			if (gBattleStruct->gMoveResultFlagsSaved)
+			// Because we may have previously cleared some flags in the BattleScript_SetEffectWithChance
+			// we have saved them in the battlestructure, and we now restore them and clear the gMoveResultFlagsSaved
+			{
+				gMoveResultFlags = gBattleStruct->gMoveResultFlagsSaved;
+				gBattleStruct->gMoveResultFlagsSaved = 0;
+			}
+			
+			if ((gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
+				&& gProtectStructs[gBattlerAttacker].targetAffected)
+			{
+				gBattleStruct->gMoveResultFlagsSaved = gMoveResultFlags;
+				gMoveResultFlags &= ~(MOVE_RESULT_NO_EFFECT);
+                gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
+				BattleScriptPushCursor();
+			    gBattlescriptCurrInstr = BattleScript_SetEffectWithChance;
+				effect = TRUE;
+			}
+			gBattleScripting.moveendState++;
+			break;
         case MOVEEND_KO_USER: // Explosion/selfdestruct and mind blown
             if (IsBattlerAlive(gBattlerAttacker)
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
@@ -5753,6 +5739,7 @@ static void Cmd_moveend(void)
             gSpecialStatuses[gBattlerAttacker].damagedMons = 0;
             gSpecialStatuses[gBattlerTarget].berryReduced = FALSE;
             gBattleScripting.moveEffect = 0;
+			gBattleStruct->gMoveResultFlagsSaved = 0;
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_COUNT:
