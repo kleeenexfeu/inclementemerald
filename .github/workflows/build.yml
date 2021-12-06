@@ -2,12 +2,6 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
-      - battle_engine
-      - pokemon_expansion
-      - item_expansion
-  pull_request:
 
 jobs:
   build:
@@ -43,8 +37,17 @@ jobs:
       - name: Agbcc
         run: make -j${nproc} all
 
-      - name: Modern
-        env:
-          MODERN: 1
-          COMPARE: 0
-        run: make -j${nproc} all
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pokeemerald_built
+          path: pokeemerald.gba
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pokeemerald_elf
+          path: pokeemerald.elf
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pokeemerald_map
+          path: pokeemerald.map
