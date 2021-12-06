@@ -2914,7 +2914,7 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
     gSprites[bouncerSpriteId].y2 = y;
     sprite->sSinIndex = (sprite->sSinIndex + sprite->sDelta) & 0xFF;
 
-    bouncerSpriteId = GetMegaIndicatorSpriteId(sprite->sBouncerSpriteId);
+    // bouncerSpriteId = GetMegaIndicatorSpriteId(sprite->sBouncerSpriteId)
     if (sprite->sWhich == BOUNCE_HEALTHBOX && bouncerSpriteId != 0xFF)
         gSprites[bouncerSpriteId].y2 = y;
 }
