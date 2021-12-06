@@ -17,6 +17,7 @@
 
 // Mega Evolution settings
 #define B_MEGA_EVO_TURN_ORDER       GEN_7 // In Gen7, a Pokémon's Speed after Mega Evolution is used to determine turn order, not its Speed before.
+#define B_DISPLAY_MEGA_INDICATORS   FALSE // The mega indicators are currently buggy in battle. Removing them because I don't care about this feature
 
 // Calculation settings
 #define B_CRIT_CHANCE               GEN_7 // Chances of a critical hit landing. See CalcCritChanceStage.

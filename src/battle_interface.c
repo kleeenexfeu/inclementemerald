@@ -768,10 +768,14 @@ static const struct SpriteTemplate sSpriteTemplate_OmegaIndicator =
 
 u8 GetMegaIndicatorSpriteId(u32 healthboxSpriteId)
 {
+	#if B_DISPLAY_MEGA_INDICATORS
     u8 spriteId = gSprites[healthboxSpriteId].oam.affineParam;
     if (spriteId >= MAX_SPRITES)
         return 0xFF;
     return gSprites[spriteId].hOther_IndicatorSpriteId;
+	#else
+	return 0xFF;
+    #endif
 }
 
 static void InitLastUsedBallAssets(void)
@@ -863,7 +867,8 @@ u8 CreateBattlerHealthboxSprites(u8 battlerId)
     healthBarSpritePtr->invisible = TRUE;
 
     // Create mega indicator sprite if is a mega evolved or a primal reverted mon.
-    if (gBattleStruct->mega.evolvedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]]
+    #if B_DISPLAY_MEGA_INDICATORS
+	if (gBattleStruct->mega.evolvedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]]
      || gBattleStruct->mega.primalRevertedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]])
     {
         u8 spriteId = GetMegaIndicatorSpriteId(gHealthboxSpriteIds[battlerId]);
@@ -873,6 +878,7 @@ u8 CreateBattlerHealthboxSprites(u8 battlerId)
             gSprites[megaIndicatorSpriteId].invisible = TRUE;
         }
     }
+	#endif
 
     gBattleStruct->ballSpriteIds[0] = MAX_SPRITES;
     gBattleStruct->ballSpriteIds[1] = MAX_SPRITES;
@@ -936,19 +942,23 @@ static void SpriteCB_HealthBar(struct Sprite *sprite)
 static void SpriteCB_HealthBoxOther(struct Sprite *sprite)
 {
     u8 healthboxMainSpriteId = sprite->hOther_HealthBoxSpriteId;
+	#if B_DISPLAY_MEGA_INDICATORS
     u8 megaSpriteId = sprite->hOther_IndicatorSpriteId;
-
+    #endif
+	
     sprite->x = gSprites[healthboxMainSpriteId].x + 64;
     sprite->y = gSprites[healthboxMainSpriteId].y;
 
     sprite->x2 = gSprites[healthboxMainSpriteId].x2;
     sprite->y2 = gSprites[healthboxMainSpriteId].y2;
-
+    
+	#if B_DISPLAY_MEGA_INDICATORS
     if (megaSpriteId != 0xFF)
     {
         gSprites[megaSpriteId].x2 = sprite->x2;
         gSprites[megaSpriteId].y2 = sprite->y2;
     }
+	#endif
 }
 
 void SetBattleBarStruct(u8 battlerId, u8 healthboxSpriteId, s32 maxVal, s32 oldVal, s32 receivedValue)
@@ -962,7 +972,9 @@ void SetBattleBarStruct(u8 battlerId, u8 healthboxSpriteId, s32 maxVal, s32 oldV
 
 void SetHealthboxSpriteInvisible(u8 healthboxSpriteId)
 {
+	#if B_DISPLAY_MEGA_INDICATORS
     DestroyMegaIndicatorSprite(healthboxSpriteId);
+	#endif
     gSprites[healthboxSpriteId].invisible = TRUE;
     gSprites[gSprites[healthboxSpriteId].hMain_HealthBarSpriteId].invisible = TRUE;
     gSprites[gSprites[healthboxSpriteId].oam.affineParam].invisible = TRUE;
@@ -975,7 +987,8 @@ void SetHealthboxSpriteVisible(u8 healthboxSpriteId)
     gSprites[healthboxSpriteId].invisible = FALSE;
     gSprites[gSprites[healthboxSpriteId].hMain_HealthBarSpriteId].invisible = FALSE;
     gSprites[gSprites[healthboxSpriteId].oam.affineParam].invisible = FALSE;
-    if (gBattleStruct->mega.evolvedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]]
+    #if B_DISPLAY_MEGA_INDICATORS
+	if (gBattleStruct->mega.evolvedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]]
      || gBattleStruct->mega.primalRevertedPartyIds[GetBattlerSide(battlerId)] & gBitTable[gBattlerPartyIndexes[battlerId]])
     {
         u8 spriteId = GetMegaIndicatorSpriteId(healthboxSpriteId);
@@ -984,6 +997,7 @@ void SetHealthboxSpriteVisible(u8 healthboxSpriteId)
         else
             CreateMegaIndicatorSprite(battlerId, 0);
     }
+	#endif
 }
 
 static void UpdateSpritePos(u8 spriteId, s16 x, s16 y)
@@ -994,7 +1008,9 @@ static void UpdateSpritePos(u8 spriteId, s16 x, s16 y)
 
 void DestoryHealthboxSprite(u8 healthboxSpriteId)
 {
-    DestroyMegaIndicatorSprite(healthboxSpriteId);
+    #if B_DISPLAY_MEGA_INDICATORS
+	DestroyMegaIndicatorSprite(healthboxSpriteId);
+	#endif
     DestroySprite(&gSprites[gSprites[healthboxSpriteId].oam.affineParam]);
     DestroySprite(&gSprites[gSprites[healthboxSpriteId].hMain_HealthBarSpriteId]);
     DestroySprite(&gSprites[healthboxSpriteId]);
@@ -1036,7 +1052,7 @@ void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
         u8 healthboxLeftSpriteId = gHealthboxSpriteIds[i];
         u8 healthboxRightSpriteId = gSprites[gHealthboxSpriteIds[i]].oam.affineParam;
         u8 healthbarSpriteId = gSprites[gHealthboxSpriteIds[i]].hMain_HealthBarSpriteId;
-        u8 indicatorSpriteId = GetMegaIndicatorSpriteId(healthboxLeftSpriteId);
+        u8 indicatorSpriteId = GetMegaIndicatorSpriteId(healthboxRightSpriteId); // returns 0xFF if B_DISPLAY_MEGA_INDICATORS is FALSE
 
         gSprites[healthboxLeftSpriteId].oam.priority = priority;
         gSprites[healthboxRightSpriteId].oam.priority = priority;
@@ -1100,6 +1116,7 @@ static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
     u8 battler = gSprites[healthboxSpriteId].hMain_Battler;
 
     // Don't print Lv char if mon is mega evolved or primal reverted.
+	#if B_DISPLAY_MEGA_INDICATORS
     if (gBattleStruct->mega.evolvedPartyIds[GetBattlerSide(battler)] & gBitTable[gBattlerPartyIndexes[battler]]
      || gBattleStruct->mega.primalRevertedPartyIds[GetBattlerSide(battler)] & gBitTable[gBattlerPartyIndexes[battler]])
     {
@@ -1114,7 +1131,14 @@ static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
         objVram = ConvertIntToDecimalStringN(text + 2, lvl, STR_CONV_MODE_LEFT_ALIGN, 3);
         xPos = 5 * (3 - (objVram - (text + 2)));
     }
+	#else
+    text[0] = CHAR_EXTRA_SYMBOL;
+    text[1] = CHAR_LV_2;
 
+    objVram = ConvertIntToDecimalStringN(text + 2, lvl, STR_CONV_MODE_LEFT_ALIGN, 3);
+    xPos = 5 * (3 - (objVram - (text + 2)));
+    #endif
+	
     xPos = 5 * (3 - (objVram - (text + 2)));
     windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(text, xPos, 3, 2, &windowId);
     spriteTileNum = gSprites[healthboxSpriteId].oam.tileNum * TILE_SIZE_4BPP;
