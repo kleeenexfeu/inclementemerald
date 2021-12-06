@@ -3556,7 +3556,7 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
     return FALSE;
 }    
 
-static void Cmd_seteffectwithchance(void) // should check gBattleOutcome to set needlessly set effects when battle is done
+static void Cmd_seteffectwithchance(void)
 {
     u32 percentChance;
     u8 moveType = gBattleMoves[gCurrentMove].type;
@@ -8623,7 +8623,9 @@ static void Cmd_various(void)
         else
         {
             UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], mon, HEALTHBOX_ALL);
-            CreateMegaIndicatorSprite(gActiveBattler, 0);
+            #if B_DISPLAY_MEGA_INDICATORS
+			CreateMegaIndicatorSprite(gActiveBattler, 0);
+			#endif
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
                 SetBattlerShadowSpriteCallback(gActiveBattler, gBattleMons[gActiveBattler].species);
         }
@@ -8664,7 +8666,9 @@ static void Cmd_various(void)
         else
         {
             UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], mon, HEALTHBOX_ALL);
-            CreateMegaIndicatorSprite(gActiveBattler, 0);
+            #if B_DISPLAY_MEGA_INDICATORS
+			CreateMegaIndicatorSprite(gActiveBattler, 0);
+			#endif
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
                 SetBattlerShadowSpriteCallback(gActiveBattler, gBattleMons[gActiveBattler].species);
         }
