@@ -3596,10 +3596,7 @@ static void Cmd_seteffectwithchance(void)
 
     if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
     {
-        if (!IsCurrentTargetTheLastOne(gCurrentMove))
-            gBattlescriptCurrInstr++;
-        else
-            gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
+        gBattlescriptCurrInstr++;
         return;
     }
         
@@ -5452,8 +5449,20 @@ static void Cmd_moveend(void)
                 }
                 else
                 {
+					if (IsCurrentTargetTheLastOne(gCurrentMove)
+						&& (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
+					    && (gProtectStructs[gBattlerAttacker].targetAffected == TRUE))
+					{
+                        gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_EffectWithChance;
+						return;
+					}						
+                    else
+					{
                     gHitMarker |= HITMARKER_NO_ATTACKSTRING;
                     gHitMarker &= ~(HITMARKER_NO_PPDEDUCT);
+					}
                 }
             }
             RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);

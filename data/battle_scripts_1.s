@@ -2642,6 +2642,10 @@ BattleScript_EffectExplosion::
 	damagecalc
 	adjustdamage
 	goto BattleScript_HitFromEffectivenessSound
+
+BattleScript_SetEffectWithChance::
+	seteffectwithchance
+	return
 	
 BattleScript_EffectHit::
 BattleScript_HitFromAtkCanceler::
