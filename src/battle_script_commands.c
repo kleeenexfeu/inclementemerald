@@ -5459,7 +5459,7 @@ static void Cmd_moveend(void)
 		case MOVEEND_EFFECT_ONCE_PER_USE:
 			Dummyglobal();
 			if (gBattleStruct->gMoveResultFlagsSaved)
-			// Because we may have previously cleared some flags in the BattleScript_EffectWithChance
+			// Because we may have previously cleared some flags in the BattleScript_SetEffectWithChance
 			// we have saved them in the battlestructure, and we now restore them and clear the gMoveResultFlagsSaved
 			{
 				gMoveResultFlags = gBattleStruct->gMoveResultFlagsSaved;
@@ -5473,7 +5473,7 @@ static void Cmd_moveend(void)
 				gMoveResultFlags &= ~(MOVE_RESULT_NO_EFFECT);
                 gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
 				BattleScriptPushCursor();
-			    gBattlescriptCurrInstr = BattleScript_EffectWithChance;
+			    gBattlescriptCurrInstr = BattleScript_SetEffectWithChance;
 				effect = TRUE;
 			}
 			gBattleScripting.moveendState++;

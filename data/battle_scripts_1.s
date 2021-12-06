@@ -2648,6 +2648,10 @@ BattleScript_SetEffectWithChance::
 	seteffectwithchance
 	return
 	
+BattleScript_EffectWithChance::
+	seteffectwithchance
+	return
+	
 BattleScript_EffectHit::
 BattleScript_HitFromAtkCanceler::
 	attackcanceler
