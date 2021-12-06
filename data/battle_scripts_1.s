@@ -2644,7 +2644,7 @@ BattleScript_EffectExplosion::
 	goto BattleScript_HitFromEffectivenessSound
 
 BattleScript_SetEffectWithChance::
-	bichalfword gMoveResultFlags, MOVE_RESULT_DOESNT_AFFECT_FOE | MOVE_RESULT_MISSED
+	bichalfword gMoveResultFlags, MOVE_RESULT_NO_EFFECT
 	seteffectwithchance
 	return
 	
