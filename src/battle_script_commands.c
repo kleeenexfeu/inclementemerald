@@ -5458,12 +5458,14 @@ static void Cmd_moveend(void)
             break;
 		case MOVEEND_EFFECT_ONCE_PER_USE:
 			if (gBattleStruct->gMoveResultFlagsSaved)
+			// Because we may have previously cleared some flags in the BattleScript_EffectWithChance
+			// we have saved them in the battlestructure, and we now restore them and clear the gMoveResultFlagsSaved
 			{
 				gMoveResultFlags = gBattleStruct->gMoveResultFlagsSaved;
 				gBattleStruct->gMoveResultFlagsSaved = 0;
 			}
 			
-			if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
+			if ((gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
 				&& gProtectStructs[gBattlerAttacker].targetAffected)
 			{
 				gBattleStruct->gMoveResultFlagsSaved = gMoveResultFlags;
