@@ -5411,7 +5411,15 @@ static void Cmd_moveend(void)
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
              && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
                 gProtectStructs[gBattlerAttacker].targetAffected = TRUE;
-        
+				
+			if (IsCurrentTargetTheLastOne(gCurrentMove)
+				&& (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
+				&& gProtectStructs[gBattlerAttacker].targetAffected)
+			{
+                gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
+                gBattleScripting.moveEffect |= MOVE_EFFECT_DO_ONCE_PER_USE;
+			}
+			
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
                 && gBattleTypeFlags & BATTLE_TYPE_DOUBLE
                 && !gProtectStructs[gBattlerAttacker].chargingTurn
@@ -5419,15 +5427,6 @@ static void Cmd_moveend(void)
                 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
             {
                 u8 battlerId;
-				
-				if (IsCurrentTargetTheLastOne(gCurrentMove)
-					&& (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
-					&& gProtectStructs[gBattlerAttacker].targetAffected)
-				{
-                    gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
-                    gBattleScripting.moveEffect |= MOVE_EFFECT_DO_ONCE_PER_USE;
-					return;
-				}
 
                 if (gBattleMoves[gCurrentMove].target == MOVE_TARGET_FOES_AND_ALLY)
                 {
