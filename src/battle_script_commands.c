@@ -3594,7 +3594,7 @@ static void Cmd_seteffectwithchance(void)
     u8 moveType = gBattleMoves[gCurrentMove].type;
     u8 moveEffect = gBattleMoves[gCurrentMove].effect;
 
-    if (gBattleScripting.moveEffect & (MOVE_EFFECT_ONCE_PER_USE | MOVE_EFFECT_DO_ONCE_PER_USE))
+    if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
     {
         gBattlescriptCurrInstr++;
         return;
@@ -5411,14 +5411,6 @@ static void Cmd_moveend(void)
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
              && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
                 gProtectStructs[gBattlerAttacker].targetAffected = TRUE;
-				
-			if (IsCurrentTargetTheLastOne(gCurrentMove)
-				&& (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
-				&& gProtectStructs[gBattlerAttacker].targetAffected)
-			{
-                gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
-                gBattleScripting.moveEffect |= MOVE_EFFECT_DO_ONCE_PER_USE;
-			}
 			
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
                 && gBattleTypeFlags & BATTLE_TYPE_DOUBLE
@@ -5461,16 +5453,27 @@ static void Cmd_moveend(void)
                     gHitMarker &= ~(HITMARKER_NO_PPDEDUCT);
                 }
             }
-			if (gBattleScripting.moveEffect & MOVE_EFFECT_DO_ONCE_PER_USE)
+            RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
+            gBattleScripting.moveendState++;
+            break;
+		case MOVEEND_EFFECT_ONCE_PER_USE:
+			if (gBattleStruct->gMoveResultFlagsSaved)
 			{
-				gBattleScripting.moveEffect &= ~(MOVE_EFFECT_DO_ONCE_PER_USE);
+				gMoveResultFlags = gBattleStruct->gMoveResultFlagsSaved;
+				gBattleStruct->gMoveResultFlagsSaved = 0;
+			}
+			
+			if (gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
+				&& gProtectStructs[gBattlerAttacker].targetAffected)
+			{
+				gBattleStruct->gMoveResultFlagsSaved = gMoveResultFlags;
+                gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
 				BattleScriptPushCursor();
 			    gBattlescriptCurrInstr = BattleScript_EffectWithChance;
 				return;
 			}
-            RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
-            gBattleScripting.moveendState++;
-            break;
+			gBattleScripting.moveendState++;
+			break;
         case MOVEEND_KO_USER: // Explosion/selfdestruct and mind blown
             if (IsBattlerAlive(gBattlerAttacker)
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
@@ -5765,6 +5768,7 @@ static void Cmd_moveend(void)
             gSpecialStatuses[gBattlerAttacker].damagedMons = 0;
             gSpecialStatuses[gBattlerTarget].berryReduced = FALSE;
             gBattleScripting.moveEffect = 0;
+			gBattleStruct->gMoveResultFlagsSaved = 0;
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_COUNT:
