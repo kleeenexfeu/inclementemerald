@@ -2955,11 +2955,6 @@ void BeginBattleIntroDummy(void)
 
 }
 
-void Dummyglobal(void)
-{
-
-}
-
 void BeginBattleIntro(void)
 {
     BattleStartClearSetData();

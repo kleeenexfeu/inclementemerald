@@ -3556,39 +3556,7 @@ bool32 WillMoveHitMoreThanOneTarget(u16 move)
     return FALSE;
 }    
 
-bool32 IsCurrentTargetTheLastOne(u16 move)
-{
-    u8 battlerId = 0;
-    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-        || !(gBattleMoves[move].target & MOVE_TARGET_FOES_AND_ALLY || gBattleMoves[move].target & MOVE_TARGET_BOTH)
-        || !WillMoveHitMoreThanOneTarget(move))
-        return TRUE;// if we aren't in double/multi battle,  and/or the move doesn't target several pokémon at once, current target is the last one
-    
-    if (gBattleMoves[move].target & MOVE_TARGET_BOTH)
-    {
-        if (IsBattlerAlive(gBattlerTarget ^ BIT_FLANK)
-            && (gBattlerTarget ^ BIT_FLANK) > gBattlerTarget )
-            return FALSE; // Other flank is alive, and will be hit after the current one, because its index is > to the current one
-        else
-            return TRUE;
-    }
-    else
-    {
-        for (battlerId = gBattlersCount - 1; battlerId != 0; battlerId--)
-        {
-            if (battlerId == gBattlerAttacker)
-                continue;
-            if (IsBattlerAlive(battlerId))
-                break;
-        }
-        if (battlerId > gBattlerTarget && battlerId < gBattlersCount)
-            return FALSE;
-        else
-            return TRUE;
-    }
-}
-
-static void Cmd_seteffectwithchance(void)
+static void Cmd_seteffectwithchance(void) // should check gBattleOutcome to set needlessly set effects when battle is done
 {
     u32 percentChance;
     u8 moveType = gBattleMoves[gCurrentMove].type;
@@ -5457,7 +5425,6 @@ static void Cmd_moveend(void)
             gBattleScripting.moveendState++;
             break;
 		case MOVEEND_EFFECT_ONCE_PER_USE:
-			Dummyglobal();
 			if (gBattleStruct->gMoveResultFlagsSaved)
 			// Because we may have previously cleared some flags in the BattleScript_SetEffectWithChance
 			// we have saved them in the battlestructure, and we now restore them and clear the gMoveResultFlagsSaved
