@@ -2067,7 +2067,9 @@ static void Cmd_adjustdamage(void)
         goto END;
     if (gBattleMons[gBattlerTarget].hp > gBattleMoveDamage)
         goto END;
-
+    if ((GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSTOPPABLE) && gCurrentMove == MOVE_OUTRAGE)
+        goto END;
+	
     holdEffect = GetBattlerHoldEffect(gBattlerTarget, TRUE);
     param = GetBattlerHoldEffectParam(gBattlerTarget);
 

@@ -2828,6 +2828,12 @@ u8 DoBattlerEndTurnEffects(void)
                 gBattleStruct->turnEffectsTracker++;
             break;
         case ENDTURN_THRASH:  // thrash
+	    if (GetBattlerAbility(gActiveBattler) == ABILITY_UNSTOPPABLE)
+	    {
+	        CancelMultiTurnMoves(gActiveBattler);
+                gBattleStruct->turnEffectsTracker++;
+                break;
+	    }
             if (gBattleMons[gActiveBattler].status2 & STATUS2_LOCK_CONFUSE)
             {
                 gBattleMons[gActiveBattler].status2 -= STATUS2_LOCK_CONFUSE_TURN(1);
@@ -5813,6 +5819,7 @@ u32 GetBattlerAbility(u8 battlerId)
     
     if ((((gBattleMons[gBattlerAttacker].ability == ABILITY_MOLD_BREAKER
             || gBattleMons[gBattlerAttacker].ability == ABILITY_TERAVOLT
+	    || ((gBattleMons[gBattlerAttacker].ability == ABILITY_UNSTOPPABLE) && (gCurrentMove == MOVE_OUTRAGE))
             || gBattleMons[gBattlerAttacker].ability == ABILITY_TURBOBLAZE)
             && !(gStatuses3[gBattlerAttacker] & STATUS3_GASTRO_ACID))
             || gBattleMoves[gCurrentMove].flags & FLAG_TARGET_ABILITY_IGNORED)
@@ -7667,8 +7674,9 @@ bool32 IsBattlerProtected(u8 battlerId, u16 move)
 
     // Protective Pads doesn't stop Unseen Fist from bypassing Protect effects, so IsMoveMakingContact() isn't used here.
     // This means extra logic is needed to handle Shell Side Arm.
-    if (GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSEEN_FIST
+    if ((GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSEEN_FIST
         && (gBattleMoves[move].flags & FLAG_MAKES_CONTACT || (gBattleMoves[move].effect == EFFECT_SHELL_SIDE_ARM && gSwapDamageCategory)))
+        || ((GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSTOPPABLE) && (move == MOVE_OUTRAGE)))
         return FALSE;
     else if (!(gBattleMoves[move].flags & FLAG_PROTECT_AFFECTED))
         return FALSE;
@@ -8289,6 +8297,10 @@ static u32 CalcMoveBasePowerAfterModifiers(u16 move, u8 battlerAtk, u8 battlerDe
             MulModifier(&modifier, UQ_4_12(1.2));
     case ABILITY_GORILLA_TACTICS:
         if (IS_MOVE_PHYSICAL(move))
+            MulModifier(&modifier, UQ_4_12(1.5));
+        break;
+    case ABILITY_UNSTOPPABLE:
+        if (move == MOVE_OUTRAGE)
             MulModifier(&modifier, UQ_4_12(1.5));
         break;
     }
@@ -9169,6 +9181,11 @@ static u16 CalcTypeEffectivenessMultiplierInternal(u16 move, u8 moveType, u8 bat
             RecordAbilityBattle(battlerDef, ABILITY_LEVITATE);
         }
     }
+	
+    if (move == MOVE_OUTRAGE && GetBattlerAbility(battlerAtk) == ABILITY_UNSTOPPABLE && modifier <= UQ_4_12(1.0)) // Unstoppable ignores resist and immunities
+    {
+        modifier = UQ_4_12(1.0);
+    }	
 
     // Thousand Arrows ignores type modifiers for flying mons
     if (!IsBattlerGrounded(battlerDef) && (gBattleMoves[move].flags & FLAG_DMG_UNGROUNDED_IGNORE_TYPE_IF_FLYING)
