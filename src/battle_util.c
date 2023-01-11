@@ -9170,6 +9170,11 @@ static u16 CalcTypeEffectivenessMultiplierInternal(u16 move, u8 moveType, u8 bat
             RecordAbilityBattle(battlerDef, ABILITY_LEVITATE);
         }
     }
+	
+    if (move == MOVE_OUTRAGE && GetBattlerAbility(battlerDef) == ABILITY_UNSTOPPABLE && modifier <= UQ_4_12(1.0)) // Unstoppable ignores resist and immunities
+    {
+        modifier = UQ_4_12(1.0);
+    }	
 
     // Thousand Arrows ignores type modifiers for flying mons
     if (!IsBattlerGrounded(battlerDef) && (gBattleMoves[move].flags & FLAG_DMG_UNGROUNDED_IGNORE_TYPE_IF_FLYING)
