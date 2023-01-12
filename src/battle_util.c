@@ -2828,6 +2828,12 @@ u8 DoBattlerEndTurnEffects(void)
                 gBattleStruct->turnEffectsTracker++;
             break;
         case ENDTURN_THRASH:  // thrash
+	    if (GetBattlerAbility(ActiveBattler) == ABILITY_UNSTOPPABLE)
+	    {
+	        CancelMultiTurnMoves(gActiveBattler);
+                gBattleStruct->turnEffectsTracker++;
+                break;
+	    }
             if (gBattleMons[gActiveBattler].status2 & STATUS2_LOCK_CONFUSE)
             {
                 gBattleMons[gActiveBattler].status2 -= STATUS2_LOCK_CONFUSE_TURN(1);
