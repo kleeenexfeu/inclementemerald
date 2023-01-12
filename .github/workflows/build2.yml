@@ -40,13 +40,18 @@ jobs:
         with:
           name: pokeemerald_built
           path: pokeemerald.gba
+          retention-days: 1
           
       - uses: actions/upload-artifact@v2
         with:
           name: pokeemerald_elf
           path: pokeemerald.elf
+          retention-days: 1
           
       - uses: actions/upload-artifact@v2
         with:
           name: pokeemerald_map
           path: pokeemerald.map
+          retention-days: 1
+          
+      - uses: actions/download-artifact@v3
