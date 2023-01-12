@@ -53,5 +53,11 @@ jobs:
           name: pokeemerald_map
           path: pokeemerald.map
           retention-days: 1
-          
-      - uses: actions/download-artifact@v3
+  
+  download-my-artifacts:
+   name: dowloading
+   runs-on: unbuntu-latest
+   needs: build
+   steps:
+   - name: doanloading artifacts
+     uses: actions/download-artifact@v3
