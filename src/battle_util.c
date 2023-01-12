@@ -9171,7 +9171,7 @@ static u16 CalcTypeEffectivenessMultiplierInternal(u16 move, u8 moveType, u8 bat
         }
     }
 	
-    if (move == MOVE_OUTRAGE && GetBattlerAbility(battlerDef) == ABILITY_UNSTOPPABLE && modifier <= UQ_4_12(1.0)) // Unstoppable ignores resist and immunities
+    if (move == MOVE_OUTRAGE && GetBattlerAbility(battlerAtk) == ABILITY_UNSTOPPABLE && modifier <= UQ_4_12(1.0)) // Unstoppable ignores resist and immunities
     {
         modifier = UQ_4_12(1.0);
     }	
