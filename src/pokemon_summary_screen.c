@@ -1473,6 +1473,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
     switch (sMonSummaryScreen->switchCounter)
     {
     case 0:
+        CalculateMonStats(mon);
         sum->species = GetMonData(mon, MON_DATA_SPECIES);
         sum->species2 = GetMonData(mon, MON_DATA_SPECIES2);
         sum->exp = GetMonData(mon, MON_DATA_EXP);
