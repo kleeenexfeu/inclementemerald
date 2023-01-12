@@ -2828,7 +2828,7 @@ u8 DoBattlerEndTurnEffects(void)
                 gBattleStruct->turnEffectsTracker++;
             break;
         case ENDTURN_THRASH:  // thrash
-	    if (GetBattlerAbility(ActiveBattler) == ABILITY_UNSTOPPABLE)
+	    if (GetBattlerAbility(gActiveBattler) == ABILITY_UNSTOPPABLE)
 	    {
 	        CancelMultiTurnMoves(gActiveBattler);
                 gBattleStruct->turnEffectsTracker++;
