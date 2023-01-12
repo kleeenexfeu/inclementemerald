@@ -4253,6 +4253,8 @@ u32 GetMonData(struct Pokemon *mon, s32 field, u8* data)
         break;
     case MON_DATA_MAX_HP:
         retVal = mon->maxHP;
+        if (retVal > 0)
+            retVal = retVal + GetBoxMonData(&mon->box, MON_DATA_CUSTOM_HP, data);
         break;
     case MON_DATA_STATUS:
         retVal = mon->status;
