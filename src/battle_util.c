@@ -7676,7 +7676,7 @@ bool32 IsBattlerProtected(u8 battlerId, u16 move)
     // This means extra logic is needed to handle Shell Side Arm.
     if (GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSEEN_FIST
         && (gBattleMoves[move].flags & FLAG_MAKES_CONTACT || (gBattleMoves[move].effect == EFFECT_SHELL_SIDE_ARM && gSwapDamageCategory))
-        || (GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSTOPPABLE && move == MOVE_OUTRAGE))
+        || ((GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSTOPPABLE) && (move == MOVE_OUTRAGE)))
         return FALSE;
     else if (!(gBattleMoves[move].flags & FLAG_PROTECT_AFFECTED))
         return FALSE;
