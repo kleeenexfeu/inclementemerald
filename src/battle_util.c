@@ -8931,6 +8931,13 @@ static u32 CalcFinalDmg(u32 dmg, u16 move, u8 battlerAtk, u8 battlerDef, u8 move
         else
             MulModifier(&finalModifier, UQ_4_12(1.5));
     }
+	
+    // turboblaze and teravolt buff
+    if (abilityAtk == ABILITY_TURBOBLAZE && moveType == TYPE_FIRE)
+        MulModifier(&finalModifier, UQ_4_12(1.5));
+
+    if (abilityAtk == ABILITY_TERAVOLT && moveType == TYPE_ELECTRIC)
+        MulModifier(&finalModifier, UQ_4_12(1.5));
 
     // reflect, light screen, aurora veil
     if (((gSideStatuses[defSide] & SIDE_STATUS_REFLECT && IS_MOVE_PHYSICAL(move))
