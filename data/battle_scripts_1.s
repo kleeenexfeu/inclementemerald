@@ -7579,6 +7579,16 @@ BattleScript_DefiantActivates::
 	printstring STRINGID_DEFENDERSSTATROSE
 	waitmessage B_WAIT_TIME_LONG
 	return
+	
+BattleScript_PowerThiefActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	statbuffchange 0, NULL
+	setgraphicalstatchangevalues
+	playanimation BS_ABILITY_BATTLER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_ATTACKERSSTATROSE
+	waitmessage B_WAIT_TIME_LONG
+	return
 
 BattleScript_AbilityPopUp:
 	.if B_ABILITY_POP_UP == TRUE

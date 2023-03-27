@@ -1509,6 +1509,8 @@ bool8 WasUnableToUseMove(u8 battler)
 
 void PrepareStringBattle(u16 stringId, u8 battler)
 {
+    u32 statToEvaluate = GET_STAT_BUFF_ID(gBattleScripting.statChanger);
+    u32 stage = GET_STAT_BUFF_VALUE(gBattleScripting.statChanger);
     // Support for Contrary ability.
     // If a move attempted to raise stat - print "won't increase".
     // If a move attempted to lower stat - print "won't decrease".
@@ -1536,6 +1538,17 @@ void PrepareStringBattle(u16 stringId, u8 battler)
             SET_STATCHANGER(STAT_ATK, 2, FALSE);
         else
             SET_STATCHANGER(STAT_SPATK, 2, FALSE);
+    }
+	
+    // Check Power Thief stat raise whenever a target's stat is lowered.
+    else if ((stringId == STRINGID_DEFENDERSSTATFELL)
+              && ((GetBattlerAbility(gBattlerAttacker) == ABILITY_POWER_THIEF && CompareStat(gBattlerAttacker, statToEvaluate, MAX_STAT_STAGE, CMP_LESS_THAN)))
+              && gSpecialStatuses[gBattlerTarget].changedStatsBattlerId != gBattlerAttacker)
+    {
+        gBattlerAbility = gBattlerAttacker;
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_PowerThiefActivates;
+        SET_STATCHANGER(statToEvaluate, stage, FALSE);
     }
 
     gActiveBattler = battler;

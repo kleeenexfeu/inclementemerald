@@ -305,8 +305,9 @@
 #define ABILITY_VENGEANCE       (ABILITIES_COUNT_LATEST_GEN + 8) // Overgrow for Ghost moves.
 #define ABILITY_BLITZ_BOXER     (ABILITIES_COUNT_LATEST_GEN + 9) // Punching moves go first
 #define ABILITY_UNSTOPPABLE     (ABILITIES_COUNT_LATEST_GEN + 10) // Outrage ignores abilities, resistances, negative atk buff for the attacker, positive def buff for defender
+#define ABILITY_POWER_THIEF     (ABILITIES_COUNT_LATEST_GEN + 11) // Lowering target's stat raises your own//
 
-#define ABILITIES_COUNT_CUSTOM (ABILITY_UNSTOPPABLE + 1)
+#define ABILITIES_COUNT_CUSTOM (ABILITY_POWER_THIEF + 1)
 
 #define ABILITIES_COUNT ABILITIES_COUNT_CUSTOM
 
