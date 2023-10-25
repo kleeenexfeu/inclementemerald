@@ -12,17 +12,17 @@ jobs:
       COMPARE: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
 
       - name: Checkout syms
         if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
           path: symbols
           ref: symbols
 
       - name: Checkout agbcc
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
           path: agbcc
           repository: pret/agbcc
