@@ -12736,6 +12736,7 @@ static const struct LevelUpMove sFerroseedLevelUpLearnset[] = {
 static const struct LevelUpMove sFerrothornLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_POWER_WHIP),
 	LEVEL_UP_MOVE( 1, MOVE_ROCK_CLIMB),
+        LEVEL_UP_MOVE( 1, MOVE_LEECH_SEED),
 	LEVEL_UP_MOVE( 1, MOVE_TACKLE),
 	LEVEL_UP_MOVE( 1, MOVE_HARDEN),
 	LEVEL_UP_MOVE( 1, MOVE_ROLLOUT),
