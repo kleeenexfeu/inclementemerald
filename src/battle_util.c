@@ -2490,6 +2490,7 @@ enum
     ENDTURN_ITEMS1,
     ENDTURN_LEECH_SEED,
     ENDTURN_POISON,
+    ENDTURN_DEOXYS,
     ENDTURN_BAD_POISON,
     ENDTURN_BURN,
     ENDTURN_NIGHTMARES,
@@ -2766,6 +2767,16 @@ u8 DoBattlerEndTurnEffects(void)
             }
             gBattleStruct->turnEffectsTracker++;
             break;
+        case ENDTURN_DEOXYS:
+            if ((GET_BASE_SPECIES_ID(gBattleMons[gActiveBattler].species) == SPECIES_DEOXYS)
+            && gBattleMons[gActiveBattler].species != SPECIES_DEOXYS_SPEED)
+            {
+                gBattleMons[gActiveBattler].species = SPECIES_DEOXYS_SPEED;
+                BattleScriptExecute(BattleScript_AttackerFormChangeEnd2);
+				effect++;
+            }
+            gBattleStruct->turnEffectsTracker++;
+            break;
         case ENDTURN_OCTOLOCK:
             if (gDisableStructs[gActiveBattler].octolock 
              && !(GetBattlerAbility(gActiveBattler) == ABILITY_CLEAR_BODY 
@@ -2828,12 +2839,12 @@ u8 DoBattlerEndTurnEffects(void)
                 gBattleStruct->turnEffectsTracker++;
             break;
         case ENDTURN_THRASH:  // thrash
-	    if (GetBattlerAbility(gActiveBattler) == ABILITY_UNSTOPPABLE)
-	    {
-	        CancelMultiTurnMoves(gActiveBattler);
+        if (GetBattlerAbility(gActiveBattler) == ABILITY_UNSTOPPABLE)
+        {
+            CancelMultiTurnMoves(gActiveBattler);
                 gBattleStruct->turnEffectsTracker++;
                 break;
-	    }
+        }
             if (gBattleMons[gActiveBattler].status2 & STATUS2_LOCK_CONFUSE)
             {
                 gBattleMons[gActiveBattler].status2 -= STATUS2_LOCK_CONFUSE_TURN(1);
@@ -5811,7 +5822,7 @@ u32 GetBattlerAbility(u8 battlerId)
     
     if ((((gBattleMons[gBattlerAttacker].ability == ABILITY_MOLD_BREAKER
             || gBattleMons[gBattlerAttacker].ability == ABILITY_TERAVOLT
-	    || ((gBattleMons[gBattlerAttacker].ability == ABILITY_UNSTOPPABLE) && (gCurrentMove == MOVE_OUTRAGE))
+        || ((gBattleMons[gBattlerAttacker].ability == ABILITY_UNSTOPPABLE) && (gCurrentMove == MOVE_OUTRAGE))
             || gBattleMons[gBattlerAttacker].ability == ABILITY_TURBOBLAZE)
             && !(gStatuses3[gBattlerAttacker] & STATUS3_GASTRO_ACID))
             || gBattleMoves[gCurrentMove].flags & FLAG_TARGET_ABILITY_IGNORED)
@@ -7829,9 +7840,9 @@ u32 GetMoveTargetCount(u16 move, u8 battlerAtk, u8 battlerDef)
 static void MulModifier(u16 *modifier, u16 val)
 {
     *modifier = UQ_4_12_TO_INT((*modifier * val) + UQ_4_12_ROUND);
-	#if B_FUNCTION_CALL_COUNTER
-	gFunctionCallsCounter++;
-	#endif
+    #if B_FUNCTION_CALL_COUNTER
+    gFunctionCallsCounter++;
+    #endif
 }
 
 static u32 ApplyModifier(u16 modifier, u32 val)
@@ -8923,7 +8934,7 @@ static u32 CalcFinalDmg(u32 dmg, u16 move, u8 battlerAtk, u8 battlerDef, u8 move
         else
             MulModifier(&finalModifier, UQ_4_12(1.5));
     }
-	
+    
     // turboblaze and teravolt buff
     if (abilityAtk == ABILITY_TURBOBLAZE && moveType == TYPE_FIRE)
         MulModifier(&finalModifier, UQ_4_12(1.5));
@@ -9180,11 +9191,11 @@ static u16 CalcTypeEffectivenessMultiplierInternal(u16 move, u8 moveType, u8 bat
             RecordAbilityBattle(battlerDef, ABILITY_LEVITATE);
         }
     }
-	
+    
     if (move == MOVE_OUTRAGE && GetBattlerAbility(battlerAtk) == ABILITY_UNSTOPPABLE && modifier <= UQ_4_12(1.0)) // Unstoppable ignores resist and immunities
     {
         modifier = UQ_4_12(1.0);
-    }	
+    }    
 
     // Thousand Arrows ignores type modifiers for flying mons
     if (!IsBattlerGrounded(battlerDef) && (gBattleMoves[move].flags & FLAG_DMG_UNGROUNDED_IGNORE_TYPE_IF_FLYING)
@@ -9492,6 +9503,9 @@ void UndoFormChange(u32 monId, u32 side, bool32 isSwitchingOut)
         {SPECIES_GRENINJA_ASH,         SPECIES_GRENINJA_BATTLE_BOND, FALSE},
         {SPECIES_MELOETTA_PIROUETTE,   SPECIES_MELOETTA,             FALSE},
         {SPECIES_AEGISLASH_BLADE,      SPECIES_AEGISLASH,            TRUE},
+        {SPECIES_DEOXYS_DEFENSE,       SPECIES_DEOXYS,               TRUE},
+        {SPECIES_DEOXYS_ATTACK,        SPECIES_DEOXYS,               TRUE},
+        {SPECIES_DEOXYS_SPEED,         SPECIES_DEOXYS,               TRUE},
         {SPECIES_DARMANITAN_ZEN_MODE,  SPECIES_DARMANITAN,           TRUE},
         {SPECIES_MINIOR,               SPECIES_MINIOR_CORE_RED,      TRUE},
         {SPECIES_MINIOR_METEOR_BLUE,   SPECIES_MINIOR_CORE_BLUE,     TRUE},

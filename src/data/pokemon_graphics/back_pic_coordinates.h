@@ -5209,7 +5209,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_DEOXYS_DEFENSE] =
     {
         .size = 0x87,
-        .y_offset = 6,
+        .y_offset = 8,
     },
     [SPECIES_DEOXYS_SPEED] =
     {
