@@ -94,6 +94,7 @@ static const u16 sSkillSwapBannedAbilities[] =
     ABILITY_MULTITYPE,
     ABILITY_ILLUSION,
     ABILITY_STANCE_CHANGE,
+    ABILITY_SHAPE_SHIFTER,
     ABILITY_SCHOOLING,
     ABILITY_COMATOSE,
     ABILITY_SHIELDS_DOWN,
@@ -137,6 +138,7 @@ static const u16 sRolePlayBannedAttackerAbilities[] =
     ABILITY_MULTITYPE,
     ABILITY_ZEN_MODE,
     ABILITY_STANCE_CHANGE,
+    ABILITY_SHAPE_SHIFTER,
     ABILITY_SCHOOLING,
     ABILITY_COMATOSE,
     ABILITY_SHIELDS_DOWN,
@@ -152,6 +154,7 @@ static const u16 sWorrySeedBannedAbilities[] =
 {
     ABILITY_MULTITYPE,
     ABILITY_STANCE_CHANGE,
+    ABILITY_SHAPE_SHIFTER,
     ABILITY_SCHOOLING,
     ABILITY_COMATOSE,
     ABILITY_SHIELDS_DOWN,
@@ -170,6 +173,7 @@ static const u16 sGastroAcidBannedAbilities[] =
     ABILITY_AS_ONE_SHADOW_RIDER,
     ABILITY_BATTLE_BOND,
     ABILITY_COMATOSE,
+    ABILITY_SHAPE_SHIFTER,
     ABILITY_DISGUISE,
     ABILITY_GULP_MISSILE,
     ABILITY_ICE_FACE,
@@ -187,6 +191,7 @@ static const u16 sEntrainmentBannedAttackerAbilities[] =
     ABILITY_TRACE,
     ABILITY_FORECAST,
     ABILITY_FLOWER_GIFT,
+    ABILITY_SHAPE_SHIFTER,
     ABILITY_ZEN_MODE,
     ABILITY_ILLUSION,
     ABILITY_IMPOSTER,
@@ -205,6 +210,7 @@ static const u16 sEntrainmentTargetSimpleBeamBannedAbilities[] =
     ABILITY_TRUANT,
     ABILITY_MULTITYPE,
     ABILITY_STANCE_CHANGE,
+    ABILITY_SHAPE_SHIFTER,
     ABILITY_SCHOOLING,
     ABILITY_COMATOSE,
     ABILITY_SHIELDS_DOWN,
@@ -1088,6 +1094,7 @@ static const u8 sAbilitiesNotTraced[ABILITIES_COUNT] =
     [ABILITY_SCHOOLING] = 1,
     [ABILITY_SHIELDS_DOWN] = 1,
     [ABILITY_STANCE_CHANGE] = 1,
+    [ABILITY_SHAPE_SHIFTER] = 1,
     [ABILITY_TRACE] = 1,
     [ABILITY_ZEN_MODE] = 1,
 };
@@ -2490,6 +2497,7 @@ enum
     ENDTURN_ITEMS1,
     ENDTURN_LEECH_SEED,
     ENDTURN_POISON,
+    ENDTURN_DEOXYS,
     ENDTURN_BAD_POISON,
     ENDTURN_BURN,
     ENDTURN_NIGHTMARES,
@@ -2766,6 +2774,17 @@ u8 DoBattlerEndTurnEffects(void)
             }
             gBattleStruct->turnEffectsTracker++;
             break;
+        case ENDTURN_DEOXYS:
+            if ((GET_BASE_SPECIES_ID(gBattleMons[gActiveBattler].species) == SPECIES_DEOXYS)
+            && gBattleMons[gActiveBattler].species != SPECIES_DEOXYS_SPEED
+            && gBattleMons[gActiveBattler].ability == ABILITY_SHAPE_SHIFTER)
+            {
+                gBattleMons[gActiveBattler].species = SPECIES_DEOXYS_SPEED;
+                BattleScriptExecute(BattleScript_AttackerFormChangeEnd2);
+				effect++;
+            }
+            gBattleStruct->turnEffectsTracker++;
+            break;
         case ENDTURN_OCTOLOCK:
             if (gDisableStructs[gActiveBattler].octolock 
              && !(GetBattlerAbility(gActiveBattler) == ABILITY_CLEAR_BODY 
@@ -2828,12 +2847,12 @@ u8 DoBattlerEndTurnEffects(void)
                 gBattleStruct->turnEffectsTracker++;
             break;
         case ENDTURN_THRASH:  // thrash
-	    if (GetBattlerAbility(gActiveBattler) == ABILITY_UNSTOPPABLE)
-	    {
-	        CancelMultiTurnMoves(gActiveBattler);
+        if (GetBattlerAbility(gActiveBattler) == ABILITY_UNSTOPPABLE)
+        {
+            CancelMultiTurnMoves(gActiveBattler);
                 gBattleStruct->turnEffectsTracker++;
                 break;
-	    }
+        }
             if (gBattleMons[gActiveBattler].status2 & STATUS2_LOCK_CONFUSE)
             {
                 gBattleMons[gActiveBattler].status2 -= STATUS2_LOCK_CONFUSE_TURN(1);
@@ -5098,6 +5117,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u16 ability, u8 special, u16 move
                 case ABILITY_SCHOOLING:
                 case ABILITY_SHIELDS_DOWN:
                 case ABILITY_STANCE_CHANGE:
+                case ABILITY_SHAPE_SHIFTER:
                     break;
                 default:
                     gLastUsedAbility = gBattleMons[gBattlerAttacker].ability = ABILITY_MUMMY;
@@ -5127,6 +5147,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u16 ability, u8 special, u16 move
                 case ABILITY_RKS_SYSTEM:
                 case ABILITY_SCHOOLING:
                 case ABILITY_STANCE_CHANGE:
+                case ABILITY_SHAPE_SHIFTER:
                 case ABILITY_WONDER_GUARD:
                 case ABILITY_ZEN_MODE:
                     break;
@@ -5780,6 +5801,7 @@ bool32 IsNeutralizingGasBannedAbility(u32 ability)
     case ABILITY_MULTITYPE:
     case ABILITY_ZEN_MODE:
     case ABILITY_STANCE_CHANGE:
+    case ABILITY_SHAPE_SHIFTER:
     case ABILITY_POWER_CONSTRUCT:
     case ABILITY_SCHOOLING:
     case ABILITY_RKS_SYSTEM:
@@ -5819,7 +5841,7 @@ u32 GetBattlerAbility(u8 battlerId)
     
     if ((((gBattleMons[gBattlerAttacker].ability == ABILITY_MOLD_BREAKER
             || gBattleMons[gBattlerAttacker].ability == ABILITY_TERAVOLT
-	    || ((gBattleMons[gBattlerAttacker].ability == ABILITY_UNSTOPPABLE) && (gCurrentMove == MOVE_OUTRAGE))
+        || ((gBattleMons[gBattlerAttacker].ability == ABILITY_UNSTOPPABLE) && (gCurrentMove == MOVE_OUTRAGE))
             || gBattleMons[gBattlerAttacker].ability == ABILITY_TURBOBLAZE)
             && !(gStatuses3[gBattlerAttacker] & STATUS3_GASTRO_ACID))
             || gBattleMoves[gCurrentMove].flags & FLAG_TARGET_ABILITY_IGNORED)
@@ -7837,9 +7859,9 @@ u32 GetMoveTargetCount(u16 move, u8 battlerAtk, u8 battlerDef)
 static void MulModifier(u16 *modifier, u16 val)
 {
     *modifier = UQ_4_12_TO_INT((*modifier * val) + UQ_4_12_ROUND);
-	#if B_FUNCTION_CALL_COUNTER
-	gFunctionCallsCounter++;
-	#endif
+    #if B_FUNCTION_CALL_COUNTER
+    gFunctionCallsCounter++;
+    #endif
 }
 
 static u32 ApplyModifier(u16 modifier, u32 val)
@@ -9181,11 +9203,11 @@ static u16 CalcTypeEffectivenessMultiplierInternal(u16 move, u8 moveType, u8 bat
             RecordAbilityBattle(battlerDef, ABILITY_LEVITATE);
         }
     }
-	
+    
     if (move == MOVE_OUTRAGE && GetBattlerAbility(battlerAtk) == ABILITY_UNSTOPPABLE && modifier <= UQ_4_12(1.0)) // Unstoppable ignores resist and immunities
     {
         modifier = UQ_4_12(1.0);
-    }	
+    }    
 
     // Thousand Arrows ignores type modifiers for flying mons
     if (!IsBattlerGrounded(battlerDef) && (gBattleMoves[move].flags & FLAG_DMG_UNGROUNDED_IGNORE_TYPE_IF_FLYING)
@@ -9493,6 +9515,9 @@ void UndoFormChange(u32 monId, u32 side, bool32 isSwitchingOut)
         {SPECIES_GRENINJA_ASH,         SPECIES_GRENINJA_BATTLE_BOND, FALSE},
         {SPECIES_MELOETTA_PIROUETTE,   SPECIES_MELOETTA,             FALSE},
         {SPECIES_AEGISLASH_BLADE,      SPECIES_AEGISLASH,            TRUE},
+        {SPECIES_DEOXYS_DEFENSE,       SPECIES_DEOXYS,               TRUE},
+        {SPECIES_DEOXYS_ATTACK,        SPECIES_DEOXYS,               TRUE},
+        {SPECIES_DEOXYS_SPEED,         SPECIES_DEOXYS,               TRUE},
         {SPECIES_DARMANITAN_ZEN_MODE,  SPECIES_DARMANITAN,           TRUE},
         {SPECIES_MINIOR,               SPECIES_MINIOR_CORE_RED,      TRUE},
         {SPECIES_MINIOR_METEOR_BLUE,   SPECIES_MINIOR_CORE_BLUE,     TRUE},

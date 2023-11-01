@@ -1384,6 +1384,34 @@ static bool32 NoTargetPresent(u32 move)
     return FALSE;
 }
 
+static bool32 TryDeoxysFormChange(void)
+{
+    if ((GET_BASE_SPECIES_ID(gBattleMons[gBattlerAttacker].species) == SPECIES_DEOXYS)
+    && gBattleMons[gBattlerAttacker].species != SPECIES_DEOXYS_ATTACK
+    && gBattleMoves[gCurrentMove].power > 0
+    && gBattleMons[gBattlerAttacker].ability == ABILITY_SHAPE_SHIFTER
+    && !(gBattleMons[gBattlerAttacker].status2 & STATUS2_TRANSFORMED))
+    {
+        gBattleMons[gBattlerAttacker].species = SPECIES_DEOXYS_ATTACK;
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_AttackerFormChange;
+        return TRUE;
+    }
+    else if ((GET_BASE_SPECIES_ID(gBattleMons[gBattlerTarget].species) == SPECIES_DEOXYS)
+    && gBattleMons[gBattlerTarget].species != SPECIES_DEOXYS_DEFENSE
+    && gBattleMoves[gCurrentMove].power > 0
+    && gBattleMons[gBattlerTarget].ability == ABILITY_SHAPE_SHIFTER
+    && !(gBattleMons[gBattlerTarget].status2 & STATUS2_TRANSFORMED))
+    {
+        gBattleMons[gBattlerTarget].species = SPECIES_DEOXYS_DEFENSE;
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_TargetFormChange;
+        return TRUE;
+    }
+    else
+        return FALSE;
+}
+
 static bool32 TryAegiFormChange(void)
 {
     // Only Aegislash with Stance Change can transform, transformed mons cannot.
@@ -1480,11 +1508,17 @@ static void Cmd_attackcanceler(void)
         return;
     }
 
+    if (TryDeoxysFormChange())
+        return;
+
     // Check Protean activation.
-    if ((GetBattlerAbility(gBattlerAttacker) == ABILITY_PROTEAN || GetBattlerAbility(gBattlerAttacker) == ABILITY_LIBERO)
-        && (gBattleMons[gBattlerAttacker].type1 != moveType || gBattleMons[gBattlerAttacker].type2 != moveType ||
-            (gBattleMons[gBattlerAttacker].type3 != moveType && gBattleMons[gBattlerAttacker].type3 != TYPE_MYSTERY))
-        && gCurrentMove != MOVE_STRUGGLE)
+    if (
+    (GetBattlerAbility(gBattlerAttacker) == ABILITY_PROTEAN || GetBattlerAbility(gBattlerAttacker) == ABILITY_LIBERO
+    || (GetBattlerAbility(gBattlerAttacker) == ABILITY_SHAPE_SHIFTER && GET_BASE_SPECIES_ID(gBattleMons[gBattlerAttacker].species) == SPECIES_DEOXYS))
+    && (gBattleMons[gBattlerAttacker].type1 != moveType || gBattleMons[gBattlerAttacker].type2 != moveType ||
+       (gBattleMons[gBattlerAttacker].type3 != moveType && gBattleMons[gBattlerAttacker].type3 != TYPE_MYSTERY))
+    && gCurrentMove != MOVE_STRUGGLE
+    )
     {
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
         SET_BATTLER_TYPE(gBattlerAttacker, moveType);
@@ -2069,7 +2103,7 @@ static void Cmd_adjustdamage(void)
         goto END;
     if ((GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSTOPPABLE) && gCurrentMove == MOVE_OUTRAGE)
         goto END;
-	
+    
     holdEffect = GetBattlerHoldEffect(gBattlerTarget, TRUE);
     param = GetBattlerHoldEffectParam(gBattlerTarget);
 
@@ -5381,7 +5415,7 @@ static void Cmd_moveend(void)
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
              && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
                 gProtectStructs[gBattlerAttacker].targetAffected = TRUE;
-			
+            
             if (!(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
                 && gBattleTypeFlags & BATTLE_TYPE_DOUBLE
                 && !gProtectStructs[gBattlerAttacker].chargingTurn
@@ -5426,27 +5460,27 @@ static void Cmd_moveend(void)
             RecordLastUsedMoveBy(gBattlerAttacker, gCurrentMove);
             gBattleScripting.moveendState++;
             break;
-		case MOVEEND_EFFECT_ONCE_PER_USE:
-			if (gBattleStruct->gMoveResultFlagsSaved)
-			// Because we may have previously cleared some flags in the BattleScript_SetEffectWithChance
-			// we have saved them in the battlestructure, and we now restore them and clear the gMoveResultFlagsSaved
-			{
-				gMoveResultFlags = gBattleStruct->gMoveResultFlagsSaved;
-				gBattleStruct->gMoveResultFlagsSaved = 0;
-			}
-			
-			if ((gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
-				&& gProtectStructs[gBattlerAttacker].targetAffected)
-			{
-				gBattleStruct->gMoveResultFlagsSaved = gMoveResultFlags;
-				gMoveResultFlags &= ~(MOVE_RESULT_NO_EFFECT);
+        case MOVEEND_EFFECT_ONCE_PER_USE:
+            if (gBattleStruct->gMoveResultFlagsSaved)
+            // Because we may have previously cleared some flags in the BattleScript_SetEffectWithChance
+            // we have saved them in the battlestructure, and we now restore them and clear the gMoveResultFlagsSaved
+            {
+                gMoveResultFlags = gBattleStruct->gMoveResultFlagsSaved;
+                gBattleStruct->gMoveResultFlagsSaved = 0;
+            }
+            
+            if ((gBattleScripting.moveEffect & MOVE_EFFECT_ONCE_PER_USE)
+                && gProtectStructs[gBattlerAttacker].targetAffected)
+            {
+                gBattleStruct->gMoveResultFlagsSaved = gMoveResultFlags;
+                gMoveResultFlags &= ~(MOVE_RESULT_NO_EFFECT);
                 gBattleScripting.moveEffect &= ~(MOVE_EFFECT_ONCE_PER_USE);
-				BattleScriptPushCursor();
-			    gBattlescriptCurrInstr = BattleScript_SetEffectWithChance;
-				effect = TRUE;
-			}
-			gBattleScripting.moveendState++;
-			break;
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_SetEffectWithChance;
+                effect = TRUE;
+            }
+            gBattleScripting.moveendState++;
+            break;
         case MOVEEND_KO_USER: // Explosion/selfdestruct and mind blown
             if (IsBattlerAlive(gBattlerAttacker)
                 && (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
@@ -5741,7 +5775,7 @@ static void Cmd_moveend(void)
             gSpecialStatuses[gBattlerAttacker].damagedMons = 0;
             gSpecialStatuses[gBattlerTarget].berryReduced = FALSE;
             gBattleScripting.moveEffect = 0;
-			gBattleStruct->gMoveResultFlagsSaved = 0;
+            gBattleStruct->gMoveResultFlagsSaved = 0;
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_COUNT:
@@ -8316,6 +8350,7 @@ static void Cmd_various(void)
             case ABILITY_SCHOOLING:         case ABILITY_COMATOSE:
             case ABILITY_SHIELDS_DOWN:      case ABILITY_DISGUISE:
             case ABILITY_RKS_SYSTEM:        case ABILITY_TRACE:
+            case ABILITY_SHAPE_SHIFTER:
                 break;
             default:
                 gBattleStruct->tracedAbility[gBattlerAbility] = gBattleMons[gActiveBattler].ability; // re-using the variable for trace
@@ -8626,8 +8661,8 @@ static void Cmd_various(void)
         {
             UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], mon, HEALTHBOX_ALL);
             #if B_DISPLAY_MEGA_INDICATORS
-			CreateMegaIndicatorSprite(gActiveBattler, 0);
-			#endif
+            CreateMegaIndicatorSprite(gActiveBattler, 0);
+            #endif
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
                 SetBattlerShadowSpriteCallback(gActiveBattler, gBattleMons[gActiveBattler].species);
         }
@@ -8669,8 +8704,8 @@ static void Cmd_various(void)
         {
             UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], mon, HEALTHBOX_ALL);
             #if B_DISPLAY_MEGA_INDICATORS
-			CreateMegaIndicatorSprite(gActiveBattler, 0);
-			#endif
+            CreateMegaIndicatorSprite(gActiveBattler, 0);
+            #endif
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
                 SetBattlerShadowSpriteCallback(gActiveBattler, gBattleMons[gActiveBattler].species);
         }

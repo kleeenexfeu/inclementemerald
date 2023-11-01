@@ -265,6 +265,7 @@ static const u8 sRampageDescription[] = _("No recharge after a KO.");
 static const u8 sVengeanceDescription[] = _("Ups Ghost moves in a pinch.");
 static const u8 sBlitzBoxerDescription[] = _("Punching moves go first.");
 static const u8 sUnstoppableDescription[] = _("Outrage ignores immunities.");
+static const u8 sShapeShifterDescription[] = _("Type and form change at will.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -547,6 +548,7 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_VENGEANCE] = _("Vengeance"),
     [ABILITY_BLITZ_BOXER] = _("Blitz Boxer"),
     [ABILITY_UNSTOPPABLE] = _("Unstoppable"),
+    [ABILITY_SHAPE_SHIFTER] = _("ShapeShifter"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -830,4 +832,5 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_VENGEANCE] = sVengeanceDescription,
     [ABILITY_BLITZ_BOXER] = sBlitzBoxerDescription,
     [ABILITY_UNSTOPPABLE] = sUnstoppableDescription,
+    [ABILITY_SHAPE_SHIFTER] = sShapeShifterDescription,
 };

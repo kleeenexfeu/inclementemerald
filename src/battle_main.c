@@ -528,13 +528,13 @@ const u8 * const gStatusConditionStringsTable[7][2] =
 #if B_FUNCTION_CALL_COUNTER
 void ResetFunctionCallsCounter(void)
 {
-	gFunctionCallsCounter = 0;
-	gFunctionCallsCounter1 = 0;
-	gFunctionCallsCounter2 = 0;
-	gFunctionCallsCounter3 = 0;
-	gFunctionCallsCounter4 = 0;
-	gFunctionCallsCounter5 = 0;
-	gFunctionCallsCounter6 = 0;
+    gFunctionCallsCounter = 0;
+    gFunctionCallsCounter1 = 0;
+    gFunctionCallsCounter2 = 0;
+    gFunctionCallsCounter3 = 0;
+    gFunctionCallsCounter4 = 0;
+    gFunctionCallsCounter5 = 0;
+    gFunctionCallsCounter6 = 0;
 }
 #endif
 
@@ -2915,8 +2915,8 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
     sprite->sSinIndex = (sprite->sSinIndex + sprite->sDelta) & 0xFF;
 
     #if B_DISPLAY_MEGA_INDICATORS
-	bouncerSpriteId = GetMegaIndicatorSpriteId(sprite->sBouncerSpriteId)
-	#endif
+    bouncerSpriteId = GetMegaIndicatorSpriteId(sprite->sBouncerSpriteId)
+    #endif
     if (sprite->sWhich == BOUNCE_HEALTHBOX && bouncerSpriteId != 0xFF)
         gSprites[bouncerSpriteId].y2 = y;
 }
@@ -4712,8 +4712,8 @@ static void SetActionsAndBattlersTurnOrder(void)
                     turnOrderId++;
                 }
             }
-			gBattleMainFunc = CheckFocusPunch_ClearVarsBeforeTurnStarts;
-			gBattleStruct->focusPunchBattlerId = 0;
+            gBattleMainFunc = CheckFocusPunch_ClearVarsBeforeTurnStarts;
+            gBattleStruct->focusPunchBattlerId = 0;
             return;
         }
         else
@@ -4900,7 +4900,7 @@ static void CheckQuickClaw_CustapBerryActivation(void)
 
 static void TryChangeTurnOrder(void)
 {
-	s32 i, j;
+    s32 i, j;
     for (i = 0; i < gBattlersCount - 1; i++)
     {
         for (j = i + 1; j < gBattlersCount; j++)
@@ -4919,57 +4919,57 @@ static void TryChangeTurnOrder(void)
 
 static u32 CheckMegaEvolutionBeforeMoves(void)
 {
-	u32 val = 0;
-	if (gCurrentActionFuncId == B_ACTION_USE_MOVE) // mega evolution has priority only on moves
-	{
-		if (!(gHitMarker & HITMARKER_RUN))
-		{
-			u8 remainingBattlersCount = gBattlersCount - gCurrentTurnActionNumber;
-			while (gBattleStruct->mega.battlerId < gBattlersCount && remainingBattlersCount > 0)
-			{
-				gBattleStruct->mega.battlerId = gBattlerByTurnOrder[gBattlersCount - remainingBattlersCount];
-				gActiveBattler = gBattlerAttacker = gBattleStruct->mega.battlerId;
-				remainingBattlersCount--;
-				if (gBattleStruct->mega.toEvolve & gBitTable[gActiveBattler]
-					&& !(gProtectStructs[gActiveBattler].noValidMoves))
-				{
-					gBattleStruct->mega.toEvolve &= ~(gBitTable[gActiveBattler]);
-					gLastUsedItem = gBattleMons[gActiveBattler].item;
-					if (gBattleStruct->mega.isWishMegaEvo[gActiveBattler] == TRUE)
-						BattleScriptExecute(BattleScript_WishMegaEvolution);
-					else
-						BattleScriptExecute(BattleScript_MegaEvolution);
-					val = 1;
-					return val;
-				}
-			}
-		}
-	}
-	return val;
+    u32 val = 0;
+    if (gCurrentActionFuncId == B_ACTION_USE_MOVE) // mega evolution has priority only on moves
+    {
+        if (!(gHitMarker & HITMARKER_RUN))
+        {
+            u8 remainingBattlersCount = gBattlersCount - gCurrentTurnActionNumber;
+            while (gBattleStruct->mega.battlerId < gBattlersCount && remainingBattlersCount > 0)
+            {
+                gBattleStruct->mega.battlerId = gBattlerByTurnOrder[gBattlersCount - remainingBattlersCount];
+                gActiveBattler = gBattlerAttacker = gBattleStruct->mega.battlerId;
+                remainingBattlersCount--;
+                if (gBattleStruct->mega.toEvolve & gBitTable[gActiveBattler]
+                    && !(gProtectStructs[gActiveBattler].noValidMoves))
+                {
+                    gBattleStruct->mega.toEvolve &= ~(gBitTable[gActiveBattler]);
+                    gLastUsedItem = gBattleMons[gActiveBattler].item;
+                    if (gBattleStruct->mega.isWishMegaEvo[gActiveBattler] == TRUE)
+                        BattleScriptExecute(BattleScript_WishMegaEvolution);
+                    else
+                        BattleScriptExecute(BattleScript_MegaEvolution);
+                    val = 1;
+                    return val;
+                }
+            }
+        }
+    }
+    return val;
 }
 
 static void RunTurnActionsFunctions(void)
 {
-	if (gBattleOutcome != 0)
-		gCurrentActionFuncId = B_ACTION_FINISHED;
-	else
-	{
-		if (gBattleStruct->mega.megaEvoWasDone)
-		{
-			gCurrentActionFuncId = B_ACTION_USE_MOVE; // restores gCurrentActionFuncId after mega battlescript was executed, thus allowing the mon to use move
-			gBattleStruct->mega.megaEvoWasDone = 0;
-			#if B_MEGA_EVO_TURN_ORDER > GEN_6
-			TryChangeTurnOrder();
-			#endif
-		}
+    if (gBattleOutcome != 0)
+        gCurrentActionFuncId = B_ACTION_FINISHED;
+    else
+    {
+        if (gBattleStruct->mega.megaEvoWasDone)
+        {
+            gCurrentActionFuncId = B_ACTION_USE_MOVE; // restores gCurrentActionFuncId after mega battlescript was executed, thus allowing the mon to use move
+            gBattleStruct->mega.megaEvoWasDone = 0;
+            #if B_MEGA_EVO_TURN_ORDER > GEN_6
+            TryChangeTurnOrder();
+            #endif
+        }
 
-		if (CheckMegaEvolutionBeforeMoves())
-		{
-			gBattleStruct->mega.megaEvoWasDone = 1;
-			return;
-		}
-	}
-	
+        if (CheckMegaEvolutionBeforeMoves())
+        {
+            gBattleStruct->mega.megaEvoWasDone = 1;
+            return;
+        }
+    }
+    
     *(&gBattleStruct->savedTurnActionNumber) = gCurrentTurnActionNumber;
     sTurnActionsFuncsTable[gCurrentActionFuncId]();
 
