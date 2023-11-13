@@ -737,4 +737,5 @@ const u32 *const gItemIconTable[][2] =
 
     // Custom Items
     [ITEM_TRAINING_BAND] = {gItemIcon_TrainingBand, gItemIconPalette_TrainingBand},
+    [ITEM_LEGEND_PLATE] = {gItemIcon_IronPlate, gItemIconPalette_IronPlate},
 };

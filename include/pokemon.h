@@ -146,6 +146,7 @@ struct BattlePokemon
     /*0x50*/ u32 status2;
     /*0x54*/ u32 otId;
     /*0x58*/ u8 nature;
+    /*0x59*/ u8 defenseMultitypeDone;
 };
 
 struct BaseStats

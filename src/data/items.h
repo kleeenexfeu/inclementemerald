@@ -6497,6 +6497,20 @@ const struct Item gItems[] =
         .secondaryId = TYPE_WATER,
     },
 
+    [ITEM_LEGEND_PLATE] =
+    {
+        .name = _("Legend Plate"),
+        .itemId = ITEM_LEGEND_PLATE,
+        .price = 1000,
+        .holdEffect = HOLD_EFFECT_PLATE,
+        .holdEffectParam = 255,
+        .description = sLegendPlateDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = NUMBER_OF_MON_TYPES, // to differenciate from other plates
+    },
+
     [ITEM_ZAP_PLATE] =
     {
         .name = _("Zap Plate"),

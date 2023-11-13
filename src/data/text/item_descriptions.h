@@ -2591,6 +2591,11 @@ static const u8 sSplashPlateDesc[] = _(
     "the power of\n"
     "Water-type moves.");
 
+static const u8 sLegendPlateDesc[] = _(
+    "Allows Arceus to\n"
+    "gain the power of\n"
+    "every types there is.");
+
 static const u8 sZapPlateDesc[] = _(
     "A tablet that ups\n"
     "the power of Elec-\n"

@@ -1412,6 +1412,91 @@ static bool32 TryDeoxysFormChange(void)
         return FALSE;
 }
 
+static bool32 TryArceusFormChange(moveType, battlerId, isDefender)
+{
+    u16 newspecies = gBattleMons[battlerId].species;
+
+    if (GET_BASE_SPECIES_ID(gBattleMons[battlerId].species) == SPECIES_ARCEUS)
+    {
+        if (!(gBattleMons[battlerId].status2 & STATUS2_TRANSFORMED)
+        && gBattleMons[battlerId].item == ITEM_LEGEND_PLATE
+        && gBattleMoves[gCurrentMove].power > 0
+        && IsBattlerNotOnlyType(battlerId, moveType))
+        {
+            switch (moveType)
+            {
+            default:
+                return FALSE;
+            case TYPE_NORMAL:
+                newspecies = SPECIES_ARCEUS;
+                break;
+            case TYPE_FIGHTING:
+                newspecies = SPECIES_ARCEUS_FIGHTING;
+                break;
+            case TYPE_FLYING:
+                newspecies = SPECIES_ARCEUS_FLYING;
+                break;
+            case TYPE_GROUND:
+                newspecies = SPECIES_ARCEUS_GROUND;
+                break;
+            case TYPE_ROCK:
+                newspecies = SPECIES_ARCEUS_ROCK;
+                break;
+            case TYPE_BUG:
+                newspecies = SPECIES_ARCEUS_BUG;
+                break;
+            case TYPE_GHOST:
+                newspecies = SPECIES_ARCEUS_GHOST;
+                break;
+            case TYPE_FIRE:
+                newspecies = SPECIES_ARCEUS_FIRE;
+                break;
+            case TYPE_WATER:
+                newspecies = SPECIES_ARCEUS_WATER;
+                break;
+            case TYPE_GRASS:
+                newspecies = SPECIES_ARCEUS_GRASS;
+                break;
+            case TYPE_ELECTRIC:
+                newspecies = SPECIES_ARCEUS_ELECTRIC;
+                break;
+            case TYPE_ICE:
+                newspecies = SPECIES_ARCEUS_ICE;
+                break;
+            case TYPE_DRAGON:
+                newspecies = SPECIES_ARCEUS_DRAGON;
+                break;
+            case TYPE_DARK:
+                newspecies = SPECIES_ARCEUS_DARK;
+                break;
+            case TYPE_FAIRY:
+                newspecies = SPECIES_ARCEUS_FAIRY;
+                break;
+            case TYPE_PSYCHIC:
+                newspecies = SPECIES_ARCEUS_PSYCHIC;
+                break;
+            case TYPE_POISON:
+                newspecies = SPECIES_ARCEUS_POISON;
+                break;
+            case TYPE_STEEL:
+                newspecies = SPECIES_ARCEUS_STEEL;
+                break;
+            }
+
+            BattleScriptPushCursor();
+            gBattleMons[battlerId].species = newspecies;
+
+            if (isDefender)
+                gBattlescriptCurrInstr = BattleScript_TargetFormChange;
+            else
+                gBattlescriptCurrInstr = BattleScript_AttackerFormChange;
+            
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 static bool32 TryAegiFormChange(void)
 {
     // Only Aegislash with Stance Change can transform, transformed mons cannot.
@@ -1456,6 +1541,35 @@ bool8 PartyIsMaxLevel(void)
 static void Cmd_attackcanceler(void)
 {
     s32 i, moveType;
+    u32 currentEffectiveness;
+    u32 newEffectiveness;
+    u32 optimalType;
+
+    // we're checking move's current type. If it's not optimal it'll be changed later. Hence the necessity of calling this macro a second time
+    GET_MOVE_TYPE(gCurrentMove, moveType);
+
+    if (gCurrentMove == MOVE_JUDGMENT
+    && gBattleMons[gBattlerAttacker].item == ITEM_LEGEND_PLATE
+    && (GET_BASE_SPECIES_ID(gBattleMons[gBattlerAttacker].species) == SPECIES_ARCEUS))
+    {
+        optimalType = 0;
+        currentEffectiveness = CalcTypeEffectivenessMultiplier(gCurrentMove, moveType, gBattlerAttacker, gBattlerTarget, FALSE, 0);
+        for (i = TYPE_NORMAL; i < TYPE_FAIRY + 1; i++)
+        {
+            // I took the liberty of checking the absorbing abilities, made more sense to me
+            if (!TYPE_CANCELED_BY_PRIMAL(i) && ((AbilityBattleEffects(ABILITYEFFECT_ABSORBING, gBattlerTarget, 0, SIMULATION_ABILITY_EFFECTS, i|F_DYNAMIC_TYPE_1)) == 0))
+            {
+                newEffectiveness = CalcTypeEffectivenessMultiplier(gCurrentMove, i, gBattlerAttacker, gBattlerTarget, FALSE, 0);
+                if (currentEffectiveness < newEffectiveness)
+                {
+                    currentEffectiveness = newEffectiveness;
+                    optimalType = i | F_DYNAMIC_TYPE_1;
+                }
+            }
+        }
+        if (optimalType & F_DYNAMIC_TYPE_1)
+            gBattleStruct->dynamicMoveType = optimalType;
+    }
 
     GET_MOVE_TYPE(gCurrentMove, moveType);
 
@@ -1511,12 +1625,44 @@ static void Cmd_attackcanceler(void)
     if (TryDeoxysFormChange())
         return;
 
+    if (gCurrentMove == MOVE_JUDGMENT && TryArceusFormChange(moveType, gBattlerAttacker, FALSE))
+        return;
+
+    // This part makes it busted in defense
+    if ((GET_BASE_SPECIES_ID(gBattleMons[gBattlerTarget].species) == SPECIES_ARCEUS)  
+    && gBattleMons[gBattlerTarget].defenseMultitypeDone == FALSE
+    && gBattleMons[gBattlerTarget].item == ITEM_LEGEND_PLATE)
+    {
+        optimalType = 0;
+        currentEffectiveness = CalcTypeEffectivenessMultiplier(gCurrentMove, moveType, gBattlerAttacker, gBattlerTarget, FALSE, 0);
+        for (i = TYPE_NORMAL; i < NUMBER_OF_MON_TYPES; i++)
+        {
+            newEffectiveness = CalcTypeEffectivenessMultiplier(gCurrentMove, moveType, gBattlerAttacker, gBattlerTarget, FALSE, i | F_DYNAMIC_TYPE_1);
+            if (currentEffectiveness > newEffectiveness)
+            {
+                currentEffectiveness = newEffectiveness;
+                optimalType = i |F_DYNAMIC_TYPE_1;
+                if (currentEffectiveness == (UQ_4_12(0.0)))
+                    break;
+            }
+        }
+        if (optimalType & F_DYNAMIC_TYPE_1)
+        {
+            if (TryArceusFormChange(optimalType & DYNAMIC_TYPE_MASK, gBattlerTarget, TRUE))
+            {
+                gBattleMons[gBattlerTarget].defenseMultitypeDone = TRUE;
+                return;
+            }
+        }
+
+    }
+    // End of the busted defense part
+    
     // Check Protean activation.
     if (
     (GetBattlerAbility(gBattlerAttacker) == ABILITY_PROTEAN || GetBattlerAbility(gBattlerAttacker) == ABILITY_LIBERO
     || (GetBattlerAbility(gBattlerAttacker) == ABILITY_SHAPE_SHIFTER && GET_BASE_SPECIES_ID(gBattleMons[gBattlerAttacker].species) == SPECIES_DEOXYS))
-    && (gBattleMons[gBattlerAttacker].type1 != moveType || gBattleMons[gBattlerAttacker].type2 != moveType ||
-       (gBattleMons[gBattlerAttacker].type3 != moveType && gBattleMons[gBattlerAttacker].type3 != TYPE_MYSTERY))
+    && IsBattlerNotOnlyType(gBattlerAttacker, moveType)
     && gCurrentMove != MOVE_STRUGGLE
     )
     {
@@ -1903,7 +2049,7 @@ static void Cmd_accuracycheck(void)
                 gBattleCommunication[MISS_TYPE] = B_MSG_MISSED;
 
             if (gBattleMoves[move].power)
-                CalcTypeEffectivenessMultiplier(move, type, gBattlerAttacker, gBattlerTarget, TRUE);
+                CalcTypeEffectivenessMultiplier(move, type, gBattlerAttacker, gBattlerTarget, TRUE, 0);
         }
         JumpIfMoveFailed(7, move);
     }
@@ -2083,7 +2229,7 @@ static void Cmd_typecalc(void)
     u8 moveType;
 
     GET_MOVE_TYPE(gCurrentMove, moveType);
-    CalcTypeEffectivenessMultiplier(gCurrentMove, moveType, gBattlerAttacker, gBattlerTarget, TRUE);
+    CalcTypeEffectivenessMultiplier(gCurrentMove, moveType, gBattlerAttacker, gBattlerTarget, TRUE, 0);
 
     gBattlescriptCurrInstr++;
 }
@@ -5784,6 +5930,11 @@ static void Cmd_moveend(void)
                 CancelMultiTurnMoves(gBattlerAttacker); // Cancel it
             #endif
             
+            for (i = 0; i < gBattlersCount; i++)
+            {
+                gBattleMons[i].defenseMultitypeDone = FALSE;
+            }
+
             gProtectStructs[gBattlerAttacker].usesBouncedMove = FALSE;
             gProtectStructs[gBattlerAttacker].targetAffected = FALSE;
             gBattleStruct->ateBoost[gBattlerAttacker] = 0;
@@ -5872,6 +6023,7 @@ static void Cmd_switchindataupdate(void)
     gBattleMons[gActiveBattler].type2 = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_TYPE2, NULL);
     gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
     gBattleMons[gActiveBattler].ability = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_ABILITY, NULL);
+    gBattleMons[gActiveBattler].defenseMultitypeDone = 0;
     gBattleMons[gActiveBattler].nature = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_NATURE, NULL);
 
     // check knocked off item
