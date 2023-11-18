@@ -401,7 +401,15 @@ static void IntrDummy(void)
 static void WaitForVBlank(void)
 {
     gMain.intrCheck &= ~INTR_FLAG_VBLANK;
-    asm("swi 0x5");
+    if (gWirelessCommType != 0)
+    {
+        // Desynchronization may occur if wireless adapter
+        // is connected and we call VBlankIntrWait();
+        while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
+            ;
+    }
+    else
+        VBlankIntrWait();
 }
 
 void SetTrainerHillVBlankCounter(u32 *counter)
