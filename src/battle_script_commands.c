@@ -2895,8 +2895,6 @@ void StealTargetItem(u8 battlerStealer, u8 battlerItem)
     MarkBattlerForControllerExec(battlerItem);
     
     gBattleStruct->choicedMove[battlerItem] = 0;
-    
-    TrySaveExchangedItem(battlerItem, gLastUsedItem);
 }
 
 #define INCREMENT_RESET_RETURN                  \
@@ -3489,6 +3487,7 @@ void SetMoveEffect(bool32 primary, u32 certain)
                     else
                     {
                         StealTargetItem(gBattlerAttacker, gBattlerTarget);  // Attacker steals target item
+                        AddBagItem(gBattleMons[gBattlerTarget].item, 1);
                         gBattleMons[gBattlerAttacker].item = 0; // Item assigned later on with thief (see MOVEEND_CHANGED_ITEMS)
                         gBattleStruct->changedItems[gBattlerAttacker] = gLastUsedItem; // Stolen item to be assigned later
                         BattleScriptPush(gBattlescriptCurrInstr + 1);
@@ -12816,15 +12815,6 @@ static void Cmd_tryswapitems(void) // trick
 
             PREPARE_ITEM_BUFFER(gBattleTextBuff1, *newItemAtk)
             PREPARE_ITEM_BUFFER(gBattleTextBuff2, oldItemAtk)
-            
-            if (!(sideAttacker == sideTarget && IsPartnerMonFromSameTrainer(gBattlerAttacker)))
-            {
-                // if targeting your own side and you aren't in a multi battle, don't save items as stolen
-                if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER)
-                    TrySaveExchangedItem(gBattlerAttacker, oldItemAtk);
-                if (GetBattlerSide(gBattlerTarget) == B_SIDE_PLAYER)
-                    TrySaveExchangedItem(gBattlerTarget, *newItemAtk);
-            }
 
             if (oldItemAtk != 0 && *newItemAtk != 0)
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_ITEM_SWAP_BOTH;  // attacker's item -> <- target's item

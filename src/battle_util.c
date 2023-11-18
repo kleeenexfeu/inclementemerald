@@ -9928,22 +9928,6 @@ void SortBattlersBySpeed(u8 *battlers, bool8 slowToFast)
     }
 }
 
-void TryRestoreStolenItems(void)
-{
-    u32 i;
-    u16 stolenItem = ITEM_NONE;
-    
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        if (gBattleStruct->itemStolen[i].stolen)
-        {
-            stolenItem = gBattleStruct->itemStolen[i].originalItem;
-            if (stolenItem != ITEM_NONE && ItemId_GetPocket(stolenItem) != POCKET_BERRIES)
-                SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &stolenItem);  // Restore stolen non-berry items
-        }
-    }
-}
-
 bool32 CanStealItem(u8 battlerStealing, u8 battlerItem, u16 item)
 {
     u8 stealerSide = GetBattlerSide(battlerStealing);
@@ -9982,20 +9966,6 @@ bool32 CanStealItem(u8 battlerStealing, u8 battlerItem, u16 item)
         return FALSE;
     
     return TRUE;
-}
-
-void TrySaveExchangedItem(u8 battlerId, u16 stolenItem)
-{
-    // Because BtlController_EmitSetMonData does SetMonData, we need to save the stolen item only if it matches the battler's original
-    // So, if the player steals an item during battle and has it stolen from it, it will not end the battle with it (naturally)
-    #if B_TRAINERS_KNOCK_OFF_ITEMS == TRUE
-    // If regular trainer battle and mon's original item matches what is being stolen, save it to be restored at end of battle
-    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER
-      && !(gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-      && GetBattlerSide(battlerId) == B_SIDE_PLAYER
-      && stolenItem == gBattleStruct->itemStolen[gBattlerPartyIndexes[battlerId]].originalItem)
-        gBattleStruct->itemStolen[gBattlerPartyIndexes[battlerId]].stolen = TRUE;
-    #endif
 }
 
 bool32 IsBattlerAffectedByHazards(u8 battlerId, bool32 toxicSpikes)

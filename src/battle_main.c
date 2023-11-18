@@ -110,6 +110,7 @@ static void CheckQuickClaw_CustapBerryActivation(void);
 static u32 CheckMegaEvolutionBeforeMoves(void);
 static void TryChangeTurnOrder(void);
 static void FreeResetData_ReturnToOvOrDoEvolutions(void);
+static void TryRestoreHeldItems(void);
 static void ReturnFromBattleToOverworld(void);
 static void TryEvolvePokemon(void);
 static void WaitForEvoSceneToFinish(void);
@@ -3080,7 +3081,8 @@ static void BattleStartClearSetData(void)
     {
         gBattleStruct->usedHeldItems[i][0] = 0;
         gBattleStruct->usedHeldItems[i][1] = 0;
-        gBattleStruct->itemStolen[i].originalItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
+        gBattleStruct->originalItem[i] = 0;
+        gBattleStruct->originalItem[i] = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
     }
 
     gSwapDamageCategory = FALSE; // Photon Geyser, Shell Side Arm, Light That Burns the Sky
@@ -5179,16 +5181,16 @@ static void HandleEndTurn_FinishBattle(void)
         sub_8186444();
         BeginFastPaletteFade(3);
         FadeOutMapMusic(5);
-        #if B_TRAINERS_KNOCK_OFF_ITEMS
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-            TryRestoreStolenItems();
-        #endif
+
         for (i = 0; i < PARTY_SIZE; i++)
         {
             UndoMegaEvolution(i);
             UndoFormChange(i, B_SIDE_PLAYER, FALSE);
             DoBurmyFormChange(i);
         }
+        
+        TryRestoreHeldItems();
+
     #if B_RECALCULATE_STATS >= GEN_5
         // Recalculate the stats of every party member before the end
         for (i = 0; i < PARTY_SIZE; i++)
@@ -5207,6 +5209,18 @@ static void HandleEndTurn_FinishBattle(void)
     {
         if (gBattleControllerExecFlags == 0)
             gBattleScriptingCommandsTable[gBattlescriptCurrInstr[0]]();
+    }
+}
+
+static void TryRestoreHeldItems(void)
+{
+    u32 i;
+    u16 originalItem = ITEM_NONE;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        originalItem = gBattleStruct->originalItem[i];
+        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &originalItem);
     }
 }
 

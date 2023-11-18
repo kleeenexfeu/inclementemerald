@@ -491,12 +491,6 @@ struct Illusion
     struct Pokemon *mon;
 };
 
-struct StolenItem
-{
-    u16 originalItem:15;
-    u16 stolen:1;
-};
-
 struct BattleStruct
 {
     u8 turnEffectsTracker;
@@ -616,8 +610,8 @@ struct BattleStruct
     u8 sameMoveTurns[MAX_BATTLERS_COUNT]; // For Metronome, number of times the same moves has been SUCCESFULLY used.
     u16 moveEffect2; // For Knock Off
     u16 changedSpecies[PARTY_SIZE]; // For Zygarde or future forms when multiple mons can change into the same pokemon.
+    u16 originalItem[PARTY_SIZE];
     u8 quickClawBattlerId;
-    struct StolenItem itemStolen[PARTY_SIZE];  // Player's team that had items stolen (two bytes per party member)
     u8 blunderPolicy:1; // should blunder policy activate
     u8 ballSpriteIds[2];    // item gfx, window gfx
     u8 stickyWebUser;
