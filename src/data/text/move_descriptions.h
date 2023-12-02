@@ -2984,6 +2984,18 @@ static const u8 sEERIE_SPELLDescription[] = _(
     "Attacks with psychic power.\n"
     "Foe's last move has 3 PP cut.");
 
+static const u8 sSTONE_AXEDescription[] = _(
+    "High critical hit ratio. Sets\n"
+    "Splinters that hurt the foe.");
+
+static const u8 sCEASELESS_EDGEDescription[] = _(
+    "High critical hit ratio. Sets\n"
+    "Spikes that hurt the foe.");
+
+static const u8 sLAST_RESPECTSDescription[] = _(
+    "This move deals more damage\n"
+    "for each defeated ally.");
+
 static const u8 sNotDoneYetDescription[] = _(
     "Not done yet.");
 
@@ -3746,4 +3758,7 @@ const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] =
     [MOVE_GLACIAL_LANCE - 1] = sGLACIAL_LANCEDescription,
     [MOVE_ASTRAL_BARRAGE - 1] = sASTRAL_BARRAGEDescription,
     [MOVE_EERIE_SPELL - 1] = sEERIE_SPELLDescription,
+    [MOVE_STONE_AXE - 1] = sSTONE_AXEDescription,
+    [MOVE_CEASELESS_EDGE - 1] = sCEASELESS_EDGEDescription,
+    [MOVE_LAST_RESPECTS - 1] = sLAST_RESPECTSDescription,
 };

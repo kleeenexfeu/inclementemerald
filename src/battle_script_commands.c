@@ -2770,7 +2770,8 @@ void SetMoveEffect(bool32 primary, u32 certain)
     bool32 statusChanged = FALSE;
     bool32 mirrorArmorReflected = (GetBattlerAbility(gBattlerTarget) == ABILITY_MIRROR_ARMOR);
     u32 flags = 0;
-    
+    bool8 activateAfterFaint = FALSE;
+
     switch (gBattleScripting.moveEffect) // Set move effects which happen later on
     {
     case MOVE_EFFECT_KNOCK_OFF:
@@ -2780,6 +2781,10 @@ void SetMoveEffect(bool32 primary, u32 certain)
         gBattleStruct->moveEffect2 = gBattleScripting.moveEffect;
         gBattlescriptCurrInstr++;
         return;
+    case MOVE_EFFECT_STEALTH_ROCK:
+    case MOVE_EFFECT_SPIKES:
+        activateAfterFaint = TRUE;
+        break;
     }
 
     if (gBattleScripting.moveEffect & MOVE_EFFECT_AFFECTS_USER)
@@ -2810,7 +2815,7 @@ void SetMoveEffect(bool32 primary, u32 certain)
 
     if (gBattleMons[gEffectBattler].hp == 0
         && gBattleScripting.moveEffect != MOVE_EFFECT_PAYDAY
-        && gBattleScripting.moveEffect != MOVE_EFFECT_STEAL_ITEM)
+        && gBattleScripting.moveEffect != MOVE_EFFECT_STEAL_ITEM && !activateAfterFaint)
         INCREMENT_RESET_RETURN
 
     if (DoesSubstituteBlockMove(gBattlerAttacker, gEffectBattler, gCurrentMove) && affectsUser != MOVE_EFFECT_AFFECTS_USER)
@@ -3066,6 +3071,18 @@ void SetMoveEffect(bool32 primary, u32 certain)
             u8 side;
             switch (gBattleScripting.moveEffect)
             {
+            case MOVE_EFFECT_STEALTH_ROCK:
+                if (!(gSideStatuses[GetBattlerSide(gEffectBattler)] & SIDE_STATUS_STEALTH_ROCK))
+                {
+                    gBattlescriptCurrInstr = BattleScript_StealthRockActivates;
+                }
+                break;
+            case MOVE_EFFECT_SPIKES:
+                if (gSideTimers[gEffectBattler].spikesAmount < 3)
+                {
+                    gBattlescriptCurrInstr = BattleScript_SpikesActivate;
+                }
+                break;
             case MOVE_EFFECT_CONFUSION:
                 if (!CanBeConfused(gEffectBattler))
                 {

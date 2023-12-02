@@ -7973,6 +7973,12 @@ static u16 CalcMoveBasePower(u16 move, u8 battlerAtk, u8 battlerDef)
 
     switch (gBattleMoves[move].effect)
     {
+    case EFFECT_LAST_RESPECTS:
+        if (GetBattlerSide(battlerAtk) == B_SIDE_PLAYER)
+            basePower+= basePower * gBattleResults.playerFaintCounter;
+        else
+            basePower+= basePower * gBattleResults.opponentFaintCounter;
+        break;
     case EFFECT_PLEDGE:
         // todo
         break;

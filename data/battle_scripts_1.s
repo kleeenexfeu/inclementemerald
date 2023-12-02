@@ -403,6 +403,9 @@ gBattleScriptsForMoveEffects::
     .4byte BattleScript_EffectOctolock                @ EFFECT_OCTOLOCK
     .4byte BattleScript_EffectClangorousSoul          @ EFFECT_CLANGOROUS_SOUL
     .4byte BattleScript_EffectHit                     @ EFFECT_BOLT_BEAK
+    .4byte BattleScript_EffectStoneAxe                @ EFFECT_STONE_AXE
+    .4byte BattleScript_EffectCeaselessEdge           @ EFFECT_CEASELESS_EDGE
+    .4byte BattleScript_EffectHit                     @ EFFECT_LAST_RESPECTS
 
 BattleScript_EffectShellSideArm:
     shellsidearmcheck
@@ -2382,6 +2385,62 @@ BattleScript_EffectTelekinesis:
     waitmessage B_WAIT_TIME_LONG
     goto BattleScript_MoveEnd
 
+BattleScript_EffectCeaselessEdge::
+    attackcanceler
+    accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+    attackstring
+    ppreduce
+    critcalc
+    damagecalc
+    adjustdamage
+    attackanimation
+    waitanimation
+    effectivenesssound
+    hitanimation BS_TARGET
+    waitstate
+    healthbarupdate BS_TARGET
+    datahpupdate BS_TARGET
+    critmessage
+    waitmessage B_WAIT_TIME_LONG
+    resultmessage
+    waitmessage B_WAIT_TIME_LONG
+    tryfaintmon BS_TARGET, FALSE, NULL
+    setmoveeffect MOVE_EFFECT_SPIKES
+    seteffectprimary
+    moveendall
+    end
+
+BattleScript_SpikesActivate::
+    trysetspikes BattleScript_MoveEnd
+    printstring STRINGID_SPIKESSCATTERED
+    waitmessage B_WAIT_TIME_LONG
+    goto BattleScript_MoveEnd
+
+BattleScript_EffectStoneAxe::
+    attackcanceler
+    accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+    attackstring
+    ppreduce
+    critcalc
+    damagecalc
+    adjustdamage
+    attackanimation
+    waitanimation
+    effectivenesssound
+    hitanimation BS_TARGET
+    waitstate
+    healthbarupdate BS_TARGET
+    datahpupdate BS_TARGET
+    critmessage
+    waitmessage B_WAIT_TIME_LONG
+    resultmessage
+    waitmessage B_WAIT_TIME_LONG
+    tryfaintmon BS_TARGET, FALSE, NULL
+    setmoveeffect MOVE_EFFECT_STEALTH_ROCK
+    seteffectprimary
+    moveendall
+    end
+
 BattleScript_EffectStealthRock:
     attackcanceler
     attackstring
@@ -2389,6 +2448,12 @@ BattleScript_EffectStealthRock:
     setstealthrock BattleScript_ButItFailed
     attackanimation
     waitanimation
+    printstring STRINGID_POINTEDSTONESFLOAT
+    waitmessage B_WAIT_TIME_LONG
+    goto BattleScript_MoveEnd
+
+BattleScript_StealthRockActivates::
+    setstealthrock BattleScript_MoveEnd
     printstring STRINGID_POINTEDSTONESFLOAT
     waitmessage B_WAIT_TIME_LONG
     goto BattleScript_MoveEnd

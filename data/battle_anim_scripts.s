@@ -778,6 +778,9 @@ gBattleAnims_Moves::
 	.4byte Move_GLACIAL_LANCE
 	.4byte Move_ASTRAL_BARRAGE
 	.4byte Move_EERIE_SPELL
+	.4byte Move_STONE_AXE
+	.4byte Move_CEASELESS_EDGE
+	.4byte Move_LAST_RESPECTS
 	.4byte Move_COUNT @ cannot be reached, because last move is Eerie Spell
 
 	.align 2
@@ -2066,6 +2069,7 @@ Move_DARK_PULSE:
 	waitbgfadein
 	end
 
+Move_CEASELESS_EDGE:
 Move_NIGHT_SLASH:
 	loadspritegfx ANIM_TAG_SLASH
 	createvisualtask AnimTask_BlendNightSlash, 2, ANIM_TARGET, 2, 0, 8, 1
@@ -3597,6 +3601,7 @@ Move_MAGNET_BOMB:
 	waitforvisualfinish
 	end
 
+Move_STONE_AXE:
 Move_STONE_EDGE:
 	loadspritegfx ANIM_TAG_STONE_EDGE
 	loadspritegfx ANIM_TAG_IMPACT
@@ -3742,6 +3747,7 @@ Move_CHATTER:
 	clearmonbg ANIM_DEF_PARTNER
 	end
 
+Move_LAST_RESPECTS:
 Move_JUDGMENT:
 	loadspritegfx ANIM_TAG_HANDS_AND_FEET
 	loadspritegfx ANIM_TAG_CIRCLE_OF_LIGHT

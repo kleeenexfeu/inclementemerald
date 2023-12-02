@@ -426,5 +426,9 @@ extern const u8 BattleScript_OctolockEndTurn[];
 extern const u8 BattleScript_NeutralizingGasExits[];
 extern const u8 BattleScript_MultiHitPrintStrings[];
 extern const u8 BattleScript_BurnUpRemoveType[];
+extern const u8 BattleScript_EffectStoneAxe[];
+extern const u8 BattleScript_StealthRockActivates[];
+extern const u8 BattleScript_EffectCeaselessEdge[];
+extern const u8 BattleScript_SpikesActivate[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

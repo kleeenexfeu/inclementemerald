@@ -356,7 +356,9 @@
 #define MOVE_EFFECT_THROAT_CHOP         0x43
 #define MOVE_EFFECT_RELIC_SONG          0x44
 #define MOVE_EFFECT_TRAP_BOTH           0x45
-#define NUM_MOVE_EFFECTS                0x46
+#define MOVE_EFFECT_STEALTH_ROCK        0x46
+#define MOVE_EFFECT_SPIKES              0x47
+#define NUM_MOVE_EFFECTS                0x48
 
 #define MOVE_EFFECT_ONCE_PER_USE        0x2000
 #define MOVE_EFFECT_AFFECTS_USER        0x4000
