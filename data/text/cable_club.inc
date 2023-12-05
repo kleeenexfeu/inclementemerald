@@ -193,33 +193,12 @@ CableClub_Text_YouMayBattleHere:: @ 82787D5
 	.string "You may battle with your friends\n"
 	.string "here.$"
 
-CableClub_Text_CanMakeBerryPowder:: @ 82787FC
-	.string "Two to five Trainers can make\n"
-	.string "BERRY POWDER together.$"
-
 CableClub_Text_CanMixRecords:: @ 8278831
 	.string "The records of two to four players\n"
 	.string "can be mixed together.$"
 
-@ Unused
-CableClub_Text_GuideToVariousServices: @ 827886B
-	.string "A guide to the Wireless Club's\n"
-	.string "various services.$"
-
 CableClub_Text_CancelSelectedItem:: @ 827889C
 	.string "Cancels the selected MENU item.$"
-
-@ Unused
-CableClub_Text_WhichBattleMode: @ 82788BC
-	.string "Which battle mode would you like?$"
-
-@ Unused
-CableClub_Text_ReturnsToPreviousStep: @ 82788DE
-	.string "Returns to the previous step.$"
-
-CableClub_Text_NeedBerryForBerryCrush: @ 82788FC
-	.string "To use the Berry CRUSH service,\n"
-	.string "you must have at least one Berry.$"
 
 CableClub_Text_NeedTwoMonsForUnionRoom: @ 827893E
 	.string "To enter the UNION ROOM, you must\n"
@@ -236,100 +215,16 @@ CableClub_Text_UnionRoomAdapterNotConnected: @ 82789B5
 	.string "Adapter is not connected properly.\p"
 	.string "Please do come again.$"
 
-@ Unused
-CableClub_Text_OhExcuseMe: @ 8278A39
-	.string "Oh…\n"
-	.string "Excuse me!$"
-
 CableClub_Text_PlayerIsWaiting: @ 8278A48
 	.string "It appears as if {STR_VAR_1} is playing\n"
 	.string "right now.\l"
 	.string "Go for it!$"
 
-MossdeepCity_GameCorner_1F_Text_DescribeWhichGame: @ 8278A7D
-	.string "I can explain game rules to you,\n"
-	.string "if you'd like.\p"
-	.string "Which game should I describe?$"
-
-MossdeepCity_GameCorner_1F_Text_PokemonJumpInfo: @ 8278ACB
-	.string "“Pokémon JUMP”\p"
-	.string "Make your Pokémon skip the VINE WHIP\n"
-	.string "rope with the A Button.\p"
-	.string "Only mini Pokémon around 28 inches\n"
-	.string "or less may participate.\p"
-	.string "Pokémon that only swim, burrow,\n"
-	.string "or fly are not good at jumping.\p"
-	.string "As a result, those Pokémon may not\n"
-	.string "participate.\p"
-	.string "Good things happen if everyone\n"
-	.string "jumps in time.$"
-
-MossdeepCity_GameCorner_1F_Text_DodrioBerryPickingInfo: @ 8278BF1
-	.string "“DODRIO Berry-PICKING”\p"
-	.string "Command DODRIO's three heads to\n"
-	.string "catch falling Berries.\p"
-	.string "Press right, up, or left on the\n"
-	.string "{PLUS} Control Pad to move the heads.\p"
-	.string "To play this game, you must have\n"
-	.string "a DODRIO.$"
-
-MossdeepCity_GameCorner_1F_Text_TalkToOldManToPlay: @ 8278CAC
-	.string "If you want to play a game,\n"
-	.string "please tell the old man beside me.$"
-
-MossdeepCity_GameCorner_1F_Text_WelcomeCanYouWait: @ 8278CEB
-	.string "Hi, welcome!\n"
-	.string "Are you here to play games using\l"
-	.string "Wireless Communication?\p"
-	.string "Can you wait just a little bit?$"
+MossdeepCity_GameCorner_1F_Text_SayHi: @ 8278A7D
+	.string "Hi!$"
 
 MossdeepCity_GameCorner_1F_Text_ComeAgain: @ 8278D51
 	.string "All right, come again!$"
-
-MossdeepCity_GameCorner_1F_Text_AdapterNotConnected: @ 8278D68
-	.string "The Wireless Adapter isn't connected.\n"
-	.string "Come back when it's hooked up!$"
-
-MossdeepCity_GameCorner_1F_Text_PlayWhichGame: @ 8278DAD
-	.string "All right, which game did you want\n"
-	.string "to play?$"
-
-MossdeepCity_GameCorner_1F_Text_EnterWhichPokemon: @ 8278DD9
-	.string "Which Pokémon would you like to\n"
-	.string "enter?$"
-
-MossdeepCity_GameCorner_1F_Text_AllGoodToGo: @ 8278E00
-	.string "Okay, you're all good to go.\n"
-	.string "Don't let the others beat you!$"
-
-@ Unused
-MossdeepCity_GameCorner_1F_Text_LeavingDoComeAgain: @ 8278E3C
-	.string "Are you leaving now?\n"
-	.string "Do come again!$"
-
-MossdeepCity_GameCorner_1F_Text_ExplainRequiredMon: @ 8278E60
-	.string "It doesn't look like you have any\n"
-	.string "Pokémon that you can enter…\p"
-	.string "Would you like me to explain what\n"
-	.string "kinds of Pokémon can enter?$"
-
-MossdeepCity_GameCorner_1F_Text_ShortJumpingPokemonAllowed: @ 8278EDC
-	.string "“Pokémon JUMP” is open to Pokémon\n"
-	.string "around 28 inches or less.\p"
-	.string "What you can't enter are those\n"
-	.string "Pokémon that can't jump.\p"
-	.string "You know, like Pokémon that only\n"
-	.string "swim, burrow, or fly.\p"
-	.string "That's all you need to know.$"
-
-MossdeepCity_GameCorner_1F_Text_OnlyDodrioAllowed: @ 8278FA4
-	.string "DODRIO Berry-PICKING is a game that \n"
-	.string "only DODRIO may enter.$"
-
-@ Unused
-MossdeepCity_GameCorner_1F_Text_RetryPlease: @ 8278FE0
-	.string "Could you retry this from the start\n"
-	.string "again, please?$"
 
 CableClub_Text_WelcomeWhichDirectCornerRoom: @ 8279013
 	.string "Welcome to the Pokémon WIRELESS\n"
@@ -349,10 +244,6 @@ CableClub_Text_PlayWhichBattleMode: @ 82790BE
 CableClub_Text_AccessRecordCorner: @ 82790E8
 	.string "Would you like to access\n"
 	.string "the Record Corner?$"
-
-CableClub_Text_UseBerryCrush: @ 8279114
-	.string "Would you like to use the\n"
-	.string "BERRY CRUSH System?$"
 
 CableClub_Text_ExplainBattleModes: @ 8279142
 	.string "There are three Battle Modes.\p"

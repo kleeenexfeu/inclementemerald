@@ -266,8 +266,8 @@
 #define SE_RG_HELP_CLOSE             258 // SE_RG_HELP_CL
 #define SE_RG_HELP_ERROR             259 // SE_RG_HELP_NG
 #define SE_RG_DEOXYS_MOVE            260 // SE_RG_DEOMOV
-#define SE_RG_POKE_JUMP_SUCCESS      261 // SE_RG_EXCELLENT
-#define SE_RG_POKE_JUMP_FAILURE      262 // SE_RG_NAWAMISS 
+// #define SE_RG_POKE_JUMP_SUCCESS      261 // SE_RG_EXCELLENT // unused
+// #define SE_RG_POKE_JUMP_FAILURE      262 // SE_RG_NAWAMISS  // unused
 // New Emerald SFX 
 #define SE_POKENAV_CALL              263 // SE_TOREEYE
 #define SE_POKENAV_HANG_UP           264 // SE_TOREOFF
@@ -500,7 +500,7 @@
 #define MUS_RG_NEW_GAME_INSTRUCT     486 // MUS_RG_SOUSA
 #define MUS_RG_NEW_GAME_INTRO        487 // MUS_RG_SEKAIKAN
 #define MUS_RG_NEW_GAME_EXIT         488 // MUS_RG_SEIBETU
-#define MUS_RG_POKE_JUMP             489 // MUS_RG_JUMP
+// #define MUS_RG_POKE_JUMP             489 // MUS_RG_JUMP // unused
 #define MUS_RG_UNION_ROOM            490 // MUS_RG_UNION
 #define MUS_RG_NET_CENTER            491 // MUS_RG_NETWORK
 #define MUS_RG_MYSTERY_GIFT          492 // MUS_RG_OKURIMONO

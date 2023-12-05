@@ -1119,7 +1119,6 @@ static const u8 *const sWirelessOptions_NoRecordMix[] =
 {
     CableClub_Text_YouMayTradeHere,
     CableClub_Text_YouMayBattleHere,
-    CableClub_Text_CanMakeBerryPowder,
     CableClub_Text_CancelSelectedItem,
 };
 static const u8 *const sWirelessOptions_AllServices[] =
@@ -1127,7 +1126,6 @@ static const u8 *const sWirelessOptions_AllServices[] =
     CableClub_Text_YouMayTradeHere,
     CableClub_Text_YouMayBattleHere,
     CableClub_Text_CanMixRecords,
-    CableClub_Text_CanMakeBerryPowder,
     CableClub_Text_CancelSelectedItem,
 };
 static const u8 *const sCableClubOptions_NoRecordMix[] =

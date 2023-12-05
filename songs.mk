@@ -384,9 +384,6 @@ $(MID_SUBDIR)/mus_rg_gym.s: %.s: %.mid
 $(MID_SUBDIR)/mus_rg_fuchsia.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G167 -V090
 
-$(MID_SUBDIR)/mus_rg_poke_jump.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G132 -V090
-
 $(MID_SUBDIR)/mus_rg_heal.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G140 -V090
 
@@ -1002,9 +999,6 @@ $(MID_SUBDIR)/se_rg_card_open.s: %.s: %.mid
 $(MID_SUBDIR)/se_rg_deoxys_move.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G129 -V080 -P5
 
-$(MID_SUBDIR)/se_rg_poke_jump_success.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P5
-
 $(MID_SUBDIR)/se_rg_ball_click.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G129 -V100 -P5
 
@@ -1019,9 +1013,6 @@ $(MID_SUBDIR)/se_rg_help_open.s: %.s: %.mid
 
 $(MID_SUBDIR)/se_rg_ss_anne_horn.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G129 -V096 -P5
-
-$(MID_SUBDIR)/se_rg_poke_jump_failure.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G127 -P5
 
 $(MID_SUBDIR)/se_rg_shop.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G129 -V080 -P5

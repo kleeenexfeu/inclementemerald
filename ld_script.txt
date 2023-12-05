@@ -71,10 +71,6 @@ SECTIONS {
         src/mevent_server_helpers.o(.text);
         src/mevent_news.o(.text);
         src/union_room_chat.o(.text);
-        src/berry_crush.o(.text);
-        src/berry_powder.o(.text);
-        src/dodrio_berry_picking.o(.text);
-        src/pokemon_jump.o(.text);
         src/minigame_countdown.o(.text);
         src/rtc.o(.text);
         src/main_menu.o(.text);
@@ -302,10 +298,8 @@ SECTIONS {
         src/battle_tent.o(.text);
         src/unk_text_util_2.o(.text);
         src/multiboot.o(.text);
-        src/berry_fix_graphics.o(.text);
         src/battle_controller_player_partner.o(.text);
         src/mirage_tower.o(.text);
-        src/berry_fix_program.o(.text);
         src/pokemon_summary_screen.o(.text);
         src/pokedex_area_region_map.o(.text);
         src/battle_pyramid_bag.o(.text);
@@ -460,10 +454,6 @@ SECTIONS {
         src/mevent_client.o(.rodata);
         src/mevent_scripts.o(.rodata);
         src/union_room_chat.o(.rodata);
-        src/berry_crush.o(.rodata);
-        src/berry_powder.o(.rodata);
-        src/dodrio_berry_picking.o(.rodata);
-        src/pokemon_jump.o(.rodata);
         src/minigame_countdown.o(.rodata);
         src/rtc.o(.rodata);
         src/main_menu.o(.rodata);
@@ -661,10 +651,8 @@ SECTIONS {
         src/battle_tent.o(.rodata);
         src/unk_text_util_2.o(.rodata);
         src/multiboot.o(.rodata);
-        src/berry_fix_graphics.o(.rodata);
         src/battle_controller_player_partner.o(.rodata);
         src/mirage_tower.o(.rodata);
-        src/berry_fix_program.o(.rodata);
         src/pokemon_summary_screen.o(.rodata);
         src/pokedex_area_region_map.o(.rodata);
         src/battle_pyramid_bag.o(.rodata);
@@ -963,8 +951,6 @@ SECTIONS {
         sound/songs/midi/se_rg_help_close.o(.rodata);
         sound/songs/midi/se_rg_help_error.o(.rodata);
         sound/songs/midi/se_rg_deoxys_move.o(.rodata);
-        sound/songs/midi/se_rg_poke_jump_success.o(.rodata);
-        sound/songs/midi/se_rg_poke_jump_failure.o(.rodata);
         sound/songs/midi/se_pokenav_call.o(.rodata);
         sound/songs/midi/se_pokenav_hang_up.o(.rodata);
         sound/songs/midi/se_arena_timeup1.o(.rodata);
@@ -1191,11 +1177,9 @@ SECTIONS {
         sound/songs/midi/mus_rg_new_game_instruct.o(.rodata);
         sound/songs/midi/mus_rg_new_game_intro.o(.rodata);
         sound/songs/midi/mus_rg_new_game_exit.o(.rodata);
-        sound/songs/midi/mus_rg_poke_jump.o(.rodata);
         sound/songs/midi/mus_rg_union_room.o(.rodata);
         sound/songs/midi/mus_rg_net_center.o(.rodata);
         sound/songs/midi/mus_rg_mystery_gift.o(.rodata);
-        sound/songs/midi/mus_rg_berry_pick.o(.rodata);
         sound/songs/midi/mus_rg_sevii_route.o(.rodata);
         sound/songs/midi/mus_rg_sevii_45.o(.rodata);
         sound/songs/midi/mus_rg_sevii_67.o(.rodata);
@@ -1613,8 +1597,6 @@ SECTIONS {
     other_data :
     ALIGN(4)
     {
-        data/unknown_serial_data.o(.rodata);
-        data/multiboot_berry_glitch_fix.o(.rodata);
         data/multiboot_pokemon_colosseum.o(.rodata);
     } =0
 

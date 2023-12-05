@@ -262,8 +262,6 @@ gSongTable::
 	song se_rg_help_close, 1, 1
 	song se_rg_help_error, 1, 1
 	song se_rg_deoxys_move, 1, 1
-	song se_rg_poke_jump_success, 1, 1
-	song se_rg_poke_jump_failure, 1, 1
 	song se_pokenav_call, 1, 1
 	song se_pokenav_hang_up, 1, 1
 	song se_arena_timeup1, 1, 1
@@ -490,11 +488,9 @@ gSongTable::
 	song mus_rg_new_game_instruct, 0, 0
 	song mus_rg_new_game_intro, 0, 0
 	song mus_rg_new_game_exit, 0, 0
-	song mus_rg_poke_jump, 0, 0
 	song mus_rg_union_room, 0, 0
 	song mus_rg_net_center, 0, 0
 	song mus_rg_mystery_gift, 0, 0
-	song mus_rg_berry_pick, 0, 0
 	song mus_rg_sevii_route, 0, 0
 	song mus_rg_sevii_45, 0, 0
 	song mus_rg_sevii_67, 0, 0

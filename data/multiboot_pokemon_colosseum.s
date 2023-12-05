@@ -1,5 +1,5 @@
 	.section .rodata
 
 gMultiBootProgram_PokemonColosseum_Start::
-	.incbin "data/pokemon_colosseum.mb"
+	.incbin "data/mb_colosseum.bin"
 gMultiBootProgram_PokemonColosseum_End::
