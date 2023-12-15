@@ -24614,12 +24614,12 @@ General_MegaEvolution:
 	call MegaEvolutionParticles
 	call MegaEvolutionParticles
 	call MegaEvolutionParticles
-	createvisualtask AnimTask_TransformMon, 2, 0, 1 @ Moved transform here to hide some of the animation
 	playsewithpan SE_M_SOLAR_BEAM, SOUND_PAN_ATTACKER
 	createsprite gMegaStoneSpriteTemplate, ANIM_ATTACKER, 41, 0, 0, 0, 0
 	delay 20
 	createvisualtask AnimTask_BlendBattleAnimPalExclude, 5, 5, 2, 0, 16, RGB_WHITEALPHA
 	waitforvisualfinish
+	createvisualtask AnimTask_MegaSwapSprite, 2, 0, 1
 	createvisualtask AnimTask_BlendBattleAnimPalExclude, 5, 5, 2, 16, 0, RGB_WHITEALPHA
 	createvisualtask SoundTask_PlayCryMegaEvolution, 5, ANIM_ATTACKER
 	createvisualtask AnimTask_HorizontalShake, 5, 1, 5, 14
